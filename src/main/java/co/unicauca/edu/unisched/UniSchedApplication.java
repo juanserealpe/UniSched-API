@@ -13,5 +13,4 @@ public class UniSchedApplication {
     public static void main(String[] args) {
         SpringApplication.run(UniSchedApplication.class, args);
     }
-
 }

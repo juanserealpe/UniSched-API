@@ -252,7 +252,7 @@ public class SubjectValidator {
                             ? prerequisite.getId() + "-" + subject.getId()
                             : subject.getId() + "-" + prerequisite.getId();
                     if (processedPairs.add(pairKey)) {
-                        errors.add(String.format("Invalid combination: '%s' and '%s' cannot be selected together (prerequisite relationship)",
+                        errors.add(String.format("Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de prerequisito)",
                                 prerequisite.getName(), subject.getName()));
                     }
                 }
@@ -263,7 +263,7 @@ public class SubjectValidator {
                 if (selected.contains(unlocks)) {
                     String pairKey = subject.getId() + "-" + unlocks.getId();
                     if (processedPairs.add(pairKey)) {
-                        errors.add(String.format("Invalid combination: '%s' and '%s' cannot be selected together (unlock relationship)",
+                        errors.add(String.format("Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de desbloqueo)",
                                 subject.getName(), unlocks.getName()));
                     }
                 }
@@ -281,8 +281,8 @@ public class SubjectValidator {
                     }
                 }
                 if (!missingPrereqs.isEmpty()) {
-                    errors.add(String.format("'%s' cannot be selected: missing prerequisites: %s",
-                            subject.getName(), 
+                    errors.add(String.format("'%s' no puede seleccionarse: faltan los prerrequisitos: %s",
+                            subject.getName(),
                             missingPrereqs.stream()
                                     .map(Subject::getName)
                                     .collect(java.util.stream.Collectors.joining(", "))));
@@ -298,10 +298,10 @@ public class SubjectValidator {
                 if (!selected.contains(mandatory)) {
                     // Check if the mandatory partner is blocked (which would prevent selection)
                     if (blocked.contains(mandatory)) {
-                        errors.add(String.format("'%s' cannot be selected: mandatory subject '%s' is blocked",
+                        errors.add(String.format("'%s' no puede seleccionarse: la materia obligatoria '%s' está bloqueada",
                                 subject.getName(), mandatory.getName()));
                     } else {
-                        errors.add(String.format("'%s' cannot be selected without its mandatory partner '%s'. Both must be selected together.",
+                        errors.add(String.format("'%s' no puede seleccionarse sin su materia obligatoria '%s'. Ambas deben seleccionarse juntas.",
                                 subject.getName(), mandatory.getName()));
                     }
                 }
