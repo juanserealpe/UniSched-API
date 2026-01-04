@@ -1,13 +1,11 @@
 package co.unicauca.edu.unisched.interfaces.api;
 
-import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
-import co.unicauca.edu.unisched.interfaces.dto.SubjectGroupRequestDto;
 import co.unicauca.edu.unisched.interfaces.dto.SubjectSelectionRequest;
 import co.unicauca.edu.unisched.interfaces.dto.ValidationResponseDto;
 import jakarta.validation.Valid;
@@ -63,10 +61,9 @@ public class SubjectSelectionController {
         Set<Long> subjectIds = request.subjectIds();
         Set<Subject> selectedSubjects = subjectRepository.findByIds(subjectIds);
         
-        if (selectedSubjects.size() != subjectIds.size()) {
+        if (selectedSubjects.size() != subjectIds.size())
             return ResponseEntity.badRequest()
                     .body(ValidationResponseDto.invalid(List.of("Una o más IDs son inválidas")));
-        }
 
         // Step 2: Validate subject combination
         SubjectSelection selection = new SubjectSelection();

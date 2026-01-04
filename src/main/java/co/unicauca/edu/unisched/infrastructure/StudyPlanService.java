@@ -95,7 +95,9 @@ public class StudyPlanService implements ISubjectRepository {
         Subject metodologia = new Subject(41L, "Metodología de la Investigación", (byte) 7);
         Subject ia = new Subject(42L, "Inteligencia Artificial", (byte) 7);
         Subject distribuidos = new Subject(43L, "Sistemas Distribuidos", (byte) 7);
-
+        Subject lab_distribuidos = new Subject(44L, "Lab. Sistemas Distribuidos", (byte) 7);
+        Subject sw3 = new Subject(45L, "Ingeniería de Software III", (byte) 7);
+        Subject lab_sw3 = new Subject(46L, "Lab. Ingeniería de Software III", (byte) 7);
         // =========================
         // PREREQUISITES (GRAPH)
         // =========================
@@ -148,6 +150,9 @@ public class StudyPlanService implements ISubjectRepository {
         so.mandatoryWith(lab_so);
         lenguajes.mandatoryWith(lab_lenguajes);
 
+        //S7
+        sw3.mandatoryWith(lab_sw3);
+
         // all subjects
         allSubjects.addAll(Set.of(
                 calculo1, lectura, fish1, intro_sistemas, intro_info, lab_intro_info,
@@ -156,7 +161,7 @@ public class StudyPlanService implements ISubjectRepository {
                 ecuaciones, vibraciones, ed2, lab_ed2, bd1, lab_bd1,
                 analisis_num, teoria_comp, lab_sw1, sw1, arq_comp, bd2, lab_bd2,
                 estadistica, lenguajes, lab_lenguajes, sw2, lab_sw2, so, lab_so,
-                teoria_dinamica, metodologia, ia, distribuidos
+                teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3
         ));
     }
 
