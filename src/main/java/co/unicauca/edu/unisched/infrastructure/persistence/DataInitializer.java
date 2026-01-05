@@ -802,8 +802,14 @@ public class DataInitializer {
         }
 
         // Sistemas Distribuidos
-        // Asumiendo que es el ID 43 y ya se usó para Ingeniería de Software III
-        // Si son diferentes, ajusta según corresponda
+        if (distribuidos != null){
+            createGroup(distribuidos, "A", "",
+                    List.of(
+                            new Schedule(DayOfWeek.THURSDAY, LocalTime.of(7, 0), LocalTime.of(9, 0)),
+                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
+                    ));
+        }
+
 
         // Teoría y Dinámica de Sistemas
         if (teoria_dinamica != null) {
