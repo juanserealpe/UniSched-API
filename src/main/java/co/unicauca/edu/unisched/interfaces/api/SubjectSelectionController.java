@@ -3,7 +3,7 @@ package co.unicauca.edu.unisched.interfaces.api;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
-import co.unicauca.edu.unisched.domain.ports.IGenerateSchedule;
+import co.unicauca.edu.unisched.domain.ports.IScheduleGenerationService;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
@@ -28,13 +28,13 @@ public class SubjectSelectionController {
     private final ISubjectValidationService validationService;
     private final ISubjectRepository subjectRepository;
     private final ISubjectGroupRepository groupRepository;
-    private final IGenerateSchedule generateScheduleService;
+    private final IScheduleGenerationService generateScheduleService;
 
     public SubjectSelectionController(
             ISubjectValidationService validationService,
             ISubjectRepository subjectRepository,
             ISubjectGroupRepository groupRepository,
-            IGenerateSchedule generateScheduleService
+            IScheduleGenerationService generateScheduleService
     ) {
         this.validationService = validationService;
         this.subjectRepository = subjectRepository;
