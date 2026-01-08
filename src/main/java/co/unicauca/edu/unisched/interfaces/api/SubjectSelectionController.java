@@ -1,5 +1,6 @@
 package co.unicauca.edu.unisched.interfaces.api;
 
+import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
@@ -96,68 +97,105 @@ public class SubjectSelectionController {
         }
     }
 
-
     /**
-     * Generates all valid schedules for a given set of selected subjects.
+     * Generates all valid schedules for selected subjects and custom subjects.
      *
-     * This endpoint performs the following steps:
-     * <ol>
-     *   <li>Receives a list of subject IDs selected by the user.</li>
-     *   <li>Validates that all provided IDs correspond to existing subjects.</li>
-     *   <li>Validates the subject combination according to academic rules
-     *       (prerequisites, unlock relationships, and mandatory associations).</li>
-     *   <li>Retrieves all available groups for the selected subjects.</li>
-     *   <li>Generates all possible schedules using a backtracking algorithm,
-     *       ensuring that exactly one group per subject is selected and that
-     *       no schedule conflicts exist.</li>
-     *   <li>Transforms the resulting schedules into DTOs suitable for the API response.</li>
-     * </ol>
+     * This endpoint:
+     * 1. Validates regular subject IDs against the study plan
+     * 2. Creates temporary Subject/SubjectGroup objects for custom subjects
+     * 3. Combines both types of subjects for schedule generation
+     * 4. Uses backtracking to find all valid non-conflicting schedules
      *
-     * If the subject combination is invalid, a detailed validation response
-     * is returned containing the corresponding error messages.
-     *
-     * @param request the request body containing the IDs of the selected subjects
-     * @return a {@link ResponseEntity} containing either:
-     * <ul>
-     *   <li>a list of valid schedules if generation is successful, or</li>
-     *   <li>a validation response with error messages if the selection is invalid</li>
-     * </ul>
+     * @param request contains subjectIds and optional customSubjects
+     * @return list of valid schedules or validation errors
      */
     @PostMapping("/generate-schedules")
     public ResponseEntity<?> generateSchedules(
             @Valid @RequestBody SubjectSelectionRequest request
     ) {
         Set<Long> subjectIds = request.subjectIds();
-        Set<Subject> selectedSubjects = subjectRepository.findByIds(subjectIds);
+        List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
 
-        if (selectedSubjects.size() != subjectIds.size()) {
+        // Validar que haya al menos una materia
+        if ((subjectIds == null || subjectIds.isEmpty()) &&
+                (customSubjects == null || customSubjects.isEmpty())) {
             return ResponseEntity.badRequest()
                     .body(ValidationResponseDto.invalid(
-                            List.of("Una o más IDs son inválidas")));
+                            List.of("Debe seleccionar al menos una materia")));
         }
 
-        SubjectSelection selection = new SubjectSelection();
-        selectedSubjects.forEach(selection::select);
-        List<String> errors =
-                validationService.validateCombinationWithErrors(selection);
+        // Step 1: Obtener materias normales de BD
+        Set<Subject> selectedSubjects = new HashSet<>();
+        if (subjectIds != null && !subjectIds.isEmpty()) {
+            selectedSubjects = subjectRepository.findByIds(subjectIds);
 
-        if (!errors.isEmpty()) {
-            return ResponseEntity.ok(
-                    ValidationResponseDto.invalid(errors));
+            if (selectedSubjects.size() != subjectIds.size()) {
+                return ResponseEntity.badRequest()
+                        .body(ValidationResponseDto.invalid(
+                                List.of("Una o más IDs son inválidas")));
+            }
         }
 
-        List<SubjectGroup> allGroups =
-                groupRepository.findBySubjectIds(subjectIds);
+        // Step 2: Validar combinación de materias normales (solo las de BD)
+        if (!selectedSubjects.isEmpty()) {
+            SubjectSelection selection = new SubjectSelection();
+            selectedSubjects.forEach(selection::select);
+            List<String> errors = validationService.validateCombinationWithErrors(selection);
 
-        Map<Subject, List<SubjectGroup>> groupsBySubject =
-                allGroups.stream()
-                        .collect(Collectors.groupingBy(
-                                SubjectGroup::getSubject
-                        ));
+            if (!errors.isEmpty()) {
+                return ResponseEntity.ok(ValidationResponseDto.invalid(errors));
+            }
+        }
 
+        // Step 3: Obtener grupos de materias normales
+        Map<Subject, List<SubjectGroup>> groupsBySubject = new HashMap<>();
+
+        if (!selectedSubjects.isEmpty()) {
+            List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
+            groupsBySubject = allGroups.stream()
+                    .collect(Collectors.groupingBy(SubjectGroup::getSubject));
+        }
+
+        // Step 4: Agregar materias personalizadas
+        if (customSubjects != null && !customSubjects.isEmpty()) {
+            long customIdCounter = -1L; // IDs negativos para custom subjects
+
+            for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
+                // Crear Subject temporal
+                Subject customSubject = new Subject(
+                        customIdCounter--,
+                        customDto.name(),
+                        (byte) 0 // Semestre 0 para custom
+                );
+
+                // Crear Schedule objects
+                List<Schedule> schedules = customDto.schedules().stream()
+                        .map(s -> new Schedule(
+                                s.dayOfWeek(),
+                                s.startTime(),
+                                s.endTime()
+                        ))
+                        .collect(Collectors.toList());
+
+                // Crear SubjectGroup temporal
+                SubjectGroup customGroup = new SubjectGroup(
+                        customIdCounter, // Mismo ID negativo
+                        customSubject,
+                        customDto.groupCode() != null ? customDto.groupCode() : "CUSTOM",
+                        "Usuario", // Profesor por defecto
+                        schedules
+                );
+
+                // Agregar al mapa con un solo grupo por materia custom
+                groupsBySubject.put(customSubject, List.of(customGroup));
+            }
+        }
+
+        // Step 5: Generar horarios
         List<List<SubjectGroup>> schedules =
                 generateScheduleService.generateAllValidSchedules(groupsBySubject);
 
+        // Step 6: Convertir a DTO
         var response = schedules.stream()
                 .map(schedule ->
                         schedule.stream()
@@ -168,6 +206,4 @@ public class SubjectSelectionController {
 
         return ResponseEntity.ok(response);
     }
-
 }
-
