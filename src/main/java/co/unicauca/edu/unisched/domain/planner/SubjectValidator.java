@@ -173,14 +173,13 @@ public class SubjectValidator {
      * A combination is invalid if:
      * - A subject and its prerequisite are selected together (e.g., Cálculo I and Cálculo II)
      * - A subject is selected without its prerequisites
-     * - A subject is selected with another that has a mandatory relationship with a blocked subject
      *
      * @param selection the subject selection to validate
      * @return true if the combination is valid, false otherwise
      */
     public boolean isValidCombination(SubjectSelection selection) {
         Set<Subject> selected = selection.getSelected();
-        
+
         // Check if any selected subject has its prerequisite also selected
         for (Subject subject : selected) {
             Set<Subject> prerequisites = getAllPrerequisites(subject);
@@ -190,7 +189,7 @@ public class SubjectValidator {
                 }
             }
         }
-        
+
         // Check if all prerequisites are met (implicitly checked above, but also check if subject unlocks are selected)
         for (Subject subject : selected) {
             for (Subject unlocks : subject.getUnlocks()) {
@@ -199,7 +198,7 @@ public class SubjectValidator {
                 }
             }
         }
-        
+
         // Check if all prerequisites are fulfilled
         Set<Subject> fulfilled = getFulfilledSubjects(selected);
         for (Subject subject : selected) {
@@ -207,26 +206,7 @@ public class SubjectValidator {
                 return false; // Invalid: subject selected without prerequisites
             }
         }
-        
-        // Check mandatory relationships
-        // If A is selected and A.mandatoryWith(B), then B must also be selected
-        for (Subject subject : selected) {
-            for (Subject mandatory : subject.getMandatoryWith()) {
-                if (!selected.contains(mandatory)) {
-                    return false; // Invalid: mandatory partner must be selected together
-                }
-            }
-        }
-        
-        Set<Subject> blocked = calculateBlocked(selection);
-        for (Subject subject : selected) {
-            for (Subject mandatory : subject.getMandatoryWith()) {
-                if (blocked.contains(mandatory)) {
-                    return false; // Invalid: mandatory subject is blocked
-                }
-            }
-        }
-        
+
         return true;
     }
 
@@ -240,7 +220,7 @@ public class SubjectValidator {
         List<String> errors = new ArrayList<>();
         Set<Subject> selected = selection.getSelected();
         Set<String> processedPairs = new HashSet<>();
-        
+
         // Check if any selected subject has its prerequisite also selected
         // This covers both: subject with prerequisite, and subject with what it unlocks
         for (Subject subject : selected) {
@@ -248,7 +228,7 @@ public class SubjectValidator {
             Set<Subject> prerequisites = getAllPrerequisites(subject);
             for (Subject prerequisite : prerequisites) {
                 if (selected.contains(prerequisite)) {
-                    String pairKey = prerequisite.getId() < subject.getId() 
+                    String pairKey = prerequisite.getId() < subject.getId()
                             ? prerequisite.getId() + "-" + subject.getId()
                             : subject.getId() + "-" + prerequisite.getId();
                     if (processedPairs.add(pairKey)) {
@@ -257,7 +237,7 @@ public class SubjectValidator {
                     }
                 }
             }
-            
+
             // Check what this subject unlocks
             for (Subject unlocks : subject.getUnlocks()) {
                 if (selected.contains(unlocks)) {
@@ -269,7 +249,7 @@ public class SubjectValidator {
                 }
             }
         }
-        
+
         // Check if all prerequisites are fulfilled (subjects selected without their prerequisites)
         Set<Subject> fulfilled = getFulfilledSubjects(selected);
         for (Subject subject : selected) {
@@ -289,25 +269,7 @@ public class SubjectValidator {
                 }
             }
         }
-        
-        // Check mandatory relationships
-        // If A is selected and A.mandatoryWith(B), then B must also be selected
-        Set<Subject> blocked = calculateBlocked(selection);
-        for (Subject subject : selected) {
-            for (Subject mandatory : subject.getMandatoryWith()) {
-                if (!selected.contains(mandatory)) {
-                    // Check if the mandatory partner is blocked (which would prevent selection)
-                    if (blocked.contains(mandatory)) {
-                        errors.add(String.format("'%s' no puede seleccionarse: la materia obligatoria '%s' está bloqueada",
-                                subject.getName(), mandatory.getName()));
-                    } else {
-                        errors.add(String.format("'%s' no puede seleccionarse sin su materia obligatoria '%s'. Ambas deben seleccionarse juntas.",
-                                subject.getName(), mandatory.getName()));
-                    }
-                }
-            }
-        }
-        
+
         return errors;
     }
 }
