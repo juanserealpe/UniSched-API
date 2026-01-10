@@ -102,11 +102,11 @@ public class SubjectSelectionController {
      *
      * This endpoint:
      * 1. Validates regular subject IDs against the study plan
-     * 2. Creates temporary Subject/SubjectGroup objects for custom subjects
+     * 2. Creates temporary Subject/SubjectGroup objects for custom subjects with multiple groups
      * 3. Combines both types of subjects for schedule generation
      * 4. Uses backtracking to find all valid non-conflicting schedules
      *
-     * @param request contains subjectIds and optional customSubjects
+     * @param request contains subjectIds and optional customSubjects (with multiple groups each)
      * @return list of valid schedules or validation errors
      */
     @PostMapping("/generate-schedules")
@@ -116,7 +116,6 @@ public class SubjectSelectionController {
         Set<Long> subjectIds = request.subjectIds();
         List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
 
-        // Validar que haya al menos una materia
         if ((subjectIds == null || subjectIds.isEmpty()) &&
                 (customSubjects == null || customSubjects.isEmpty())) {
             return ResponseEntity.badRequest()
@@ -124,7 +123,6 @@ public class SubjectSelectionController {
                             List.of("Debe seleccionar al menos una materia")));
         }
 
-        // Step 1: Obtener materias normales de BD
         Set<Subject> selectedSubjects = new HashSet<>();
         if (subjectIds != null && !subjectIds.isEmpty()) {
             selectedSubjects = subjectRepository.findByIds(subjectIds);
@@ -136,7 +134,6 @@ public class SubjectSelectionController {
             }
         }
 
-        // Step 2: Validar combinación de materias normales (solo las de BD)
         if (!selectedSubjects.isEmpty()) {
             SubjectSelection selection = new SubjectSelection();
             selectedSubjects.forEach(selection::select);
@@ -147,7 +144,6 @@ public class SubjectSelectionController {
             }
         }
 
-        // Step 3: Obtener grupos de materias normales
         Map<Subject, List<SubjectGroup>> groupsBySubject = new HashMap<>();
 
         if (!selectedSubjects.isEmpty()) {
@@ -156,46 +152,43 @@ public class SubjectSelectionController {
                     .collect(Collectors.groupingBy(SubjectGroup::getSubject));
         }
 
-        // Step 4: Agregar materias personalizadas
         if (customSubjects != null && !customSubjects.isEmpty()) {
-            long customIdCounter = -1L; // IDs negativos para custom subjects
+            long customIdCounter = -1L;
 
             for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
-                // Crear Subject temporal
                 Subject customSubject = new Subject(
                         customIdCounter--,
                         customDto.name(),
-                        (byte) 0 // Semestre 0 para custom
+                        (byte) 0
                 );
 
-                // Crear Schedule objects
-                List<Schedule> schedules = customDto.schedules().stream()
-                        .map(s -> new Schedule(
-                                s.dayOfWeek(),
-                                s.startTime(),
-                                s.endTime()
-                        ))
-                        .collect(Collectors.toList());
+                List<SubjectGroup> customGroups = new ArrayList<>();
 
-                // Crear SubjectGroup temporal
-                SubjectGroup customGroup = new SubjectGroup(
-                        customIdCounter, // Mismo ID negativo
-                        customSubject,
-                        customDto.groupCode() != null ? customDto.groupCode() : "CUSTOM",
-                        "Usuario", // Profesor por defecto
-                        schedules
-                );
+                for (SubjectSelectionRequest.CustomGroupDto groupDto : customDto.groups()) {
+                    List<Schedule> schedules = groupDto.schedules().stream()
+                            .map(s -> new Schedule(
+                                    s.dayOfWeek(),
+                                    s.startTime(),
+                                    s.endTime()
+                            ))
+                            .collect(Collectors.toList());
+                    SubjectGroup customGroup = new SubjectGroup(
+                            customIdCounter--, // ID único negativo para cada grupo
+                            customSubject,
+                            groupDto.groupCode(),
+                            groupDto.professors() != null ? groupDto.professors() : "Sin especificar",
+                            schedules
+                    );
 
-                // Agregar al mapa con un solo grupo por materia custom
-                groupsBySubject.put(customSubject, List.of(customGroup));
+                    customGroups.add(customGroup);
+                }
+                groupsBySubject.put(customSubject, customGroups);
             }
         }
 
-        // Step 5: Generar horarios
         List<List<SubjectGroup>> schedules =
                 generateScheduleService.generateAllValidSchedules(groupsBySubject);
-
-        // Step 6: Convertir a DTO
+        
         var response = schedules.stream()
                 .map(schedule ->
                         schedule.stream()
