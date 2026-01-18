@@ -50,7 +50,7 @@ public class EnrollmentValidationUseCase implements IEnrollmentService {
         }
 
         // Step 2: Get the IDs of the selected subjects
-        Set<Long> subjectIds = selection.getSelected().stream()
+        Set<String> subjectIds = selection.getSelected().stream()
                 .map(subject -> subject.getId())
                 .collect(Collectors.toSet());
 
@@ -58,10 +58,9 @@ public class EnrollmentValidationUseCase implements IEnrollmentService {
         List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
 
         // Step 4: Organize groups by subject
-        Map<Long, List<SubjectGroup>> groupsBySubject = allGroups.stream()
+        Map<String, List<SubjectGroup>> groupsBySubject = allGroups.stream()
                 .collect(Collectors.groupingBy(
-                        group -> group.getSubject().getId()
-                ));
+                        group -> group.getSubject().getId()));
 
         return new EnrollmentValidationResult(true, Collections.emptyList(), groupsBySubject);
     }

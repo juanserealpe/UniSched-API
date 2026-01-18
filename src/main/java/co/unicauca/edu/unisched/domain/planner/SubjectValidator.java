@@ -56,7 +56,7 @@ public class SubjectValidator {
     /**
      * Recursively collects all prerequisites for a subject.
      *
-     * @param subject the subject to collect prerequisites for
+     * @param subject       the subject to collect prerequisites for
      * @param prerequisites the set to add prerequisites to
      */
     private void collectPrerequisites(Subject subject, Set<Subject> prerequisites) {
@@ -70,7 +70,8 @@ public class SubjectValidator {
     }
 
     /**
-     * Returns all subjects that are fulfilled (either selected or have all prerequisites met).
+     * Returns all subjects that are fulfilled (either selected or have all
+     * prerequisites met).
      *
      * @param selected the set of selected subjects
      * @return a set of all fulfilled subjects (selected + their prerequisites)
@@ -86,7 +87,7 @@ public class SubjectValidator {
     /**
      * Checks if a subject has unmet prerequisites.
      *
-     * @param subject the subject to check
+     * @param subject   the subject to check
      * @param fulfilled the set of fulfilled subjects
      * @return true if the subject has unmet prerequisites, false otherwise
      */
@@ -124,7 +125,8 @@ public class SubjectValidator {
      * prerequisites, unlock relationships, and mandatory relationships.
      *
      * @param selection the subject selection to validate
-     * @return a ValidationResult containing selected, blocked, and available subjects
+     * @return a ValidationResult containing selected, blocked, and available
+     *         subjects
      */
     public ValidationResult calculatePlan(SubjectSelection selection) {
         Set<Subject> selected = selection.getSelected();
@@ -139,7 +141,8 @@ public class SubjectValidator {
         Set<Subject> toBlock = new HashSet<>();
 
         // Block subjects whose mandatory partners are already selected
-        // If A is selected and A.mandatoryWith(B), then B must be blocked (not available)
+        // If A is selected and A.mandatoryWith(B), then B must be blocked (not
+        // available)
         for (Subject selectedSubject : selected) {
             for (Subject mandatory : selectedSubject.getMandatoryWith()) {
                 if (!selected.contains(mandatory)) {
@@ -154,13 +157,15 @@ public class SubjectValidator {
                     toBlock.add(subject);
                     break;
                 }
-                // If mandatory partner is selected, this subject must also be selected (blocked from being available alone)
+                // If mandatory partner is selected, this subject must also be selected (blocked
+                // from being available alone)
                 if (selected.contains(mandatory)) {
                     toBlock.add(subject);
                     break;
                 }
             }
-            if (hasUnmetPrerequisites(subject, fulfilled)) toBlock.add(subject);
+            if (hasUnmetPrerequisites(subject, fulfilled))
+                toBlock.add(subject);
         }
 
         available.removeAll(toBlock);
@@ -171,7 +176,8 @@ public class SubjectValidator {
     /**
      * Validates if a combination of subjects is valid.
      * A combination is invalid if:
-     * - A subject and its prerequisite are selected together (e.g., Cálculo I and Cálculo II)
+     * - A subject and its prerequisite are selected together (e.g., Cálculo I and
+     * Cálculo II)
      * - A subject is selected without its prerequisites
      *
      * @param selection the subject selection to validate
@@ -190,7 +196,8 @@ public class SubjectValidator {
             }
         }
 
-        // Check if all prerequisites are met (implicitly checked above, but also check if subject unlocks are selected)
+        // Check if all prerequisites are met (implicitly checked above, but also check
+        // if subject unlocks are selected)
         for (Subject subject : selected) {
             for (Subject unlocks : subject.getUnlocks()) {
                 if (selected.contains(unlocks)) {
@@ -228,11 +235,12 @@ public class SubjectValidator {
             Set<Subject> prerequisites = getAllPrerequisites(subject);
             for (Subject prerequisite : prerequisites) {
                 if (selected.contains(prerequisite)) {
-                    String pairKey = prerequisite.getId() < subject.getId()
+                    String pairKey = prerequisite.getId().compareTo(subject.getId()) < 0
                             ? prerequisite.getId() + "-" + subject.getId()
                             : subject.getId() + "-" + prerequisite.getId();
                     if (processedPairs.add(pairKey)) {
-                        errors.add(String.format("Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de prerequisito)",
+                        errors.add(String.format(
+                                "Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de prerequisito)",
                                 prerequisite.getName(), subject.getName()));
                     }
                 }
@@ -243,14 +251,16 @@ public class SubjectValidator {
                 if (selected.contains(unlocks)) {
                     String pairKey = subject.getId() + "-" + unlocks.getId();
                     if (processedPairs.add(pairKey)) {
-                        errors.add(String.format("Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de desbloqueo)",
+                        errors.add(String.format(
+                                "Combinación inválida: '%s' y '%s' no pueden seleccionarse juntas (relación de desbloqueo)",
                                 subject.getName(), unlocks.getName()));
                     }
                 }
             }
         }
 
-        // Check if all prerequisites are fulfilled (subjects selected without their prerequisites)
+        // Check if all prerequisites are fulfilled (subjects selected without their
+        // prerequisites)
         Set<Subject> fulfilled = getFulfilledSubjects(selected);
         for (Subject subject : selected) {
             if (hasUnmetPrerequisites(subject, fulfilled)) {

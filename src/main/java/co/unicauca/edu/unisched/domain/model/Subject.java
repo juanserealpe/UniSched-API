@@ -5,17 +5,18 @@ import java.util.Set;
 
 /**
  * Represents a subject in the study plan.
- * A subject has prerequisites (subjects that unlock it) and can unlock other subjects.
+ * A subject has prerequisites (subjects that unlock it) and can unlock other
+ * subjects.
  * Subjects can also be mandatory with other subjects (must be taken together).
  */
 public class Subject {
-    private final Long id;
+    private final String id;
     private final String name;
     private final byte numSemester;
     private final Set<Subject> unlocks = new HashSet<>();
     private final Set<Subject> mandatoryWith = new HashSet<>();
 
-    public Subject(Long id, String name, byte numSemester) {
+    public Subject(String id, String name, byte numSemester) {
         this.id = id;
         this.name = name;
         this.numSemester = numSemester;
@@ -33,7 +34,8 @@ public class Subject {
 
     /**
      * Establishes that this subject is mandatory with the specified subject.
-     * This creates a bidirectional relationship, meaning both subjects must be taken together.
+     * This creates a bidirectional relationship, meaning both subjects must be
+     * taken together.
      *
      * @param subject the subject that must be taken together with this one
      */
@@ -54,7 +56,7 @@ public class Subject {
         return name;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -64,7 +66,8 @@ public class Subject {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Subject)) return false;
+        if (!(o instanceof Subject))
+            return false;
         return id.equals(((Subject) o).id);
     }
 
