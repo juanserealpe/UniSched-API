@@ -115,8 +115,6 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         entity.setSubjectId(subjectGroup.getSubject().getId());
         entity.setGroupCode(subjectGroup.getGroupCode());
         entity.setProfessors(subjectGroup.getProfessors());
-        entity.setCapacity(30); // Default capacity
-        entity.setEnrolled(0); // Default enrolled
 
         // Convert schedules
         List<ScheduleEntity> scheduleEntities = subjectGroup.getSchedules().stream()
