@@ -43,17 +43,15 @@ public class DataInitializer {
         // =========================
         // S1
         // =========================
-        Subject calculo1 = subjectRepository.findById(1L).orElse(null);
-        Subject lectura = subjectRepository.findById(2L).orElse(null);
-        Subject fish1 = subjectRepository.findById(3L).orElse(null);
-        Subject intro_sistemas = subjectRepository.findById(4L).orElse(null);
-        Subject intro_info = subjectRepository.findById(5L).orElse(null);
-        Subject lab_intro_info = subjectRepository.findById(6L).orElse(null);
+        Subject calculo1 = subjectRepository.findById(11465L).orElse(null);
+        Subject lectura = subjectRepository.findById(21505L).orElse(null);
+        Subject intro_sistemas = subjectRepository.findById(11479L).orElse(null);
+        Subject intro_info = subjectRepository.findById(11477L).orElse(null);
+        Subject lab_intro_info = subjectRepository.findById(11478L).orElse(null);
 
         // =========================
         // S2
         // =========================
-        Subject fish2 = subjectRepository.findById(7L).orElse(null);
         Subject calculo2 = subjectRepository.findById(8L).orElse(null);
         Subject mecanica = subjectRepository.findById(9L).orElse(null);
         Subject lab_mecanica = subjectRepository.findById(10L).orElse(null);
@@ -67,7 +65,6 @@ public class DataInitializer {
         Subject calculo3 = subjectRepository.findById(14L).orElse(null);
         Subject electromagnetismo = subjectRepository.findById(15L).orElse(null);
         Subject lab_electro = subjectRepository.findById(16L).orElse(null);
-        Subject fish3 = subjectRepository.findById(17L).orElse(null);
         Subject ed1 = subjectRepository.findById(18L).orElse(null);
         Subject lab_ed1 = subjectRepository.findById(19L).orElse(null);
 
@@ -146,21 +143,6 @@ public class DataInitializer {
                     List.of(
                             new Schedule(DayOfWeek.MONDAY, LocalTime.of(16, 0), LocalTime.of(18, 0)),
                             new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
-                    ));
-        }
-
-        // Electiva Fish- Formación ciudadana (Fish1)
-        if (fish1 != null) {
-            createGroup(fish1, "A", "NATALIA COBO PAZ",
-                    List.of(
-                            new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0)),
-                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(16, 0), LocalTime.of(18, 0))
-                    ));
-
-            createGroup(fish1, "B", "JULIE ALEXANDRA QUINTERO GONZALEZ",
-                    List.of(
-                            new Schedule(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
-                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(16, 0), LocalTime.of(18, 0))
                     ));
         }
 
@@ -638,17 +620,19 @@ public class DataInitializer {
 
         // Estadística y Probabilidad
         if (estadistica != null) {
-            createGroup(estadistica, "A", "JULIAN OSORIO RIGO",
+            createGroup(estadistica, "A", "EDWIN CHAMORRO IBARRA",
                     List.of(
-                            new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
-                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
-                    ));
+                            new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0),
+                                    LocalTime.of(11, 0)),
+                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0),
+                                    LocalTime.of(13, 0))));
 
             createGroup(estadistica, "B", "MARIO ELCIAS MUÑOZ OCHOA",
                     List.of(
-                            new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0)),
-                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
-                    ));
+                            new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0),
+                                    LocalTime.of(13, 0)),
+                            new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0),
+                                    LocalTime.of(13, 0))));
         }
 
         // Estructura de Lenguajes

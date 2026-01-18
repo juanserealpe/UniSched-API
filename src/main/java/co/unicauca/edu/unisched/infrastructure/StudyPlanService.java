@@ -27,17 +27,15 @@ public class StudyPlanService implements ISubjectRepository {
         // =========================
         // S1
         // =========================
-        Subject calculo1 = new Subject(1L, "Cálculo I", (byte) 1);
-        Subject lectura = new Subject(2L, "Lectura y Escritura", (byte) 1);
-        Subject fish1 = new Subject(3L, "Electiva FISH I", (byte) 1);
-        Subject intro_sistemas = new Subject(4L, "Introducción a la Ing. de Sistemas", (byte) 1);
-        Subject intro_info = new Subject(5L, "Introducción a la Informática", (byte) 1);
-        Subject lab_intro_info = new Subject(6L, "Lab. Introducción a la Informática", (byte) 1);
+        Subject calculo1 = new Subject(11465L, "Cálculo I", (byte) 1);
+        Subject lectura = new Subject(21505L, "Lectura y Escritura", (byte) 1);
+        Subject intro_sistemas = new Subject(11479L, "Introducción a la Ing. de Sistemas", (byte) 1);
+        Subject intro_info = new Subject(11477L, "Introducción a la Informática", (byte) 1);
+        Subject lab_intro_info = new Subject(11478L, "Lab. Introducción a la Informática", (byte) 1);
 
         // =========================
         // S2
         // =========================
-        Subject fish2 = new Subject(7L, "Electiva FISH II", (byte) 2);
         Subject calculo2 = new Subject(8L, "Cálculo II", (byte) 2);
         Subject mecanica = new Subject(9L, "Mecánica", (byte) 2);
         Subject lab_mecanica = new Subject(10L, "Laboratorio Mecánica", (byte) 2);
@@ -51,7 +49,6 @@ public class StudyPlanService implements ISubjectRepository {
         Subject calculo3 = new Subject(14L, "Cálculo III", (byte) 3);
         Subject electromagnetismo = new Subject(15L, "Electromagnetismo", (byte) 3);
         Subject lab_electro = new Subject(16L, "Lab. Electromagnetismo", (byte) 3);
-        Subject fish3 = new Subject(17L, "Electiva FISH III", (byte) 3);
         Subject ed1 = new Subject(18L, "Estructuras de Datos I", (byte) 3);
         Subject lab_ed1 = new Subject(19L, "Lab. Estructuras de Datos I", (byte) 3);
 
@@ -155,9 +152,9 @@ public class StudyPlanService implements ISubjectRepository {
 
         // all subjects
         allSubjects.addAll(Set.of(
-                calculo1, lectura, fish1, intro_sistemas, intro_info, lab_intro_info,
-                fish2, calculo2, mecanica, lab_mecanica, algebra, poo, lab_poo,
-                calculo3, electromagnetismo, lab_electro, fish3, ed1, lab_ed1,
+                calculo1, lectura, intro_sistemas, intro_info, lab_intro_info,
+                calculo2, mecanica, lab_mecanica, algebra, poo, lab_poo,
+                calculo3, electromagnetismo, lab_electro, ed1, lab_ed1,
                 ecuaciones, vibraciones, ed2, lab_ed2, bd1, lab_bd1,
                 analisis_num, teoria_comp, lab_sw1, sw1, arq_comp, bd2, lab_bd2,
                 estadistica, lenguajes, lab_lenguajes, sw2, lab_sw2, so, lab_so,
