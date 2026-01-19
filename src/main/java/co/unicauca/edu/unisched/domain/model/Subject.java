@@ -10,13 +10,13 @@ import java.util.Set;
  * Subjects can also be mandatory with other subjects (must be taken together).
  */
 public class Subject {
-    private final String id;
+    private final Long id;
     private final String name;
     private final byte numSemester;
     private final Set<Subject> unlocks = new HashSet<>();
     private final Set<Subject> mandatoryWith = new HashSet<>();
 
-    public Subject(String id, String name, byte numSemester) {
+    public Subject(Long id, String name, byte numSemester) {
         this.id = id;
         this.name = name;
         this.numSemester = numSemester;
@@ -56,7 +56,7 @@ public class Subject {
         return name;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 

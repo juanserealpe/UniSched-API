@@ -23,7 +23,7 @@ public interface ISubjectRepository {
      * @param id the ID of the subject
      * @return an Optional containing the subject if it exists
      */
-    Optional<Subject> findById(String id);
+    Optional<Subject> findById(Long id);
 
     /**
      * Finds subjects by their IDs.
@@ -31,5 +31,5 @@ public interface ISubjectRepository {
      * @param ids a set of subject IDs
      * @return a set of found subjects
      */
-    Set<Subject> findByIds(Set<String> ids);
+    Set<Subject> findByIds(Set<Long> ids);
 }

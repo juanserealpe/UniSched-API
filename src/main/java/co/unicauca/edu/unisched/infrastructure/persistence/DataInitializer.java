@@ -35,7 +35,7 @@ public class DataInitializer {
         @PostConstruct
         public void initializeData() {
                 // Check if data already exists
-                if (!groupRepository.findBySubjectId("1").isEmpty()) {
+                if (!groupRepository.findBySubjectId(11465L).isEmpty()) {
                         return; // Data already initialized
                 }
 
@@ -43,82 +43,81 @@ public class DataInitializer {
                 // =========================
                 // S1
                 // =========================
-                Subject calculo1 = subjectRepository.findById("11465").orElse(null);
-                Subject lectura = subjectRepository.findById("21505").orElse(null);
-                Subject intro_sistemas = subjectRepository.findById("11479").orElse(null);
-                Subject intro_info = subjectRepository.findById("11477").orElse(null);
-                Subject lab_intro_info = subjectRepository.findById("11478").orElse(null);
-
+                Subject calculo1 = subjectRepository.findById(11465L).orElse(null);
+                Subject lectura = subjectRepository.findById(21505L).orElse(null);
+                Subject intro_sistemas = subjectRepository.findById(11479L).orElse(null);
+                Subject intro_info = subjectRepository.findById(11477L).orElse(null);
+                Subject lab_intro_info = subjectRepository.findById(11478L).orElse(null);
 
                 // =========================
                 // S2
                 // =========================
-                Subject calculo2 = subjectRepository.findById("8").orElse(null);
-                Subject mecanica = subjectRepository.findById("9").orElse(null);
-                Subject lab_mecanica = subjectRepository.findById("10").orElse(null);
-                Subject algebra = subjectRepository.findById("11").orElse(null);
-                Subject poo = subjectRepository.findById("12").orElse(null);
-                Subject lab_poo = subjectRepository.findById("13").orElse(null);
+                Subject calculo2 = subjectRepository.findById(8L).orElse(null);
+                Subject mecanica = subjectRepository.findById(9L).orElse(null);
+                Subject lab_mecanica = subjectRepository.findById(10L).orElse(null);
+                Subject algebra = subjectRepository.findById(11L).orElse(null);
+                Subject poo = subjectRepository.findById(12L).orElse(null);
+                Subject lab_poo = subjectRepository.findById(13L).orElse(null);
 
                 // =========================
                 // S3
                 // =========================
-                Subject calculo3 = subjectRepository.findById("14").orElse(null);
-                Subject electromagnetismo = subjectRepository.findById("15").orElse(null);
-                Subject lab_electro = subjectRepository.findById("16").orElse(null);
-                Subject ed1 = subjectRepository.findById("18").orElse(null);
-                Subject lab_ed1 = subjectRepository.findById("19").orElse(null);
+                Subject calculo3 = subjectRepository.findById(14L).orElse(null);
+                Subject electromagnetismo = subjectRepository.findById(15L).orElse(null);
+                Subject lab_electro = subjectRepository.findById(16L).orElse(null);
+                Subject ed1 = subjectRepository.findById(18L).orElse(null);
+                Subject lab_ed1 = subjectRepository.findById(19L).orElse(null);
 
                 // =========================
                 // S4
                 // =========================
-                Subject ecuaciones = subjectRepository.findById("20").orElse(null);
-                Subject vibraciones = subjectRepository.findById("21").orElse(null);
-                Subject ed2 = subjectRepository.findById("22").orElse(null);
-                Subject lab_ed2 = subjectRepository.findById("23").orElse(null);
-                Subject bd1 = subjectRepository.findById("24").orElse(null);
-                Subject lab_bd1 = subjectRepository.findById("25").orElse(null);
+                Subject ecuaciones = subjectRepository.findById(20L).orElse(null);
+                Subject vibraciones = subjectRepository.findById(21L).orElse(null);
+                Subject ed2 = subjectRepository.findById(22L).orElse(null);
+                Subject lab_ed2 = subjectRepository.findById(23L).orElse(null);
+                Subject bd1 = subjectRepository.findById(24L).orElse(null);
+                Subject lab_bd1 = subjectRepository.findById(25L).orElse(null);
 
                 // =========================
                 // S5
                 // =========================
-                Subject analisis_num = subjectRepository.findById("26").orElse(null);
-                Subject teoria_comp = subjectRepository.findById("27").orElse(null);
-                Subject lab_sw1 = subjectRepository.findById("28").orElse(null);
-                Subject sw1 = subjectRepository.findById("29").orElse(null);
-                Subject arq_comp = subjectRepository.findById("30").orElse(null);
-                Subject bd2 = subjectRepository.findById("31").orElse(null);
-                Subject lab_bd2 = subjectRepository.findById("32").orElse(null);
+                Subject analisis_num = subjectRepository.findById(26L).orElse(null);
+                Subject teoria_comp = subjectRepository.findById(27L).orElse(null);
+                Subject lab_sw1 = subjectRepository.findById(28L).orElse(null);
+                Subject sw1 = subjectRepository.findById(29L).orElse(null);
+                Subject arq_comp = subjectRepository.findById(30L).orElse(null);
+                Subject bd2 = subjectRepository.findById(31L).orElse(null);
+                Subject lab_bd2 = subjectRepository.findById(32L).orElse(null);
 
                 // =========================
                 // S6
                 // =========================
-                Subject estadistica = subjectRepository.findById("33").orElse(null);
-                Subject lenguajes = subjectRepository.findById("34").orElse(null);
-                Subject lab_lenguajes = subjectRepository.findById("35").orElse(null);
-                Subject sw2 = subjectRepository.findById("36").orElse(null);
-                Subject lab_sw2 = subjectRepository.findById("37").orElse(null);
-                Subject so = subjectRepository.findById("38").orElse(null);
-                Subject lab_so = subjectRepository.findById("39").orElse(null);
+                Subject estadistica = subjectRepository.findById(33L).orElse(null);
+                Subject lenguajes = subjectRepository.findById(34L).orElse(null);
+                Subject lab_lenguajes = subjectRepository.findById(35L).orElse(null);
+                Subject sw2 = subjectRepository.findById(36L).orElse(null);
+                Subject lab_sw2 = subjectRepository.findById(37L).orElse(null);
+                Subject so = subjectRepository.findById(38L).orElse(null);
+                Subject lab_so = subjectRepository.findById(39L).orElse(null);
 
                 // =========================
                 // S7
                 // =========================
-                Subject teoria_dinamica = subjectRepository.findById("40").orElse(null);
-                Subject metodologia = subjectRepository.findById("41").orElse(null);
-                Subject ia = subjectRepository.findById("42").orElse(null);
-                Subject distribuidos = subjectRepository.findById("43").orElse(null);
-                Subject lab_distribuidos = subjectRepository.findById("44").orElse(null);
-                Subject sw3 = subjectRepository.findById("45").orElse(null);
-                Subject lab_sw3 = subjectRepository.findById("46").orElse(null);
+                Subject teoria_dinamica = subjectRepository.findById(40L).orElse(null);
+                Subject metodologia = subjectRepository.findById(41L).orElse(null);
+                Subject ia = subjectRepository.findById(42L).orElse(null);
+                Subject distribuidos = subjectRepository.findById(43L).orElse(null);
+                Subject lab_distribuidos = subjectRepository.findById(44L).orElse(null);
+                Subject sw3 = subjectRepository.findById(45L).orElse(null);
+                Subject lab_sw3 = subjectRepository.findById(46L).orElse(null);
 
                 // =========================
                 // S8
                 // =========================
-                Subject calidad_de_software = subjectRepository.findById("47").orElse(null);
-                Subject investigacion_de_operacion = subjectRepository.findById("48").orElse(null);
-                Subject proyecto_1 = subjectRepository.findById("49").orElse(null);
-                Subject redes = subjectRepository.findById("50").orElse(null);
+                Subject calidad_de_software = subjectRepository.findById(47L).orElse(null);
+                Subject investigacion_de_operacion = subjectRepository.findById(48L).orElse(null);
+                Subject proyecto_1 = subjectRepository.findById(49L).orElse(null);
+                Subject redes = subjectRepository.findById(50L).orElse(null);
 
                 if (calculo1 != null) {
                         createGroup(calculo1, "A", "ORLANDO RODRIGUEZ BUITRAGO, ANYI DANIELA CORREDOR",
@@ -142,7 +141,6 @@ public class DataInitializer {
                                                         new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0),
                                                                         LocalTime.of(13, 0))));
                 }
-
 
                 // Lectura y Escritura
                 if (lectura != null) {
@@ -666,6 +664,23 @@ public class DataInitializer {
                                                                         LocalTime.of(9, 0))));
                 }
 
+                // Estadística y Probabilidad
+                if (estadistica != null) {
+                        createGroup(estadistica, "A", "EDWIN CHAMORRO IBARRA",
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
+                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+
+                        createGroup(estadistica, "B", "MARIO ELCIAS MUÑOZ OCHOA",
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+                }
+
                 // Teoría de la Computación
                 if (teoria_comp != null) {
                         createGroup(teoria_comp, "A", "RICARDO ANTONIO ZAMBRANO SEGURA",
@@ -676,22 +691,7 @@ public class DataInitializer {
                                                                         LocalTime.of(16, 0))));
                 }
 
-                // Estadística y Probabilidad
-                if (estadistica != null) {
-                        createGroup(estadistica, "A", "EDWIN CHAMORRO IBARRA",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0)),
-                                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
 
-                        createGroup(estadistica, "B", "MARIO ELCIAS MUÑOZ OCHOA",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0)),
-                                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-                }
 
                 // Estructura de Lenguajes
                 if (lenguajes != null) {
@@ -781,126 +781,135 @@ public class DataInitializer {
                                                                         LocalTime.of(11, 0))));
                 }
 
-                // Ingeniería de Software III (sw3)
+
+
+// ===============================
+// Ingeniería de Software III
+// ===============================
                 if (sw3 != null) {
                         createGroup(sw3, "A", "FRANCISCO JAVIER OBANDO VIDAL",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0)),
-                                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(7, 0),
-                                                                        LocalTime.of(9, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(7, 0), LocalTime.of(9, 0))
+                                )
+                        );
 
                         createGroup(sw3, "B", "WILSON LIBARDO PANTOJA YEPEZ",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0)),
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(11, 0))
+                                )
+                        );
                 }
 
-                // Laboratorio de Sistemas Distribuidos (lab_distribuidos)
-                if (lab_distribuidos != null) {
-                        createGroup(lab_distribuidos, "A", "DANIEL EDUARDO PAZ PERAFAN",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(16, 0),
-                                                                        LocalTime.of(18, 0))));
-
-                        createGroup(lab_distribuidos, "B", "DANIEL EDUARDO PAZ PERAFAN",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-
-                        createGroup(lab_distribuidos, "C", "PABLO AUGUSTO MAGE IMBACHI",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-                }
-
-                // Laboratorio de Ingeniería de Software III (lab_sw3)
-                if (lab_sw3 != null) {
-                        createGroup(lab_sw3, "A", "DANIEL EDUARDO PAZ PERAFAN",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0))));
-
-                        createGroup(lab_sw3, "B", "DANIEL EDUARDO PAZ PERAFAN",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-                }
-
-                // Inteligencia Artificial
-                if (ia != null) {
-                        createGroup(ia, "A", "MARIA ISABEL VIDAL CAICEDO",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(16, 0),
-                                                                        LocalTime.of(18, 0)),
-                                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0)),
-                                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-
-                        createGroup(ia, "B", "MARIA ISABEL VIDAL CAICEDO",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0)),
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0)),
-                                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(9, 0),
-                                                                        LocalTime.of(11, 0))));
-                }
-
-                // Metodología de la Investigación
                 if (metodologia != null) {
                         createGroup(metodologia, "A", "SANDRA MILENA ROA MARTINEZ",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0)),
-                                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0),
-                                                                        LocalTime.of(13, 0))));
-
-                        /*
-                         * createGroup(metodologia, "B", "SANDRA MILENA ROA MARTINEZ",
-                         * List.of(
-                         * new Schedule(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0)),
-                         * new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
-                         * ));
-                         */
+                                List.of(
+                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(13, 0)),
+                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
                 }
 
-                // Sistemas Distribuidos
+// ===============================
+// Inteligencia Artificial
+// ===============================
+                if (ia != null) {
+                        createGroup(ia, "A", "MARIA ISABEL VIDAL CAICEDO",
+                                List.of(
+                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(16, 0), LocalTime.of(18, 0)),
+                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+
+                        createGroup(ia, "B", "MARIA ISABEL VIDAL CAICEDO",
+                                List.of(
+                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)),
+                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(9, 0), LocalTime.of(11, 0))
+                                )
+                        );
+                }
+
+// ===============================
+// Laboratorio de Ingeniería de Software III
+// ===============================
+                if (lab_sw3 != null) {
+                        createGroup(lab_sw3, "A", "DANIEL EDUARDO PAZ PERAFAN",
+                                List.of(
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
+                                )
+                        );
+
+                        createGroup(lab_sw3, "B", "DANIEL EDUARDO PAZ PERAFAN",
+                                List.of(
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+                }
+
+// ===============================
+// Laboratorio de Sistemas Distribuidos
+// ===============================
+                if (lab_distribuidos != null) {
+                        createGroup(lab_distribuidos, "A", "DANIEL EDUARDO PAZ PERAFAN",
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(16, 0), LocalTime.of(18, 0))
+                                )
+                        );
+
+                        createGroup(lab_distribuidos, "B", "DANIEL EDUARDO PAZ PERAFAN",
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+
+                        createGroup(lab_distribuidos, "C", "PABLO AUGUSTO MAGE IMBACHI",
+                                List.of(
+                                        new Schedule(DayOfWeek.WEDNESDAY, LocalTime.of(11, 0), LocalTime.of(13, 0))
+                                )
+                        );
+                }
+
+// ===============================
+// Sistemas Distribuidos
+// ===============================
                 if (distribuidos != null) {
                         createGroup(distribuidos, "A", "DANIEL EDUARDO PAZ PERAFAN",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(7, 0),
-                                                                        LocalTime.of(9, 0)),
-                                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(7, 0), LocalTime.of(9, 0)),
+                                        new Schedule(DayOfWeek.FRIDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
+                                )
+                        );
 
                         createGroup(distribuidos, "B", "PABLO AUGUSTO MAGE IMBACHI",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0)),
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
+                                )
+                        );
                 }
 
-                // Teoría y Dinámica de Sistemas
+// ===============================
+// Teoría y Dinámica de Sistemas
+// ===============================
                 if (teoria_dinamica != null) {
                         createGroup(teoria_dinamica, "A", "NESTOR DIAZ MARIÑO,PABLO HERNANDO RUIZ MELENJE",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0)),
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(16, 0),
-                                                                        LocalTime.of(18, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.TUESDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(16, 0), LocalTime.of(18, 0))
+                                )
+                        );
 
                         createGroup(teoria_dinamica, "B", "PABLO HERNANDO RUIZ MELENJE",
-                                        List.of(
-                                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0)),
-                                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0),
-                                                                        LocalTime.of(16, 0))));
+                                List.of(
+                                        new Schedule(DayOfWeek.MONDAY, LocalTime.of(14, 0), LocalTime.of(16, 0)),
+                                        new Schedule(DayOfWeek.THURSDAY, LocalTime.of(14, 0), LocalTime.of(16, 0))
+                                )
+                        );
                 }
+
 
                 // =========================
                 // S8

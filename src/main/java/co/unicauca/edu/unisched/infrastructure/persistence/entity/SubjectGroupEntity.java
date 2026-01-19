@@ -14,7 +14,7 @@ public class SubjectGroupEntity {
 
     // Referencia al ID de la materia del plan (StudyPlanService)
     @Column(nullable = false)
-    private String subjectId;
+    private Long subjectId;
 
     @Column(nullable = false)
     private String groupCode;
@@ -43,11 +43,11 @@ public class SubjectGroupEntity {
         this.id = id;
     }
 
-    public String getSubjectId() {
+    public Long getSubjectId() {
         return subjectId;
     }
 
-    public void setSubjectId(String subjectId) {
+    public void setSubjectId(Long subjectId) {
         this.subjectId = subjectId;
     }
 

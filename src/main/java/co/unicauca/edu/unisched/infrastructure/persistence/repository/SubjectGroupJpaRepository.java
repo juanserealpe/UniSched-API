@@ -25,7 +25,7 @@ public interface SubjectGroupJpaRepository extends JpaRepository<SubjectGroupEnt
         @Query("SELECT DISTINCT sg FROM SubjectGroupEntity sg " +
                         "LEFT JOIN FETCH sg.schedules " +
                         "WHERE sg.subjectId = :subjectId")
-        List<SubjectGroupEntity> findBySubjectIdWithDetails(@Param("subjectId") String subjectId);
+        List<SubjectGroupEntity> findBySubjectIdWithDetails(@Param("subjectId") Long subjectId);
 
         /**
          * Finds all groups for a set of subject IDs.
@@ -37,5 +37,5 @@ public interface SubjectGroupJpaRepository extends JpaRepository<SubjectGroupEnt
         @Query("SELECT DISTINCT sg FROM SubjectGroupEntity sg " +
                         "LEFT JOIN FETCH sg.schedules " +
                         "WHERE sg.subjectId IN :subjectIds")
-        List<SubjectGroupEntity> findBySubjectIdsWithDetails(@Param("subjectIds") Set<String> subjectIds);
+        List<SubjectGroupEntity> findBySubjectIdsWithDetails(@Param("subjectIds") Set<Long> subjectIds);
 }

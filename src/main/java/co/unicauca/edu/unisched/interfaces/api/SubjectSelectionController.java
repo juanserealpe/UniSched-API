@@ -65,7 +65,7 @@ public class SubjectSelectionController {
         public ResponseEntity<ValidationResponseDto> validate(
                         @Valid @RequestBody SubjectSelectionRequest request) {
                 // Step 1: Validate subject IDs against study plan
-                Set<String> subjectIds = request.subjectIds();
+                Set<Long> subjectIds = request.subjectIds();
                 Set<Subject> selectedSubjects = subjectRepository.findByIds(subjectIds);
 
                 if (selectedSubjects.size() != subjectIds.size())
@@ -82,7 +82,7 @@ public class SubjectSelectionController {
                 List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
 
                 // Step 4: Organize groups by subject ID
-                Map<String, List<ValidationResponseDto.SubjectGroupDto>> groupsBySubject = allGroups.stream()
+                Map<Long, List<ValidationResponseDto.SubjectGroupDto>> groupsBySubject = allGroups.stream()
                                 .collect(Collectors.groupingBy(
                                                 group -> group.getSubject().getId(),
                                                 Collectors.mapping(
@@ -107,7 +107,7 @@ public class SubjectSelectionController {
         @PostMapping("/validate-exclusions")
         public ResponseEntity<ValidationResponseDto> validateExclusions(
                         @Valid @RequestBody SubjectSelectionRequest request) {
-                Set<String> subjectIds = request.subjectIds();
+                Set<Long> subjectIds = request.subjectIds();
                 List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
                 List<Long> excludedGroupIdsList = request.excludedGroupIds();
                 Set<Long> excludedGroupIds = excludedGroupIdsList != null ? new HashSet<>(excludedGroupIdsList)
@@ -139,7 +139,7 @@ public class SubjectSelectionController {
                         }
                 }
 
-                Map<String, List<ValidationResponseDto.SubjectGroupDto>> responseGroups = new HashMap<>();
+                Map<Long, List<ValidationResponseDto.SubjectGroupDto>> responseGroups = new HashMap<>();
 
                 if (!selectedSubjects.isEmpty()) {
                         List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
@@ -172,7 +172,7 @@ public class SubjectSelectionController {
                 if (customSubjects != null && !customSubjects.isEmpty()) {
                         long customIdCounter = -1L;
                         for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
-                                Subject customSubject = new Subject(String.valueOf(customIdCounter--), customDto.name(),
+                                Subject customSubject = new Subject(customIdCounter--, customDto.name(),
                                                 (byte) 0);
                                 List<SubjectGroup> customGroups = new ArrayList<>();
 
@@ -225,7 +225,7 @@ public class SubjectSelectionController {
         @PostMapping("/generate-schedules")
         public ResponseEntity<?> generateSchedules(
                         @Valid @RequestBody SubjectSelectionRequest request) {
-                Set<String> subjectIds = request.subjectIds();
+                Set<Long> subjectIds = request.subjectIds();
                 List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
                 // Step 1: Get excluded group IDs
                 List<Long> excludedGroupIdsList = request.excludedGroupIds();
@@ -291,7 +291,7 @@ public class SubjectSelectionController {
 
                         for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
                                 Subject customSubject = new Subject(
-                                                String.valueOf(customIdCounter--),
+                                                customIdCounter--,
                                                 customDto.name(),
                                                 (byte) 0);
 

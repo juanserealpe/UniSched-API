@@ -25,10 +25,10 @@ public interface IEnrollmentService {
     class EnrollmentValidationResult {
         private final boolean isValid;
         private final List<String> errors;
-        private final Map<String, List<SubjectGroup>> groupsBySubject; // subjectId -> List<SubjectGroup>
+        private final Map<Long, List<SubjectGroup>> groupsBySubject; // subjectId -> List<SubjectGroup>
 
         public EnrollmentValidationResult(boolean isValid, List<String> errors,
-                Map<String, List<SubjectGroup>> groupsBySubject) {
+                Map<Long, List<SubjectGroup>> groupsBySubject) {
             this.isValid = isValid;
             this.errors = errors;
             this.groupsBySubject = groupsBySubject;
@@ -42,7 +42,7 @@ public interface IEnrollmentService {
             return errors;
         }
 
-        public Map<String, List<SubjectGroup>> getGroupsBySubject() {
+        public Map<Long, List<SubjectGroup>> getGroupsBySubject() {
             return groupsBySubject;
         }
     }

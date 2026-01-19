@@ -33,40 +33,40 @@ class SubjectValidatorTest {
      */
     private void initializeTestSubjects() {
         // Semester 1
-        Subject calculo1 = new Subject("1", "Cálculo I", (byte) 1);
-        Subject lectura = new Subject("2", "Lectura y Escritura", (byte) 1);
-        Subject intro_info = new Subject("5", "Introducción a la Informática", (byte) 1);
-        Subject lab_intro_info = new Subject("6", "Lab. Introducción a la Informática", (byte) 1);
+        Subject calculo1 = new Subject(1L, "Cálculo I", (byte) 1);
+        Subject lectura = new Subject(2L, "Lectura y Escritura", (byte) 1);
+        Subject intro_info = new Subject(5L, "Introducción a la Informática", (byte) 1);
+        Subject lab_intro_info = new Subject(6L, "Lab. Introducción a la Informática", (byte) 1);
 
         // Semester 2
-        Subject calculo2 = new Subject("8", "Cálculo II", (byte) 2);
-        Subject mecanica = new Subject("9", "Mecánica", (byte) 2);
-        Subject lab_mecanica = new Subject("10", "Laboratorio Mecánica", (byte) 2);
-        Subject poo = new Subject("12", "Programación Orientada a Objetos", (byte) 2);
-        Subject lab_poo = new Subject("13", "Laboratorio POO", (byte) 2);
+        Subject calculo2 = new Subject(8L, "Cálculo II", (byte) 2);
+        Subject mecanica = new Subject(9L, "Mecánica", (byte) 2);
+        Subject lab_mecanica = new Subject(10L, "Laboratorio Mecánica", (byte) 2);
+        Subject poo = new Subject(12L, "Programación Orientada a Objetos", (byte) 2);
+        Subject lab_poo = new Subject(13L, "Laboratorio POO", (byte) 2);
 
         // Semester 3
-        Subject calculo3 = new Subject("14", "Cálculo III", (byte) 3);
-        Subject ed1 = new Subject("18", "Estructuras de Datos I", (byte) 3);
-        Subject lab_ed1 = new Subject("19", "Lab. Estructuras de Datos I", (byte) 3);
+        Subject calculo3 = new Subject(14L, "Cálculo III", (byte) 3);
+        Subject ed1 = new Subject(18L, "Estructuras de Datos I", (byte) 3);
+        Subject lab_ed1 = new Subject(19L, "Lab. Estructuras de Datos I", (byte) 3);
 
         // Semester 4
-        Subject ed2 = new Subject("22", "Estructuras de Datos II", (byte) 4);
-        Subject lab_ed2 = new Subject("23", "Lab. Estructuras de Datos II", (byte) 4);
-        Subject bd1 = new Subject("24", "Bases de Datos I", (byte) 4);
-        Subject lab_bd1 = new Subject("25", "Lab. Bases de Datos I", (byte) 4);
+        Subject ed2 = new Subject(22L, "Estructuras de Datos II", (byte) 4);
+        Subject lab_ed2 = new Subject(23L, "Lab. Estructuras de Datos II", (byte) 4);
+        Subject bd1 = new Subject(24L, "Bases de Datos I", (byte) 4);
+        Subject lab_bd1 = new Subject(25L, "Lab. Bases de Datos I", (byte) 4);
 
         // Semester 5
-        Subject sw1 = new Subject("29", "Ingeniería de Software I", (byte) 5);
-        Subject lab_sw1 = new Subject("28", "Lab. Ingeniería de Software I", (byte) 5);
+        Subject sw1 = new Subject(29L, "Ingeniería de Software I", (byte) 5);
+        Subject lab_sw1 = new Subject(28L, "Lab. Ingeniería de Software I", (byte) 5);
 
         // Semester 6
-        Subject sw2 = new Subject("36", "Ingeniería de Software II", (byte) 6);
-        Subject lab_sw2 = new Subject("37", "Lab. Ingeniería de Software II", (byte) 6);
+        Subject sw2 = new Subject(36L, "Ingeniería de Software II", (byte) 6);
+        Subject lab_sw2 = new Subject(37L, "Lab. Ingeniería de Software II", (byte) 6);
 
         // Semester 7
-        Subject ia = new Subject("42", "Inteligencia Artificial", (byte) 7);
-        Subject distribuidos = new Subject("43", "Sistemas Distribuidos", (byte) 7);
+        Subject ia = new Subject(42L, "Inteligencia Artificial", (byte) 7);
+        Subject distribuidos = new Subject(43L, "Sistemas Distribuidos", (byte) 7);
 
         // Relationships
         calculo1.unlock(calculo2);
@@ -104,10 +104,10 @@ class SubjectValidatorTest {
     @Test
     void testValidFirstSemesterSelection() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("2")); // Lectura
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(2L)); // Lectura
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
 
         assertTrue(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -120,8 +120,8 @@ class SubjectValidatorTest {
     @Test
     void testInvalidPrerequisiteRelationship() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("8")); // Cálculo II (unlocked by Cálculo I)
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(8L)); // Cálculo II (unlocked by Cálculo I)
 
         assertFalse(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -135,8 +135,8 @@ class SubjectValidatorTest {
     @Test
     void testInvalidUnlockRelationship() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("12")); // POO
-        selection.select(getSubject("18")); // ED1 (unlocked by POO)
+        selection.select(getSubject(12L)); // POO
+        selection.select(getSubject(18L)); // ED1 (unlocked by POO)
 
         assertFalse(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -149,7 +149,7 @@ class SubjectValidatorTest {
     @Test
     void testInvalidMissingMandatoryPartner() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("5")); // Intro Info without Lab Intro Info
+        selection.select(getSubject(5L)); // Intro Info without Lab Intro Info
 
         assertFalse(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -163,8 +163,8 @@ class SubjectValidatorTest {
     @Test
     void testValidMandatoryPartners() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
 
         assertTrue(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -178,10 +178,10 @@ class SubjectValidatorTest {
     void testValidProgressionWithPrerequisites() {
         SubjectSelection selection = new SubjectSelection();
         // Semester 1
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("2")); // Lectura
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(2L)); // Lectura
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
 
         assertTrue(validator.isValidCombination(selection));
     }
@@ -192,10 +192,10 @@ class SubjectValidatorTest {
     @Test
     void testMultipleMandatoryPairs() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
-        selection.select(getSubject("9")); // Mecánica
-        selection.select(getSubject("10")); // Lab Mecánica
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
+        selection.select(getSubject(9L)); // Mecánica
+        selection.select(getSubject(10L)); // Lab Mecánica
 
         assertTrue(validator.isValidCombination(selection));
     }
@@ -206,11 +206,11 @@ class SubjectValidatorTest {
     @Test
     void testComplexInvalidScenario() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("8")); // Cálculo II (conflict: prerequisite)
-        selection.select(getSubject("12")); // POO
-        selection.select(getSubject("18")); // ED1 (conflict: unlock)
-        selection.select(getSubject("5")); // Intro Info (conflict: missing mandatory)
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(8L)); // Cálculo II (conflict: prerequisite)
+        selection.select(getSubject(12L)); // POO
+        selection.select(getSubject(18L)); // ED1 (conflict: unlock)
+        selection.select(getSubject(5L)); // Intro Info (conflict: missing mandatory)
 
         assertFalse(validator.isValidCombination(selection));
         List<String> errors = validator.validateCombinationWithErrors(selection);
@@ -224,11 +224,11 @@ class SubjectValidatorTest {
     @Test
     void testCalculateBlocked() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("1")); // Cálculo I
+        selection.select(getSubject(1L)); // Cálculo I
 
         Set<Subject> blocked = validator.calculateBlocked(selection);
-        assertTrue(blocked.contains(getSubject("8"))); // Cálculo II should be blocked
-        assertTrue(blocked.contains(getSubject("9"))); // Mecánica should be blocked
+        assertTrue(blocked.contains(getSubject(8L))); // Cálculo II should be blocked
+        assertTrue(blocked.contains(getSubject(9L))); // Mecánica should be blocked
     }
 
     /**
@@ -237,10 +237,10 @@ class SubjectValidatorTest {
     @Test
     void testCalculatePlan() {
         SubjectSelection selection = new SubjectSelection();
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("2")); // Lectura
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(2L)); // Lectura
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
 
         var result = validator.calculatePlan(selection);
         assertNotNull(result);
@@ -256,19 +256,19 @@ class SubjectValidatorTest {
     void testSeventhSemesterValidation() {
         SubjectSelection selection = new SubjectSelection();
         // Build a valid chain up to 7th semester
-        selection.select(getSubject("1")); // Cálculo I
-        selection.select(getSubject("5")); // Intro Info
-        selection.select(getSubject("6")); // Lab Intro Info
-        selection.select(getSubject("12")); // POO
-        selection.select(getSubject("13")); // Lab POO
-        selection.select(getSubject("18")); // ED1
-        selection.select(getSubject("19")); // Lab ED1
-        selection.select(getSubject("22")); // ED2
-        selection.select(getSubject("23")); // Lab ED2
-        selection.select(getSubject("29")); // SW1
-        selection.select(getSubject("28")); // Lab SW1
-        selection.select(getSubject("36")); // SW2
-        selection.select(getSubject("37")); // Lab SW2
+        selection.select(getSubject(1L)); // Cálculo I
+        selection.select(getSubject(5L)); // Intro Info
+        selection.select(getSubject(6L)); // Lab Intro Info
+        selection.select(getSubject(12L)); // POO
+        selection.select(getSubject(13L)); // Lab POO
+        selection.select(getSubject(18L)); // ED1
+        selection.select(getSubject(19L)); // Lab ED1
+        selection.select(getSubject(22L)); // ED2
+        selection.select(getSubject(23L)); // Lab ED2
+        selection.select(getSubject(29L)); // SW1
+        selection.select(getSubject(28L)); // Lab SW1
+        selection.select(getSubject(36L)); // SW2
+        selection.select(getSubject(37L)); // Lab SW2
 
         // Note: IA and Distribuidos would need additional prerequisites
         // This test verifies the structure works
@@ -290,7 +290,7 @@ class SubjectValidatorTest {
     /**
      * Helper method to get a subject by ID.
      */
-    private Subject getSubject(String id) {
+    private Subject getSubject(Long id) {
         return allSubjects.stream()
                 .filter(s -> s.getId().equals(id))
                 .findFirst()

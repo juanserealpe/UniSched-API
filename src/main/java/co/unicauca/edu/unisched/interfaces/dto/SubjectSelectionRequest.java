@@ -13,7 +13,7 @@ import java.util.Set;
  * subjects.
  */
 public record SubjectSelectionRequest(
-                @NotNull(message = "Los IDs de las materias no pueden ser nulos") Set<String> subjectIds,
+                @NotNull(message = "Los IDs de las materias no pueden ser nulos") Set<Long> subjectIds,
 
                 @Valid List<CustomSubjectDto> customSubjects,
 

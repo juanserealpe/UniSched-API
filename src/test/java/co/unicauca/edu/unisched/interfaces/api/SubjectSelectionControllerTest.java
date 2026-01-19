@@ -43,7 +43,7 @@ public class SubjectSelectionControllerTest {
     @Test
     public void testValidateExclusions_Success() {
         // Arrange
-        String subjectId = "1";
+        Long subjectId = 1L;
         Subject subject = new Subject(subjectId, "Math", (byte) 1);
         SubjectGroup group1 = new SubjectGroup(101L, subject, "A", "Prof 1", new ArrayList<>());
         SubjectGroup group2 = new SubjectGroup(102L, subject, "B", "Prof 2", new ArrayList<>());
@@ -72,7 +72,7 @@ public class SubjectSelectionControllerTest {
     @Test
     public void testValidateExclusions_AllGroupsExcluded() {
         // Arrange
-        String subjectId = "1";
+        Long subjectId = 1L;
         Subject subject = new Subject(subjectId, "Math", (byte) 1);
         SubjectGroup group1 = new SubjectGroup(101L, subject, "A", "Prof 1", new ArrayList<>());
 

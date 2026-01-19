@@ -33,7 +33,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
     }
 
     @Override
-    public List<SubjectGroup> findBySubjectId(String subjectId) {
+    public List<SubjectGroup> findBySubjectId(Long subjectId) {
         List<SubjectGroupEntity> entities = jpaRepository.findBySubjectIdWithDetails(subjectId);
         return entities.stream()
                 .map(this::toDomainModel)
@@ -47,7 +47,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
     }
 
     @Override
-    public List<SubjectGroup> findBySubjectIds(Set<String> subjectIds) {
+    public List<SubjectGroup> findBySubjectIds(Set<Long> subjectIds) {
         List<SubjectGroupEntity> entities = jpaRepository.findBySubjectIdsWithDetails(subjectIds);
         return entities.stream()
                 .map(this::toDomainModel)

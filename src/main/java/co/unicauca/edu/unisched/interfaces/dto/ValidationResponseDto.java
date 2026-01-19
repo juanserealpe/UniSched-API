@@ -12,14 +12,14 @@ import java.util.Map;
 public record ValidationResponseDto(
         boolean isValid,
         List<String> errors,
-        Map<String, List<SubjectGroupDto>> groupsBySubject) {
+        Map<Long, List<SubjectGroupDto>> groupsBySubject) {
     /**
      * Creates a valid validation response with groups.
      *
      * @param groupsBySubject map of subject IDs to their available groups
      * @return a ValidationResponseDto indicating the combination is valid
      */
-    public static ValidationResponseDto valid(Map<String, List<SubjectGroupDto>> groupsBySubject) {
+    public static ValidationResponseDto valid(Map<Long, List<SubjectGroupDto>> groupsBySubject) {
         return new ValidationResponseDto(true, List.of(), groupsBySubject);
     }
 
@@ -39,7 +39,7 @@ public record ValidationResponseDto(
      */
     public record SubjectGroupDto(
             Long id,
-            String subjectId,
+            Long subjectId,
             String subjectName,
             String groupCode,
             String professors,

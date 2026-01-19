@@ -17,7 +17,7 @@ public interface ISubjectGroupRepository {
      * @param subjectId the ID of the subject in the curriculum
      * @return list of available groups for that subject
      */
-    List<SubjectGroup> findBySubjectId(String subjectId);
+    List<SubjectGroup> findBySubjectId(Long subjectId);
 
     /**
      * Finds a specific group by its ID.
@@ -33,7 +33,7 @@ public interface ISubjectGroupRepository {
      * @param subjectIds set of subject IDs
      * @return list of all available groups for those subjects
      */
-    List<SubjectGroup> findBySubjectIds(Set<String> subjectIds);
+    List<SubjectGroup> findBySubjectIds(Set<Long> subjectIds);
 
     /**
      * Saves a new subject group.
