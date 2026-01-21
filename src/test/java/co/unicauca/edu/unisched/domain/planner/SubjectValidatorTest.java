@@ -95,8 +95,7 @@ class SubjectValidatorTest {
                 ed2, lab_ed2, bd1, lab_bd1,
                 sw1, lab_sw1,
                 sw2, lab_sw2,
-                ia, distribuidos
-        ));
+                ia, distribuidos));
     }
 
     /**
@@ -298,4 +297,3 @@ class SubjectValidatorTest {
                 .orElseThrow(() -> new IllegalArgumentException("Subject not found: " + id));
     }
 }
-

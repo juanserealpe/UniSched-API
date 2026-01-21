@@ -26,16 +26,46 @@ public class SubjectGroupEntity {
     private List<ScheduleEntity> schedules = new ArrayList<>();
 
     // Constructores, getters, setters
-    public SubjectGroupEntity() {}
+    public SubjectGroupEntity() {
+    }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-    public Long getSubjectId() { return subjectId; }
-    public void setSubjectId(Long subjectId) { this.subjectId = subjectId; }
-    public String getGroupCode() { return groupCode; }
-    public void setGroupCode(String groupCode) { this.groupCode = groupCode; }
-    public String getProfessors() { return professors; }
-    public void setProfessors(String professors) { this.professors = professors; }
-    public List<ScheduleEntity> getSchedules() { return schedules; }
-    public void setSchedules(List<ScheduleEntity> schedules) { this.schedules = schedules; }
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getGroupCode() {
+        return groupCode;
+    }
+
+    public void setGroupCode(String groupCode) {
+        this.groupCode = groupCode;
+    }
+
+    public String getProfessors() {
+        return professors;
+    }
+
+    public void setProfessors(String professors) {
+        this.professors = professors;
+    }
+
+    public List<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<ScheduleEntity> schedules) {
+        this.schedules = schedules;
+    }
 }

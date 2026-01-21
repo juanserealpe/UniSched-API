@@ -9,14 +9,14 @@ import java.util.Set;
  * Defines the interface that must be implemented by any persistence adapter.
  */
 public interface ISubjectRepository {
-    
+
     /**
      * Retrieves all subjects from the study plan.
      *
      * @return a set of all subjects
      */
     Set<Subject> findAll();
-    
+
     /**
      * Finds a subject by its ID.
      *
@@ -24,7 +24,7 @@ public interface ISubjectRepository {
      * @return an Optional containing the subject if it exists
      */
     Optional<Subject> findById(Long id);
-    
+
     /**
      * Finds subjects by their IDs.
      *
@@ -33,4 +33,3 @@ public interface ISubjectRepository {
      */
     Set<Subject> findByIds(Set<Long> ids);
 }
-

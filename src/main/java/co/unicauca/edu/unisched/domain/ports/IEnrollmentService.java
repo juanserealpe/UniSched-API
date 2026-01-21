@@ -28,7 +28,7 @@ public interface IEnrollmentService {
         private final Map<Long, List<SubjectGroup>> groupsBySubject; // subjectId -> List<SubjectGroup>
 
         public EnrollmentValidationResult(boolean isValid, List<String> errors,
-                                          Map<Long, List<SubjectGroup>> groupsBySubject) {
+                Map<Long, List<SubjectGroup>> groupsBySubject) {
             this.isValid = isValid;
             this.errors = errors;
             this.groupsBySubject = groupsBySubject;

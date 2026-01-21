@@ -72,7 +72,7 @@ public class StudyPlanService implements ISubjectRepository {
         Subject arq_comp = new Subject(30L, "Arquitectura Computacional", (byte) 5);
         Subject bd2 = new Subject(31L, "Bases de Datos II", (byte) 5);
         Subject lab_bd2 = new Subject(32L, "Lab. Bases de Datos II", (byte) 5);
-        
+
         // =========================
         // S6
         // =========================
@@ -83,7 +83,6 @@ public class StudyPlanService implements ISubjectRepository {
         Subject lab_sw2 = new Subject(37L, "Lab. Ingeniería de Software II", (byte) 6);
         Subject so = new Subject(38L, "Sistemas Operativos", (byte) 6);
         Subject lab_so = new Subject(39L, "Lab. Sistemas Operativos", (byte) 6);
-
 
         // =========================
         // S7
@@ -96,17 +95,25 @@ public class StudyPlanService implements ISubjectRepository {
         Subject sw3 = new Subject(45L, "Ingeniería de Software III", (byte) 7);
         Subject lab_sw3 = new Subject(46L, "Lab. Ingeniería de Software III", (byte) 7);
         // =========================
+        // S8
+        // =========================
+        Subject calidad_de_software = new Subject(47L, "Calidad de Software", (byte) 8);
+        Subject investigacion_de_operacion = new Subject(48L, "Investigación de Operaciones", (byte) 8);
+        Subject proyecto_1 = new Subject(49L, "Proyecto I", (byte) 8);
+        Subject redes = new Subject(50L, "Redes", (byte) 8);
+
+        // =========================
         // PREREQUISITES (GRAPH)
         // =========================
 
-        //S1
+        // S1
         calculo1.unlock(calculo2);
         calculo1.unlock(mecanica);
         calculo1.unlock(algebra);
         intro_info.unlock(poo);
         intro_info.mandatoryWith(lab_intro_info);
-        
-        //S2
+
+        // S2
         calculo2.unlock(calculo3);
         calculo2.unlock(electromagnetismo);
         calculo2.unlock(lab_electro);
@@ -114,7 +121,7 @@ public class StudyPlanService implements ISubjectRepository {
         poo.unlock(ed1);
         poo.mandatoryWith(lab_poo);
 
-        //S3
+        // S3
         calculo3.unlock(ecuaciones);
         calculo3.unlock(vibraciones);
         calculo3.unlock(teoria_comp);
@@ -122,7 +129,7 @@ public class StudyPlanService implements ISubjectRepository {
         ed1.unlock(ed2);
         ed1.mandatoryWith(lab_ed1);
 
-        //S4
+        // S4
         teoria_comp.unlock(lenguajes);
         ed2.mandatoryWith(lab_ed2);
         bd1.mandatoryWith(lab_bd1);
@@ -131,7 +138,7 @@ public class StudyPlanService implements ISubjectRepository {
         ed2.unlock(teoria_comp);
         ed2.unlock(bd2);
 
-        //S5
+        // S5
         ecuaciones.unlock(analisis_num);
         ecuaciones.unlock(estadistica);
         ecuaciones.unlock(teoria_dinamica);
@@ -140,15 +147,20 @@ public class StudyPlanService implements ISubjectRepository {
         arq_comp.unlock(so);
         bd2.mandatoryWith(lab_bd2);
 
-        //S6
+        // S6
         lenguajes.unlock(ia);
         lenguajes.unlock(distribuidos);
         sw2.mandatoryWith(lab_sw2);
         so.mandatoryWith(lab_so);
         lenguajes.mandatoryWith(lab_lenguajes);
 
-        //S7
+        // S7
         sw3.mandatoryWith(lab_sw3);
+
+        // S8
+        sw3.unlock(proyecto_1);
+        sw3.unlock(calidad_de_software);
+        estadistica.unlock(investigacion_de_operacion);
 
         // all subjects
         allSubjects.addAll(Set.of(
@@ -158,8 +170,9 @@ public class StudyPlanService implements ISubjectRepository {
                 ecuaciones, vibraciones, ed2, lab_ed2, bd1, lab_bd1,
                 analisis_num, teoria_comp, lab_sw1, sw1, arq_comp, bd2, lab_bd2,
                 estadistica, lenguajes, lab_lenguajes, sw2, lab_sw2, so, lab_so,
-                teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3
-        ));
+                teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3,
+                calidad_de_software, investigacion_de_operacion,
+                proyecto_1, redes));
     }
 
     /**
@@ -200,4 +213,3 @@ public class StudyPlanService implements ISubjectRepository {
         return result;
     }
 }
-

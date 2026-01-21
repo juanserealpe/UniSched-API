@@ -33,7 +33,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated()
                 );
-
         return http.build();
     }
 }

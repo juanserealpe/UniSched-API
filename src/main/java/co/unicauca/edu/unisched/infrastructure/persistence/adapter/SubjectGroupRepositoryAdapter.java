@@ -74,7 +74,6 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 .orElseThrow(() -> new IllegalStateException(
                         "Subject not found in study plan: " + entity.getSubjectId()));
 
-
         // Convert schedules
         List<Schedule> schedules = entity.getSchedules().stream()
                 .map(this::toScheduleModel)
@@ -85,10 +84,8 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 subject,
                 entity.getGroupCode(),
                 entity.getProfessors(),
-                schedules
-        );
+                schedules);
     }
-
 
     /**
      * Converts a schedule entity to a domain model.
@@ -97,8 +94,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         return new Schedule(
                 entity.getDayOfWeek(),
                 entity.getStartTime(),
-                entity.getEndTime()
-        );
+                entity.getEndTime());
     }
 
     /**

@@ -5,14 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DTO for validation response indicating whether a subject combination is valid.
+ * DTO for validation response indicating whether a subject combination is
+ * valid.
  * Includes available groups for each subject.
  */
 public record ValidationResponseDto(
         boolean isValid,
         List<String> errors,
-        Map<Long, List<SubjectGroupDto>> groupsBySubject
-) {
+        Map<Long, List<SubjectGroupDto>> groupsBySubject) {
     /**
      * Creates a valid validation response with groups.
      *
@@ -26,7 +26,8 @@ public record ValidationResponseDto(
     /**
      * Creates an invalid validation response with error messages.
      *
-     * @param errors list of error messages explaining why the combination is invalid
+     * @param errors list of error messages explaining why the combination is
+     *               invalid
      * @return a ValidationResponseDto indicating the combination is invalid
      */
     public static ValidationResponseDto invalid(List<String> errors) {
@@ -42,8 +43,7 @@ public record ValidationResponseDto(
             String subjectName,
             String groupCode,
             String professors,
-            List<ScheduleDto> schedules
-    ) {
+            List<ScheduleDto> schedules) {
         public static SubjectGroupDto fromDomain(SubjectGroup group) {
             return new SubjectGroupDto(
                     group.getId(),
@@ -55,10 +55,8 @@ public record ValidationResponseDto(
                             .map(schedule -> new ScheduleDto(
                                     schedule.getDayOfWeek(),
                                     schedule.getStartTime(),
-                                    schedule.getEndTime()
-                            ))
-                            .toList()
-            );
+                                    schedule.getEndTime()))
+                            .toList());
         }
     }
 
@@ -68,8 +66,6 @@ public record ValidationResponseDto(
     public record ScheduleDto(
             java.time.DayOfWeek dayOfWeek,
             java.time.LocalTime startTime,
-            java.time.LocalTime endTime
-    ) {
+            java.time.LocalTime endTime) {
     }
 }
-

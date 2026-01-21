@@ -60,8 +60,7 @@ public class EnrollmentValidationUseCase implements IEnrollmentService {
         // Step 4: Organize groups by subject
         Map<Long, List<SubjectGroup>> groupsBySubject = allGroups.stream()
                 .collect(Collectors.groupingBy(
-                        group -> group.getSubject().getId()
-                ));
+                        group -> group.getSubject().getId()));
 
         return new EnrollmentValidationResult(true, Collections.emptyList(), groupsBySubject);
     }
