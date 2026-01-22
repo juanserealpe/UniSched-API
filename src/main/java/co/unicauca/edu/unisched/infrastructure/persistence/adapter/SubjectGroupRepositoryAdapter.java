@@ -3,8 +3,11 @@ package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
 import co.unicauca.edu.unisched.domain.model.*;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
+import co.unicauca.edu.unisched.infrastructure.persistence.repository.AcademicPeriodJpaRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
@@ -22,9 +25,16 @@ import java.util.stream.Collectors;
 public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     private final SubjectGroupJpaRepository subjectGroupJpaRepository;
+    private final SubjectJpaRepository subjectJpaRepository;
+    private final AcademicPeriodJpaRepository academicPeriodJpaRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository) {
+
+    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository, SubjectJpaRepository subjectJpaRepository, AcademicPeriodJpaRepository academicPeriodJpaRepository) {
         this.subjectGroupJpaRepository = subjectGroupJpaRepository;
+        this.subjectJpaRepository = subjectJpaRepository;
+        this.academicPeriodJpaRepository = academicPeriodJpaRepository;
     }
 
     @Override
@@ -56,6 +66,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         return toDomainModel(saved);
     }
 
+
     /**
      * Converts a JPA entity to a domain model.
      * Retrieves the Subject from the curriculum repository (in-memory).
@@ -74,8 +85,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         AcademicPeriod academicPeriod = new AcademicPeriod(
                 entity.getAcademicPeriod().getId(),
                 entity.getAcademicPeriod().getYear(),
-                entity.getAcademicPeriod().getSemester()
-        );
+                entity.getAcademicPeriod().getSemester());
 
         return new SubjectGroup(
                 entity.getId(),
@@ -83,10 +93,8 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 entity.getGroupCode(),
                 entity.getProfessors(),
                 schedules,
-                academicPeriod
-        );
+                academicPeriod);
     }
-
 
     /**
      * Converts a schedule entity to a domain model.
@@ -97,6 +105,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 entity.getStartTime(),
                 entity.getEndTime());
     }
+
     /**
      * Converts a subject entity to a domain model.
      */
@@ -104,10 +113,8 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         return new Subject(
                 entity.getId(),
                 entity.getName(),
-                entity.getNumSemester()
-        );
+                entity.getNumSemester());
     }
-
 
     /**
      * Converts a domain model to a JPA entity.
@@ -116,32 +123,42 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
      * @return the JPA entity
      */
     private SubjectGroupEntity toEntity(SubjectGroup subjectGroup) {
-        SubjectGroupEntity entity = new SubjectGroupEntity();
-        AcademicPeriodEntity academicPeriodEntity = new AcademicPeriodEntity();
-        academicPeriodEntity.setId(subjectGroup.getAcademicPeriod().getId());
-        academicPeriodEntity.setYear(subjectGroup.getAcademicPeriod().getYear());
-        academicPeriodEntity.setSemester(subjectGroup.getAcademicPeriod().getSemester());
-        if (subjectGroup.getId() != null) {
-            entity.setId(subjectGroup.getId());
-        }
-        entity.getSubject().setId(subjectGroup.getSubject().getId());
+
+        SubjectGroupEntity entity = subjectGroup.getId() == null
+                ? new SubjectGroupEntity()
+                : subjectGroupJpaRepository.findById(subjectGroup.getId())
+                .orElseThrow(() -> new IllegalArgumentException("SubjectGroup not found"));
+
+        // 🔹 Subject como referencia (NO consulta, NO insert)
+        SubjectEntity subjectRef = entityManager.getReference(
+                SubjectEntity.class,
+                subjectGroup.getSubject().getId()
+        );
+
+        entity.setSubject(subjectRef);
         entity.setGroupCode(subjectGroup.getGroupCode());
         entity.setProfessors(subjectGroup.getProfessors());
-        entity.setAcademicPeriod(academicPeriodEntity);
 
-        // Convert schedules
-        List<ScheduleEntity> scheduleEntities = subjectGroup.getSchedules().stream()
-                .map(schedule -> {
-                    ScheduleEntity scheduleEntity = new ScheduleEntity();
-                    scheduleEntity.setDayOfWeek(schedule.getDayOfWeek());
-                    scheduleEntity.setStartTime(schedule.getStartTime());
-                    scheduleEntity.setEndTime(schedule.getEndTime());
-                    scheduleEntity.setSubjectGroup(entity);
-                    return scheduleEntity;
-                })
-                .collect(Collectors.toList());
+        AcademicPeriodEntity period = entityManager.getReference(
+                AcademicPeriodEntity.class,
+                subjectGroup.getAcademicPeriod().getId()
+        );
 
-        entity.setSchedules(scheduleEntities);
+        entity.setAcademicPeriod(period);
+
+        entity.getSchedules().clear();
+
+        subjectGroup.getSchedules().forEach(schedule -> {
+            ScheduleEntity se = new ScheduleEntity();
+            se.setDayOfWeek(schedule.getDayOfWeek());
+            se.setStartTime(schedule.getStartTime());
+            se.setEndTime(schedule.getEndTime());
+            se.setSubjectGroup(entity);
+            entity.getSchedules().add(se);
+        });
+
         return entity;
     }
+
+
 }

@@ -11,6 +11,7 @@ import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
 import co.unicauca.edu.unisched.interfaces.dto.SubjectSelectionRequest;
 import co.unicauca.edu.unisched.interfaces.dto.ValidationResponseDto;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.*;
@@ -32,10 +33,10 @@ public class SubjectSelectionController {
         private final IScheduleGenerationService generateScheduleService;
 
         public SubjectSelectionController(
-                        ISubjectValidationService validationService,
-                        ISubjectRepository subjectRepository,
-                        ISubjectGroupRepository groupRepository,
-                        IScheduleGenerationService generateScheduleService) {
+                ISubjectValidationService validationService,
+                @Qualifier("studyPlanService") ISubjectRepository subjectRepository,
+                ISubjectGroupRepository groupRepository,
+                IScheduleGenerationService generateScheduleService) {
                 this.validationService = validationService;
                 this.subjectRepository = subjectRepository;
                 this.groupRepository = groupRepository;
