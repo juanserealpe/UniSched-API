@@ -2,9 +2,9 @@ package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
 
 import co.unicauca.edu.unisched.domain.model.*;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
+import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Optional;
@@ -21,19 +21,15 @@ import java.util.stream.Collectors;
 @Component
 public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
-    private final SubjectGroupJpaRepository jpaRepository;
-    private final ISubjectRepository subjectRepository;
+    private final SubjectGroupJpaRepository subjectGroupJpaRepository;
 
-    public SubjectGroupRepositoryAdapter(
-            SubjectGroupJpaRepository jpaRepository,
-            ISubjectRepository subjectRepository) {
-        this.jpaRepository = jpaRepository;
-        this.subjectRepository = subjectRepository;
+    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository) {
+        this.subjectGroupJpaRepository = subjectGroupJpaRepository;
     }
 
     @Override
     public List<SubjectGroup> findBySubjectId(Long subjectId) {
-        List<SubjectGroupEntity> entities = jpaRepository.findBySubjectIdWithDetails(subjectId);
+        List<SubjectGroupEntity> entities = subjectGroupJpaRepository.findBySubjectIdWithDetails(subjectId);
         return entities.stream()
                 .map(this::toDomainModel)
                 .collect(Collectors.toList());
@@ -41,13 +37,13 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     @Override
     public Optional<SubjectGroup> findById(Long id) {
-        return jpaRepository.findById(id)
+        return subjectGroupJpaRepository.findById(id)
                 .map(this::toDomainModel);
     }
 
     @Override
     public List<SubjectGroup> findBySubjectIds(Set<Long> subjectIds) {
-        List<SubjectGroupEntity> entities = jpaRepository.findBySubjectIdsWithDetails(subjectIds);
+        List<SubjectGroupEntity> entities = subjectGroupJpaRepository.findBySubjectIdsWithDetails(subjectIds);
         return entities.stream()
                 .map(this::toDomainModel)
                 .collect(Collectors.toList());
@@ -56,7 +52,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
     @Override
     public SubjectGroup save(SubjectGroup subjectGroup) {
         SubjectGroupEntity entity = toEntity(subjectGroup);
-        SubjectGroupEntity saved = jpaRepository.save(entity);
+        SubjectGroupEntity saved = subjectGroupJpaRepository.save(entity);
         return toDomainModel(saved);
     }
 
@@ -68,17 +64,18 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
      * @return the domain model SubjectGroup
      */
     private SubjectGroup toDomainModel(SubjectGroupEntity entity) {
-        // Retrieve the Subject from the curriculum (in-memory)
-        Subject subject = subjectRepository.findById(entity.getSubjectId())
-                .orElseThrow(() -> new IllegalStateException(
-                        "Subject not found in study plan: " + entity.getSubjectId()));
 
-        // Convert schedules
+        Subject subject = toSubjectDomain(entity.getSubject());
+
         List<Schedule> schedules = entity.getSchedules().stream()
                 .map(this::toScheduleModel)
                 .collect(Collectors.toList());
 
-        AcademicPeriod academicPeriod = new AcademicPeriod(entity.getAcademicPeriod().getId(), entity.getAcademicPeriod().getYear(), entity.getAcademicPeriod().getSemester());
+        AcademicPeriod academicPeriod = new AcademicPeriod(
+                entity.getAcademicPeriod().getId(),
+                entity.getAcademicPeriod().getYear(),
+                entity.getAcademicPeriod().getSemester()
+        );
 
         return new SubjectGroup(
                 entity.getId(),
@@ -86,8 +83,10 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 entity.getGroupCode(),
                 entity.getProfessors(),
                 schedules,
-                academicPeriod);
+                academicPeriod
+        );
     }
+
 
     /**
      * Converts a schedule entity to a domain model.
@@ -98,6 +97,17 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 entity.getStartTime(),
                 entity.getEndTime());
     }
+    /**
+     * Converts a subject entity to a domain model.
+     */
+    private Subject toSubjectDomain(SubjectEntity entity) {
+        return new Subject(
+                entity.getId(),
+                entity.getName(),
+                entity.getNumSemester()
+        );
+    }
+
 
     /**
      * Converts a domain model to a JPA entity.
@@ -114,7 +124,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         if (subjectGroup.getId() != null) {
             entity.setId(subjectGroup.getId());
         }
-        entity.setSubjectId(subjectGroup.getSubject().getId());
+        entity.getSubject().setId(subjectGroup.getSubject().getId());
         entity.setGroupCode(subjectGroup.getGroupCode());
         entity.setProfessors(subjectGroup.getProfessors());
         entity.setAcademicPeriod(academicPeriodEntity);

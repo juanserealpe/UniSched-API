@@ -1,6 +1,8 @@
 package co.unicauca.edu.unisched.domain.ports;
 
 import co.unicauca.edu.unisched.domain.model.Subject;
+import co.unicauca.edu.unisched.domain.model.SubjectGroup;
+
 import java.util.Optional;
 import java.util.Set;
 
@@ -32,4 +34,12 @@ public interface ISubjectRepository {
      * @return a set of found subjects
      */
     Set<Subject> findByIds(Set<Long> ids);
+
+    /**
+     * Saves a new subject.
+     *
+     * @param subject the group to save
+     * @return the saved subject
+     */
+    Subject save(Subject subject);
 }

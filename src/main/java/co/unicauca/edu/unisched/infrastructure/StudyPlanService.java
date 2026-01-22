@@ -212,4 +212,9 @@ public class StudyPlanService implements ISubjectRepository {
         }
         return result;
     }
+
+    @Override
+    public Subject save(Subject subject) {
+        return null;
+    }
 }

@@ -12,8 +12,9 @@ public class SubjectGroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private Long subjectId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "subject_id", nullable = false)
+    private SubjectEntity subject;
 
     @Column(nullable = false)
     private String groupCode;
@@ -47,12 +48,12 @@ public class SubjectGroupEntity {
         this.id = id;
     }
 
-    public Long getSubjectId() {
-        return subjectId;
+    public SubjectEntity getSubject() {
+        return subject;
     }
 
-    public void setSubjectId(Long subjectId) {
-        this.subjectId = subjectId;
+    public void setSubject(SubjectEntity subject) {
+        this.subject = subject;
     }
 
     public String getGroupCode() {

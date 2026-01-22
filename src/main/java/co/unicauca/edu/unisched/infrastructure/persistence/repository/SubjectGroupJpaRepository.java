@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Set;
 
@@ -17,25 +18,33 @@ public interface SubjectGroupJpaRepository extends JpaRepository<SubjectGroupEnt
 
         /**
          * Finds all groups of a specific subject.
-         * Includes eager loading of professors and schedules to avoid N+1 queries.
+         * Fetches schedules eagerly to avoid N+1 queries.
          *
          * @param subjectId the ID of the subject
-         * @return list of groups for that subject
+         * @return list of subject groups for the given subject
          */
-        @Query("SELECT DISTINCT sg FROM SubjectGroupEntity sg " +
-                        "LEFT JOIN FETCH sg.schedules " +
-                        "WHERE sg.subjectId = :subjectId")
+        @Query("""
+           SELECT DISTINCT sg
+           FROM SubjectGroupEntity sg
+           JOIN FETCH sg.subject s
+           LEFT JOIN FETCH sg.schedules
+           WHERE s.id = :subjectId
+           """)
         List<SubjectGroupEntity> findBySubjectIdWithDetails(@Param("subjectId") Long subjectId);
 
         /**
          * Finds all groups for a set of subject IDs.
-         * Uses eager loading to optimize the query.
+         * Uses eager fetching to optimize performance.
          *
          * @param subjectIds set of subject IDs
-         * @return list of groups
+         * @return list of subject groups
          */
-        @Query("SELECT DISTINCT sg FROM SubjectGroupEntity sg " +
-                        "LEFT JOIN FETCH sg.schedules " +
-                        "WHERE sg.subjectId IN :subjectIds")
+        @Query("""
+           SELECT DISTINCT sg
+           FROM SubjectGroupEntity sg
+           JOIN FETCH sg.subject s
+           LEFT JOIN FETCH sg.schedules
+           WHERE s.id IN :subjectIds
+           """)
         List<SubjectGroupEntity> findBySubjectIdsWithDetails(@Param("subjectIds") Set<Long> subjectIds);
 }

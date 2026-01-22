@@ -9,6 +9,7 @@ import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
@@ -22,19 +23,22 @@ import java.util.List;
  * Depends on StudyPlanService to ensure subjects are initialized first.
  */
 @Component
-@DependsOn("studyPlanService")
 public class DataInitializer {
 
         private final ISubjectRepository subjectRepository;
         private final ISubjectGroupRepository groupRepository;
         private final IAcademicPeriodRepository academicPeriodRepository;
 
-        public DataInitializer(ISubjectRepository subjectRepository, ISubjectGroupRepository groupRepository, IAcademicPeriodRepository academicPeriodRepository) {
+        public DataInitializer(
+                @Qualifier("studyPlanService") ISubjectRepository subjectRepository,
+                ISubjectGroupRepository groupRepository,
+                IAcademicPeriodRepository academicPeriodRepository
+        ) {
                 this.subjectRepository = subjectRepository;
                 this.groupRepository = groupRepository;
                 this.academicPeriodRepository = academicPeriodRepository;
         }
-
+        /*
         @PostConstruct
         public void initializeData() {
                 // Check if data already exists
@@ -979,12 +983,30 @@ public class DataInitializer {
                 }
         }
 
-        private void createGroup(Subject subject, String groupCode, String professors, List<Schedule> schedules) {
-                AcademicPeriod period = academicPeriodRepository.findByYearAndSemester(2026L, (byte) 1).orElseGet(() ->
+
+         */
+        private void createGroup(
+                Subject subject,
+                String groupCode,
+                String professors,
+                List<Schedule> schedules
+        ) {
+                if (subject == null) {
+                        throw new IllegalArgumentException("Subject cannot be null");
+                }
+
+                if (schedules == null) {
+                        schedules = List.of();
+                }
+
+                AcademicPeriod period = academicPeriodRepository
+                        .findByYearAndSemester(2026L, (byte) 1)
+                        .orElseGet(() ->
                                 academicPeriodRepository.save(
                                         new AcademicPeriod(null, 2026L, (byte) 1)
                                 )
                         );
+
                 SubjectGroup group = new SubjectGroup(
                         null,
                         subject,
@@ -996,5 +1018,6 @@ public class DataInitializer {
 
                 groupRepository.save(group);
         }
+
 
 }

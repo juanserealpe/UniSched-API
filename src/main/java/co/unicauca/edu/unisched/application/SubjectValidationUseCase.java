@@ -4,6 +4,7 @@ import co.unicauca.edu.unisched.domain.model.SubjectSelection;
 import co.unicauca.edu.unisched.domain.planner.SubjectValidator;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class SubjectValidationUseCase implements ISubjectValidationService {
     private final ISubjectRepository subjectRepository;
     private SubjectValidator validator;
 
-    public SubjectValidationUseCase(ISubjectRepository subjectRepository) {
+    public SubjectValidationUseCase(@Qualifier("studyPlanService") ISubjectRepository subjectRepository) {
         this.subjectRepository = subjectRepository;
         initializeValidator();
     }
