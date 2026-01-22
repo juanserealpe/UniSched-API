@@ -12,7 +12,6 @@ public class SubjectGroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Ref subject from (StudyPlanService)
     @Column(nullable = false)
     private Long subjectId;
 
@@ -22,11 +21,22 @@ public class SubjectGroupEntity {
     @Column(nullable = false)
     private String professors;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "academic_period_id", nullable = false)
+    private AcademicPeriodEntity academicPeriod;
+
     @OneToMany(mappedBy = "subjectGroup", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduleEntity> schedules = new ArrayList<>();
 
-    // Constructores, getters, setters
     public SubjectGroupEntity() {
+    }
+
+    public AcademicPeriodEntity getAcademicPeriod() {
+        return academicPeriod;
+    }
+
+    public void setAcademicPeriod(AcademicPeriodEntity academicPeriod) {
+        this.academicPeriod = academicPeriod;
     }
 
     public Long getId() {

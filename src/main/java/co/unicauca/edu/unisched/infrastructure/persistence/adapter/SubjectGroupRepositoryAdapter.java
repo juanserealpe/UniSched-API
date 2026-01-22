@@ -6,7 +6,6 @@ import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -79,12 +78,15 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
                 .map(this::toScheduleModel)
                 .collect(Collectors.toList());
 
+        AcademicPeriod academicPeriod = new AcademicPeriod(entity.getAcademicPeriod().getId(), entity.getAcademicPeriod().getYear(), entity.getAcademicPeriod().getSemester());
+
         return new SubjectGroup(
                 entity.getId(),
                 subject,
                 entity.getGroupCode(),
                 entity.getProfessors(),
-                schedules);
+                schedules,
+                academicPeriod);
     }
 
     /**
@@ -105,12 +107,17 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
      */
     private SubjectGroupEntity toEntity(SubjectGroup subjectGroup) {
         SubjectGroupEntity entity = new SubjectGroupEntity();
+        AcademicPeriodEntity academicPeriodEntity = new AcademicPeriodEntity();
+        academicPeriodEntity.setId(subjectGroup.getAcademicPeriod().getId());
+        academicPeriodEntity.setYear(subjectGroup.getAcademicPeriod().getYear());
+        academicPeriodEntity.setSemester(subjectGroup.getAcademicPeriod().getSemester());
         if (subjectGroup.getId() != null) {
             entity.setId(subjectGroup.getId());
         }
         entity.setSubjectId(subjectGroup.getSubject().getId());
         entity.setGroupCode(subjectGroup.getGroupCode());
         entity.setProfessors(subjectGroup.getProfessors());
+        entity.setAcademicPeriod(academicPeriodEntity);
 
         // Convert schedules
         List<ScheduleEntity> scheduleEntities = subjectGroup.getSchedules().stream()

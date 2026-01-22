@@ -1,5 +1,7 @@
 package co.unicauca.edu.unisched.domain.model;
 
+import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
+
 import java.util.List;
 
 /**
@@ -15,14 +17,24 @@ public class SubjectGroup {
     private final String groupCode;
     private final String professors;
     private final List<Schedule> schedules;
+    private final AcademicPeriod academicPeriod;
 
-    public SubjectGroup(Long id, Subject subject, String groupCode,
-                        String professors, List<Schedule> schedules){
+    public SubjectGroup(Long id, Subject subject, String groupCode, String professors, List<Schedule> schedules, AcademicPeriod academicPeriod) {
         this.id = id;
         this.subject = subject;
         this.groupCode = groupCode;
         this.professors = professors;
         this.schedules = schedules;
+        this.academicPeriod = academicPeriod;
+    }
+
+    public SubjectGroup(Long id, Subject subject, String groupCode, String professors, List<Schedule> schedules) {
+        this.id = id;
+        this.subject = subject;
+        this.groupCode = groupCode;
+        this.professors = professors;
+        this.schedules = schedules;
+        this.academicPeriod = null;
     }
 
     /**
@@ -57,6 +69,10 @@ public class SubjectGroup {
 
     public Subject getSubject() {
         return subject;
+    }
+
+    public AcademicPeriod getAcademicPeriod() {
+        return academicPeriod;
     }
 
     @Override

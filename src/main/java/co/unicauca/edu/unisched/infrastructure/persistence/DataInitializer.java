@@ -1,10 +1,13 @@
 package co.unicauca.edu.unisched.infrastructure.persistence;
 
+import co.unicauca.edu.unisched.domain.model.AcademicPeriod;
 import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
+import co.unicauca.edu.unisched.domain.ports.IAcademicPeriodRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
 import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -24,12 +27,12 @@ public class DataInitializer {
 
         private final ISubjectRepository subjectRepository;
         private final ISubjectGroupRepository groupRepository;
+        private final IAcademicPeriodRepository academicPeriodRepository;
 
-        public DataInitializer(
-                        ISubjectRepository subjectRepository,
-                        ISubjectGroupRepository groupRepository) {
+        public DataInitializer(ISubjectRepository subjectRepository, ISubjectGroupRepository groupRepository, IAcademicPeriodRepository academicPeriodRepository) {
                 this.subjectRepository = subjectRepository;
                 this.groupRepository = groupRepository;
+                this.academicPeriodRepository = academicPeriodRepository;
         }
 
         @PostConstruct
@@ -977,7 +980,21 @@ public class DataInitializer {
         }
 
         private void createGroup(Subject subject, String groupCode, String professors, List<Schedule> schedules) {
-                SubjectGroup group = new SubjectGroup(null, subject, groupCode, professors, schedules);
+                AcademicPeriod period = academicPeriodRepository.findByYearAndSemester(2026L, (byte) 1).orElseGet(() ->
+                                academicPeriodRepository.save(
+                                        new AcademicPeriod(null, 2026L, (byte) 1)
+                                )
+                        );
+                SubjectGroup group = new SubjectGroup(
+                        null,
+                        subject,
+                        groupCode,
+                        professors,
+                        schedules,
+                        period
+                );
+
                 groupRepository.save(group);
         }
+
 }
