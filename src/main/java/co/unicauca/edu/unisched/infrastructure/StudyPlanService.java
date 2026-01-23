@@ -2,8 +2,14 @@ package co.unicauca.edu.unisched.infrastructure;
 
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
+import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -11,18 +17,33 @@ import java.util.Set;
 /**
  * Service that initializes and provides the study plan.
  * Implements SubjectRepository to provide the knowledge base.
+ *
+ * This service maintains the complete study plan graph in memory,
+ * including all prerequisite and mandatory relationships.
+ * It also synchronizes basic subject data with the database.
  */
 @Service
 public class StudyPlanService implements ISubjectRepository {
 
     private final Set<Subject> allSubjects = new HashSet<>();
 
+    private SubjectJpaRepository subjectJpaRepository;
+
+    @Autowired
+    public void setSubjectJpaRepository(@Lazy SubjectJpaRepository subjectJpaRepository) {
+        this.subjectJpaRepository = subjectJpaRepository;
+    }
+
     /**
      * Initializes the study plan with all subjects, their relationships,
      * prerequisites, and mandatory associations.
      * This method is automatically called after the bean is constructed.
+     *
+     * After building the in-memory graph, it synchronizes the subjects
+     * with the database to ensure SubjectGroups can reference them.
      */
     @PostConstruct
+    @Transactional
     public void initializeStudyPlan() {
         // =========================
         // S1
@@ -94,6 +115,7 @@ public class StudyPlanService implements ISubjectRepository {
         Subject lab_distribuidos = new Subject(44L, "Lab. Sistemas Distribuidos", (byte) 7);
         Subject sw3 = new Subject(45L, "Ingeniería de Software III", (byte) 7);
         Subject lab_sw3 = new Subject(46L, "Lab. Ingeniería de Software III", (byte) 7);
+
         // =========================
         // S8
         // =========================
@@ -162,7 +184,7 @@ public class StudyPlanService implements ISubjectRepository {
         sw3.unlock(calidad_de_software);
         estadistica.unlock(investigacion_de_operacion);
 
-        // all subjects
+        // Add all subjects to in-memory collection
         allSubjects.addAll(Set.of(
                 calculo1, lectura, intro_sistemas, intro_info, lab_intro_info,
                 calculo2, mecanica, lab_mecanica, algebra, poo, lab_poo,
@@ -173,12 +195,32 @@ public class StudyPlanService implements ISubjectRepository {
                 teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3,
                 calidad_de_software, investigacion_de_operacion,
                 proyecto_1, redes));
+
+        // Synchronize with database
+        synchronizeWithDatabase();
+    }
+
+    /**
+     * Synchronizes the in-memory subject graph with the database.
+     * Only persists basic subject data (id, name, semester).
+     * Relationships are maintained in memory only.
+     */
+    private void synchronizeWithDatabase() {
+        for (Subject subject : allSubjects) {
+            if (!subjectJpaRepository.existsById(subject.getId())) {
+                SubjectEntity entity = new SubjectEntity();
+                entity.setId(subject.getId());
+                entity.setName(subject.getName());
+                entity.setNumSemester(subject.getNumSemester());
+                subjectJpaRepository.save(entity);
+            }
+        }
     }
 
     /**
      * Returns all subjects in the study plan.
      *
-     * @return a new set containing all subjects
+     * @return a new set containing all subjects with full relationship graph
      */
     @Override
     public Set<Subject> findAll() {
@@ -186,7 +228,7 @@ public class StudyPlanService implements ISubjectRepository {
     }
 
     /**
-     * Finds a subject by its ID.
+     * Finds a subject by its ID from the in-memory graph.
      *
      * @param id the ID of the subject to find
      * @return an Optional containing the subject if found
@@ -199,10 +241,10 @@ public class StudyPlanService implements ISubjectRepository {
     }
 
     /**
-     * Finds multiple subjects by their IDs.
+     * Finds multiple subjects by their IDs from the in-memory graph.
      *
      * @param ids a set of subject IDs to find
-     * @return a set of found subjects
+     * @return a set of found subjects with full relationship data
      */
     @Override
     public Set<Subject> findByIds(Set<Long> ids) {
@@ -215,6 +257,11 @@ public class StudyPlanService implements ISubjectRepository {
 
     @Override
     public Subject save(Subject subject) {
-        return null;
+        // This implementation is read-only for the study plan
+        // Subjects are defined programmatically, not created dynamically
+        throw new UnsupportedOperationException(
+                "Study plan subjects cannot be created dynamically. " +
+                        "They must be defined in initializeStudyPlan()."
+        );
     }
 }

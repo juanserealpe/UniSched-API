@@ -3,12 +3,12 @@ package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
 import co.unicauca.edu.unisched.domain.model.*;
 import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
-import co.unicauca.edu.unisched.infrastructure.persistence.repository.AcademicPeriodJpaRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
-import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -25,16 +25,12 @@ import java.util.stream.Collectors;
 public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     private final SubjectGroupJpaRepository subjectGroupJpaRepository;
-    private final SubjectJpaRepository subjectJpaRepository;
-    private final AcademicPeriodJpaRepository academicPeriodJpaRepository;
+
     @PersistenceContext
     private EntityManager entityManager;
 
-
-    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository, SubjectJpaRepository subjectJpaRepository, AcademicPeriodJpaRepository academicPeriodJpaRepository) {
+    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository) {
         this.subjectGroupJpaRepository = subjectGroupJpaRepository;
-        this.subjectJpaRepository = subjectJpaRepository;
-        this.academicPeriodJpaRepository = academicPeriodJpaRepository;
     }
 
     @Override
@@ -60,22 +56,21 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
     }
 
     @Override
+    @Transactional
     public SubjectGroup save(SubjectGroup subjectGroup) {
         SubjectGroupEntity entity = toEntity(subjectGroup);
         SubjectGroupEntity saved = subjectGroupJpaRepository.save(entity);
         return toDomainModel(saved);
     }
 
-
     /**
      * Converts a JPA entity to a domain model.
-     * Retrieves the Subject from the curriculum repository (in-memory).
+     * Creates a simplified Subject (without relationships) from the entity.
      *
      * @param entity the JPA entity
      * @return the domain model SubjectGroup
      */
     private SubjectGroup toDomainModel(SubjectGroupEntity entity) {
-
         Subject subject = toSubjectDomain(entity.getSubject());
 
         List<Schedule> schedules = entity.getSchedules().stream()
@@ -108,6 +103,7 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     /**
      * Converts a subject entity to a domain model.
+     * Creates a basic Subject without relationship data.
      */
     private Subject toSubjectDomain(SubjectEntity entity) {
         return new Subject(
@@ -118,34 +114,41 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     /**
      * Converts a domain model to a JPA entity.
+     * Uses EntityManager.getReference() to avoid unnecessary database queries
+     * for Subject and AcademicPeriod.
      *
      * @param subjectGroup the domain model
      * @return the JPA entity
      */
     private SubjectGroupEntity toEntity(SubjectGroup subjectGroup) {
+        SubjectGroupEntity entity;
 
-        SubjectGroupEntity entity = subjectGroup.getId() == null
-                ? new SubjectGroupEntity()
-                : subjectGroupJpaRepository.findById(subjectGroup.getId())
-                .orElseThrow(() -> new IllegalArgumentException("SubjectGroup not found"));
+        if (subjectGroup.getId() == null) {
+            entity = new SubjectGroupEntity();
+        } else {
+            entity = subjectGroupJpaRepository.findById(subjectGroup.getId())
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            "SubjectGroup not found with ID: " + subjectGroup.getId()));
+        }
 
-        // 🔹 Subject como referencia (NO consulta, NO insert)
+        // Use getReference to create a proxy without querying the database
+        // The subject must exist in DB (synchronized by StudyPlanService)
         SubjectEntity subjectRef = entityManager.getReference(
                 SubjectEntity.class,
-                subjectGroup.getSubject().getId()
-        );
+                subjectGroup.getSubject().getId());
 
         entity.setSubject(subjectRef);
         entity.setGroupCode(subjectGroup.getGroupCode());
         entity.setProfessors(subjectGroup.getProfessors());
 
+        // Use getReference for AcademicPeriod as well
         AcademicPeriodEntity period = entityManager.getReference(
                 AcademicPeriodEntity.class,
-                subjectGroup.getAcademicPeriod().getId()
-        );
+                subjectGroup.getAcademicPeriod().getId());
 
         entity.setAcademicPeriod(period);
 
+        // Clear and rebuild schedules
         entity.getSchedules().clear();
 
         subjectGroup.getSchedules().forEach(schedule -> {
@@ -159,6 +162,4 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
         return entity;
     }
-
-
 }

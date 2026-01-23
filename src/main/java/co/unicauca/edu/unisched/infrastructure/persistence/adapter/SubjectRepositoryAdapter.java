@@ -1,34 +1,26 @@
 package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
 
-import co.unicauca.edu.unisched.domain.model.AcademicPeriod;
-import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.ScheduleEntity;
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectGroupEntity;
-import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
+import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Adapter that implements the ISubjectGroupRepository port.
- * Converts between JPA entities and domain models.
+ * Adapter that implements the ISubjectRepository port for JPA persistence.
  *
- * This adapter is part of the infrastructure layer and connects
- * the domain with JPA persistence.
+ * This adapter bridges the gap between domain Subject objects and
+ * SubjectEntity JPA entities, handling all necessary conversions.
  */
 @Component
 public class SubjectRepositoryAdapter implements ISubjectRepository {
 
-    private SubjectJpaRepository subjectJpaRepository;
+    private final SubjectJpaRepository subjectJpaRepository;
 
     public SubjectRepositoryAdapter(SubjectJpaRepository subjectJpaRepository) {
         this.subjectJpaRepository = subjectJpaRepository;
@@ -36,21 +28,55 @@ public class SubjectRepositoryAdapter implements ISubjectRepository {
 
     @Override
     public Set<Subject> findAll() {
-        return Set.of();
+        return subjectJpaRepository.findAll().stream()
+                .map(this::toDomain)
+                .collect(Collectors.toSet());
     }
 
     @Override
     public Optional<Subject> findById(Long id) {
-        return null;
+        return subjectJpaRepository.findById(id)
+                .map(this::toDomain);
     }
 
     @Override
     public Set<Subject> findByIds(Set<Long> ids) {
-        return Set.of();
+        return subjectJpaRepository.findAllById(ids).stream()
+                .map(this::toDomain)
+                .collect(Collectors.toSet());
     }
 
     @Override
+    @Transactional
     public Subject save(Subject subject) {
-        return null;
+        SubjectEntity entity = toEntity(subject);
+        SubjectEntity saved = subjectJpaRepository.save(entity);
+        return toDomain(saved);
+    }
+
+    /**
+     * Converts a JPA entity to a domain model.
+     * Note: This creates a simplified Subject without relationship data
+     * to avoid circular dependencies. The full graph is maintained in
+     * StudyPlanService.
+     */
+    private Subject toDomain(SubjectEntity entity) {
+        return new Subject(
+                entity.getId(),
+                entity.getName(),
+                entity.getNumSemester()
+        );
+    }
+
+    /**
+     * Converts a domain Subject to a JPA entity.
+     * Only persists basic attributes, not relationships.
+     */
+    private SubjectEntity toEntity(Subject subject) {
+        SubjectEntity entity = new SubjectEntity();
+        entity.setId(subject.getId());
+        entity.setName(subject.getName());
+        entity.setNumSemester(subject.getNumSemester());
+        return entity;
     }
 }
