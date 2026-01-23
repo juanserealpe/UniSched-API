@@ -1,64 +1,22 @@
-# ========================
-# IntelliJ IDEA
-# ========================
-.idea/
-*.iml
-*.ipr
-*.iws
-
-# ========================
-# Build / Compilación
-# ========================
-out/
-target/
-build/
-
-# ========================
-# Variables de entorno
-# ========================
-.env
-.env.*
-*.env
-
-# ========================
-# Logs
-# ========================
-logs/
-*.log
-
-# ========================
-# Sistema Operativo
-# ========================
-.DS_Store
-Thumbs.db
-
-# ========================
-# Docker
-# ========================
-docker-data/
-*.pid
-
 # =========================
-# Java / Maven
+# Maven / Java
 # =========================
 target/
-*.class
-*.jar
-*.war
-*.ear
-
-# Maven wrapper
-!.mvn/wrapper/maven-wrapper.jar
+*.log
 
 # =========================
-# Spring Boot
+# Logs & build outputs
 # =========================
 logs/
-*.log
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
 
 # =========================
 # IDEs
 # =========================
+
 # IntelliJ IDEA
 .idea/
 *.iml
@@ -78,20 +36,29 @@ logs/
 Thumbs.db
 
 # =========================
-# Test & build outputs
-# =========================
-build.log
-build_test_log.txt
-build_validation_log.txt
-test_output.txt
-
-# =========================
 # Environment / secrets
 # =========================
 .env
+
+# Ignore environment-specific configs
 application-*.yml
 application-*.properties
 
-# Allow base config
+# Allow base configs (IMPORTANT)
 !application.yml
 !application.properties
+
+# =========================
+# Maven Wrapper
+# =========================
+# Keep wrapper config
+!.mvn/wrapper/maven-wrapper.properties
+
+# Ignore wrapper binaries (optional but recommended)
+.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Misc
+# =========================
+*.tmp
+*.swp
