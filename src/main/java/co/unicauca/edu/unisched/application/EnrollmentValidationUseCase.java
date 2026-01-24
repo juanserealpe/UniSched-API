@@ -1,5 +1,6 @@
 package co.unicauca.edu.unisched.application;
 
+import co.unicauca.edu.unisched.domain.model.EnrollmentValidationResult;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
 import co.unicauca.edu.unisched.domain.ports.IEnrollmentService;
