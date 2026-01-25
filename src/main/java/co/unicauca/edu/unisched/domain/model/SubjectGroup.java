@@ -1,7 +1,5 @@
 package co.unicauca.edu.unisched.domain.model;
 
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
-
 import java.util.List;
 
 /**

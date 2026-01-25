@@ -42,7 +42,7 @@ public class DataInitializer {
                 this.groupRepository = groupRepository;
                 this.academicPeriodRepository = academicPeriodRepository;
         }
-        /*
+
         @PostConstruct
         @Transactional
         public void initializeData() {
@@ -987,7 +987,7 @@ public class DataInitializer {
                                                 LocalTime.of(18, 0))));
                 }
         }
-        */
+
         private void createGroup(
                 Subject subject,
                 String groupCode,
