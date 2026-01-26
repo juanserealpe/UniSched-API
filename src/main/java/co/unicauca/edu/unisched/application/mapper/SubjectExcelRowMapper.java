@@ -5,6 +5,33 @@ import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.ports.ExcelRowMapperPort;
 import org.springframework.stereotype.Component;
 
+/**
+ * Maps an {@link ExcelRow} into a {@link Subject} domain entity.
+ *
+ * This application-level mapper is responsible for transforming a generic
+ * Excel row into a strongly-typed {@code Subject} object.
+ *
+ * Expected Excel columns:
+ * <ul>
+ *   <li><b>Id</b> – Unique identifier of the subject</li>
+ *   <li><b>Name</b> – Name of the subject</li>
+ *   <li><b>Semester</b> – Academic semester in which the subject is offered</li>
+ * </ul>
+ *
+ * The mapper performs:
+ * <ul>
+ *   <li>Mandatory field validation</li>
+ *   <li>Type conversion from String to domain-specific types</li>
+ *   <li>Meaningful error reporting with row and column context</li>
+ * </ul>
+ *
+ * This class implements {@link ExcelRowMapperPort} as part of the
+ * application layer, keeping Excel-specific concerns outside the domain.
+ *
+ * Any invalid or missing data results in an {@link IllegalArgumentException},
+ * allowing the caller to handle import errors gracefully.
+ */
+
 @Component
 public class SubjectExcelRowMapper implements ExcelRowMapperPort<Subject> {
 

@@ -49,29 +49,12 @@ public class SubjectGroup {
         return false;
     }
 
-    public String getGroupCode() {
-        return groupCode;
-    }
-
-    public String getProfessors() {
-        return professors;
-    }
-
-    public List<Schedule> getSchedules() {
-        return schedules;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Subject getSubject() {
-        return subject;
-    }
-
-    public AcademicPeriod getAcademicPeriod() {
-        return academicPeriod;
-    }
+    public String getGroupCode() {return groupCode;}
+    public String getProfessors() {return professors;}
+    public List<Schedule> getSchedules() {return schedules;}
+    public Long getId() {return id;}
+    public Subject getSubject() {return subject;}
+    public AcademicPeriod getAcademicPeriod() {return academicPeriod;}
 
     @Override
     public boolean equals(Object o) {
@@ -80,7 +63,5 @@ public class SubjectGroup {
     }
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+    public int hashCode() {return id.hashCode();}
 }

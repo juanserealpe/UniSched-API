@@ -16,27 +16,21 @@ public class SubjectSelection {
      *
      * @param subject the subject to select
      */
-    public void select(Subject subject) {
-        selected.add(subject);
-    }
+    public void select(Subject subject) {selected.add(subject);}
 
     /**
      * Removes a subject from the selection.
      *
      * @param subject the subject to unselect
      */
-    public void unselect(Subject subject) {
-        selected.remove(subject);
-    }
+    public void unselect(Subject subject) {selected.remove(subject);}
 
     /**
      * Returns the set of selected subjects.
      *
      * @return a set of all selected subjects
      */
-    public Set<Subject> getSelected() {
-        return selected;
-    }
+    public Set<Subject> getSelected() {return selected;}
 
     /**
      * Checks if a subject is currently selected.
@@ -44,7 +38,5 @@ public class SubjectSelection {
      * @param subject the subject to check
      * @return true if the subject is selected, false otherwise
      */
-    public boolean isSelected(Subject subject) {
-        return selected.contains(subject);
-    }
+    public boolean isSelected(Subject subject) {return selected.contains(subject);}
 }

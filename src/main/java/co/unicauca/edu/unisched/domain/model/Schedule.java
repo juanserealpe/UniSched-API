@@ -18,17 +18,9 @@ public class Schedule {
         this.endTime = endTime;
     }
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
+    public DayOfWeek getDayOfWeek() {return dayOfWeek;}
+    public LocalTime getStartTime() {return startTime;}
+    public LocalTime getEndTime() {return endTime;}
 
     /**
      * Checks if this schedule overlaps with another.
@@ -37,9 +29,7 @@ public class Schedule {
      * @return true if there is an overlap, false otherwise
      */
     public boolean overlapsWith(Schedule other) {
-        if (!this.dayOfWeek.equals(other.dayOfWeek)) {
-            return false;
-        }
+        if (!this.dayOfWeek.equals(other.dayOfWeek)) return false;
         return this.startTime.isBefore(other.endTime) && this.endTime.isAfter(other.startTime);
     }
 }

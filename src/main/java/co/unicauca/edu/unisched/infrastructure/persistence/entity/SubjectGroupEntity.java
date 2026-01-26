@@ -3,7 +3,25 @@ package co.unicauca.edu.unisched.infrastructure.persistence.entity;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * JPA entity representing a subject group.
+ *
+ * A subject group corresponds to a specific offering of a subject
+ * within an academic period. Each group defines:
+ * <ul>
+ *   <li>A unique group code</li>
+ *   <li>The professors assigned to the group</li>
+ *   <li>The academic period in which it is offered</li>
+ *   <li>One or more schedule entries</li>
+ * </ul>
+ *
+ * Each subject group is associated with exactly one {@link SubjectEntity}
+ * and may contain multiple {@link ScheduleEntity} instances defining
+ * its weekly timetable.
+ *
+ * This entity is part of the infrastructure persistence layer and
+ * contains only JPA mapping configuration.
+ */
 @Entity
 @Table(name = "subject_groups")
 public class SubjectGroupEntity {

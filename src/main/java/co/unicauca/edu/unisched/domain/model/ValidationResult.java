@@ -32,25 +32,19 @@ public class ValidationResult {
      *
      * @return the selected subjects
      */
-    public Set<Subject> getSelected() {
-        return selected;
-    }
+    public Set<Subject> getSelected() {return selected;}
 
     /**
      * Returns the set of blocked subjects.
      *
      * @return the blocked subjects
      */
-    public Set<Subject> getBlocked() {
-        return blocked;
-    }
+    public Set<Subject> getBlocked() {return blocked;}
 
     /**
      * Returns the set of available subjects.
      *
      * @return the available subjects
      */
-    public Set<Subject> getAvailable() {
-        return available;
-    }
+    public Set<Subject> getAvailable() {return available;}
 }

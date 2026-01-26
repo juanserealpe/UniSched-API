@@ -28,15 +28,7 @@ public class SubjectCombinationOutcome {
         return new SubjectCombinationOutcome(false, errors, Collections.emptyMap());
     }
 
-    public boolean isValid() {
-        return valid;
-    }
-
-    public List<String> getErrors() {
-        return errors;
-    }
-
-    public Map<Subject, List<SubjectGroup>> getGroupsBySubject() {
-        return groupsBySubject;
-    }
+    public boolean isValid() {return valid;}
+    public List<String> getErrors() {return errors;}
+    public Map<Subject, List<SubjectGroup>> getGroupsBySubject() {return groupsBySubject;}
 }

@@ -15,11 +15,20 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Adapter that implements the ISubjectGroupRepository port.
- * Converts between JPA entities and domain models.
+ * JPA-based adapter for managing {@link SubjectGroup} persistence.
  *
- * This adapter is part of the infrastructure layer and connects
- * the domain with JPA persistence.
+ * This class implements the {@link ISubjectGroupRepository} domain port and
+ * acts as a bridge between the domain layer and the JPA persistence layer.
+ *
+ * Responsibilities:
+ * <ul>
+ *   <li>Retrieve subject groups and their related data from the database</li>
+ *   <li>Convert JPA entities into domain models</li>
+ *   <li>Persist domain models by converting them into JPA entities</li>
+ * </ul>
+ *
+ * This adapter belongs to the infrastructure layer and isolates persistence
+ * concerns from the domain and application layers.
  */
 @Component
 public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {

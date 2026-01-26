@@ -4,7 +4,22 @@ import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * JPA entity representing an academic subject.
+ *
+ * This entity stores the core information of a subject, including:
+ * <ul>
+ *   <li>Unique identifier</li>
+ *   <li>Name of the subject</li>
+ *   <li>Academic semester in which it is offered</li>
+ * </ul>
+ *
+ * A subject can have multiple associated {@link SubjectGroupEntity}
+ * instances, each representing a different group or schedule option.
+ *
+ * This class belongs to the infrastructure persistence layer and
+ * contains only mapping information required by JPA.
+ */
 @Entity
 @Table(name = "subject")
 public class SubjectEntity {

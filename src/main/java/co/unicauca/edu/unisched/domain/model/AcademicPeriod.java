@@ -22,15 +22,7 @@ public class AcademicPeriod {
         this.semester = semester;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public Long getYear() {
-        return year;
-    }
-
-    public byte getSemester() {
-        return semester;
-    }
+    public Long getId() {return id;}
+    public Long getYear() {return year;}
+    public byte getSemester() {return semester;}
 }

@@ -28,9 +28,7 @@ public class Subject {
      *
      * @param subject the subject that this subject unlocks
      */
-    public void unlock(Subject subject) {
-        unlocks.add(subject);
-    }
+    public void unlock(Subject subject) {unlocks.add(subject);}
 
     /**
      * Establishes that this subject is mandatory with the specified subject.
@@ -44,35 +42,18 @@ public class Subject {
         subject.mandatoryWith.add(this);
     }
 
-    public Set<Subject> getUnlocks() {
-        return unlocks;
-    }
-
-    public Set<Subject> getMandatoryWith() {
-        return mandatoryWith;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public byte getNumSemester() {
-        return numSemester;
-    }
+    public Set<Subject> getUnlocks() {return unlocks;}
+    public Set<Subject> getMandatoryWith() {return mandatoryWith;}
+    public String getName() {return name;}
+    public Long getId() {return id;}
+    public byte getNumSemester() {return numSemester;}
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof Subject))
-            return false;
+        if (!(o instanceof Subject)) return false;
         return id.equals(((Subject) o).id);
     }
 
     @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
+    public int hashCode() {return id.hashCode();}
 }

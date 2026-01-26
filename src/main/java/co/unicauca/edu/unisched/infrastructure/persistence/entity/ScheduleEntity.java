@@ -3,7 +3,23 @@ package co.unicauca.edu.unisched.infrastructure.persistence.entity;
 import jakarta.persistence.*;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-
+/**
+ * JPA entity representing a schedule entry for a subject group.
+ *
+ * This entity models a single time slot in which a subject group
+ * takes place, defined by:
+ * <ul>
+ *   <li>Day of the week</li>
+ *   <li>Start time</li>
+ *   <li>End time</li>
+ * </ul>
+ *
+ * Each schedule entry belongs to exactly one {@link SubjectGroupEntity}
+ * and is persisted as part of the subject group's schedule configuration.
+ *
+ * This class is part of the infrastructure persistence layer and
+ * should not contain any business logic.
+ */
 @Entity
 @Table(name = "schedules")
 public class ScheduleEntity {
