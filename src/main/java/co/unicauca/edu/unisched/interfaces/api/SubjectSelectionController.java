@@ -1,346 +1,128 @@
 package co.unicauca.edu.unisched.interfaces.api;
 
-import co.unicauca.edu.unisched.domain.model.Schedule;
-import co.unicauca.edu.unisched.domain.model.Subject;
+import co.unicauca.edu.unisched.application.GenerateAcademicSchedulesUseCase;
+import co.unicauca.edu.unisched.application.ValidateSubjectSelectionUseCase;
+import co.unicauca.edu.unisched.application.ValidateWithExclusionsUseCase;
+import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.domain.model.SubjectSelection;
-import co.unicauca.edu.unisched.domain.ports.IScheduleGenerationService;
-import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
+import co.unicauca.edu.unisched.interfaces.api.mapper.CustomSubjectMapper;
+import co.unicauca.edu.unisched.interfaces.api.mapper.SubjectSelectionRequestMapper;
+import co.unicauca.edu.unisched.interfaces.api.mapper.ValidationResponseMapper;
 import co.unicauca.edu.unisched.interfaces.dto.SubjectSelectionRequest;
 import co.unicauca.edu.unisched.interfaces.dto.ValidationResponseDto;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Set;
 
 /**
- * REST controller for subject selection validation.
- * Provides a single endpoint to validate if a combination of subjects is valid
- * and manage subject groups.
+ * REST controller responsible for handling subject selection operations.
+ *
+ * This controller exposes endpoints to:
+ * - Validate a subject selection
+ * - Validate a subject selection with exclusions and custom subject groups
+ * - Generate valid academic schedules based on subject constraints
+ *
+ * It acts as an entry point to the application layer and delegates
+ * business logic to use cases, following Clean Architecture principles.
  */
 @RestController
 @RequestMapping("/api/subjects")
 @CrossOrigin(origins = "*")
 public class SubjectSelectionController {
 
-        private final ISubjectValidationService validationService;
-        private final ISubjectRepository subjectRepository;
-        private final ISubjectGroupRepository groupRepository;
-        private final IScheduleGenerationService generateScheduleService;
+        private final ValidateSubjectSelectionUseCase validateUseCase;
+        private final ValidateWithExclusionsUseCase validateWithExclusionsUseCase;
+        private final GenerateAcademicSchedulesUseCase generateSchedulesUseCase;
 
-        public SubjectSelectionController(
-                ISubjectValidationService validationService,
-                @Qualifier("studyPlanService") ISubjectRepository subjectRepository,
-                ISubjectGroupRepository groupRepository,
-                IScheduleGenerationService generateScheduleService) {
-                this.validationService = validationService;
-                this.subjectRepository = subjectRepository;
-                this.groupRepository = groupRepository;
-                this.generateScheduleService = generateScheduleService;
+        private final SubjectSelectionRequestMapper requestMapper;
+        private final ValidationResponseMapper responseMapper;
+        private final CustomSubjectMapper customSubjectMapper;
+
+        public SubjectSelectionController(ValidateSubjectSelectionUseCase validateUseCase,
+                        ValidateWithExclusionsUseCase validateWithExclusionsUseCase,
+                        GenerateAcademicSchedulesUseCase generateSchedulesUseCase,
+                        SubjectSelectionRequestMapper requestMapper,
+                        ValidationResponseMapper responseMapper,
+                        CustomSubjectMapper customSubjectMapper) {
+                this.validateUseCase = validateUseCase;
+                this.validateWithExclusionsUseCase = validateWithExclusionsUseCase;
+                this.generateSchedulesUseCase = generateSchedulesUseCase;
+                this.requestMapper = requestMapper;
+                this.responseMapper = responseMapper;
+                this.customSubjectMapper = customSubjectMapper;
         }
-
         /**
-         * Validates if a combination of subjects is valid and manages subject groups.
-         * 
-         * A combination is invalid if:
-         * - A subject and its prerequisite are selected together (e.g., Cálculo I and
-         * Cálculo II)
-         * - A subject is selected without its prerequisites
-         * - A subject is selected with another that has a mandatory relationship with a
-         * blocked subject
-         * 
-         * The request can include:
-         * - subjectIds: IDs to validate against the study plan
-         * - newGroups: New groups to create (not validated against study plan)
-         * 
-         * @param request subject selection request containing subject IDs and optional
-         *                new groups
-         * @return ResponseEntity containing validation result with isValid flag, error
-         *         messages, and available groups
+         * Validates a subject selection without exclusions or custom groups.
+         *
+         * This endpoint checks whether the selected subjects form
+         * a valid combination according to academic rules
+         * (e.g., schedule conflicts, group compatibility).
+         *
+         * @param request Incoming request containing selected subject IDs
+         * @return Validation result indicating whether the selection is valid
          */
         @PostMapping("/validate")
-        public ResponseEntity<ValidationResponseDto> validate(
-                        @Valid @RequestBody SubjectSelectionRequest request) {
-                // Step 1: Validate subject IDs against study plan
-                Set<Long> subjectIds = request.subjectIds();
-                Set<Subject> selectedSubjects = subjectRepository.findByIds(subjectIds);
-
-                if (selectedSubjects.size() != subjectIds.size())
-                        return ResponseEntity.badRequest()
-                                        .body(ValidationResponseDto.invalid(List.of("Una o más IDs son inválidas")));
-
-                // Step 2: Validate subject combination
-                SubjectSelection selection = new SubjectSelection();
-                selectedSubjects.forEach(selection::select);
-
-                List<String> errors = validationService.validateCombinationWithErrors(selection);
-
-                // Step 3: Get all available groups for the selected subjects
-                List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
-
-                // Step 4: Organize groups by subject ID
-                Map<Long, List<ValidationResponseDto.SubjectGroupDto>> groupsBySubject = allGroups.stream()
-                                .collect(Collectors.groupingBy(
-                                                group -> group.getSubject().getId(),
-                                                Collectors.mapping(
-                                                                ValidationResponseDto.SubjectGroupDto::fromDomain,
-                                                                Collectors.toList())));
-
-                if (errors.isEmpty()) {
-                        return ResponseEntity.ok(ValidationResponseDto.valid(groupsBySubject));
-                } else {
-                        return ResponseEntity.ok(ValidationResponseDto.invalid(errors));
-                }
+        public ResponseEntity<ValidationResponseDto> validate(@Valid @RequestBody SubjectSelectionRequest request) {
+                Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
+                SubjectCombinationOutcome outcome = validateUseCase.validate(subjectIds);
+                return ResponseEntity.ok(responseMapper.toDto(outcome));
         }
-
         /**
-         * Validates if a combination of subjects and exclusions is valid without
-         * generating schedules.
-         * Useful for real-time validation.
+         * Validates a subject selection considering exclusions and custom subject groups.
          *
-         * @param request subject selection request with excluded groups
-         * @return ValidationResponseDto with result
+         * This endpoint allows:
+         * - Excluding specific subject groups
+         * - Including user-defined (custom) subject groups
+         *
+         * Useful when the student wants to avoid certain schedules
+         * or manually add custom alternatives.
+         *
+         * @param request Incoming request with subject IDs, exclusions, and custom groups
+         * @return Validation result with detailed feedback
          */
         @PostMapping("/validate-exclusions")
         public ResponseEntity<ValidationResponseDto> validateExclusions(
                         @Valid @RequestBody SubjectSelectionRequest request) {
-                Set<Long> subjectIds = request.subjectIds();
-                List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
-                List<Long> excludedGroupIdsList = request.excludedGroupIds();
-                Set<Long> excludedGroupIds = excludedGroupIdsList != null ? new HashSet<>(excludedGroupIdsList)
-                                : Collections.emptySet();
-
-                if ((subjectIds == null || subjectIds.isEmpty()) &&
-                                (customSubjects == null || customSubjects.isEmpty())) {
-                        return ResponseEntity.badRequest()
-                                        .body(ValidationResponseDto
-                                                        .invalid(List.of("Debe seleccionar al menos una materia")));
-                }
-
-                Set<Subject> selectedSubjects = new HashSet<>();
-                if (subjectIds != null && !subjectIds.isEmpty()) {
-                        selectedSubjects = subjectRepository.findByIds(subjectIds);
-                        if (selectedSubjects.size() != subjectIds.size()) {
-                                return ResponseEntity.badRequest()
-                                                .body(ValidationResponseDto
-                                                                .invalid(List.of("Una o más IDs son inválidas")));
-                        }
-                }
-
-                if (!selectedSubjects.isEmpty()) {
-                        SubjectSelection selection = new SubjectSelection();
-                        selectedSubjects.forEach(selection::select);
-                        List<String> errors = validationService.validateCombinationWithErrors(selection);
-                        if (!errors.isEmpty()) {
-                                return ResponseEntity.ok(ValidationResponseDto.invalid(errors));
-                        }
-                }
-
-                Map<Long, List<ValidationResponseDto.SubjectGroupDto>> responseGroups = new HashMap<>();
-
-                if (!selectedSubjects.isEmpty()) {
-                        List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
-                        if (!excludedGroupIds.isEmpty()) {
-                                allGroups = allGroups.stream()
-                                                .filter(group -> !excludedGroupIds.contains(group.getId()))
-                                                .collect(Collectors.toList());
-                        }
-
-                        Map<Subject, List<SubjectGroup>> groupsBySubject = allGroups.stream()
-                                        .collect(Collectors.groupingBy(SubjectGroup::getSubject));
-
-                        for (Subject subject : selectedSubjects) {
-                                if (!groupsBySubject.containsKey(subject) || groupsBySubject.get(subject).isEmpty()) {
-                                        return ResponseEntity.ok(ValidationResponseDto.invalid(
-                                                        List.of("La materia " + subject.getName()
-                                                                        + " no tiene grupos disponibles después de aplicar los filtros")));
-                                }
-                        }
-
-                        var officialDtos = allGroups.stream()
-                                        .collect(Collectors.groupingBy(
-                                                        group -> group.getSubject().getId(),
-                                                        Collectors.mapping(
-                                                                        ValidationResponseDto.SubjectGroupDto::fromDomain,
-                                                                        Collectors.toList())));
-                        responseGroups.putAll(officialDtos);
-                }
-
-                if (customSubjects != null && !customSubjects.isEmpty()) {
-                        long customIdCounter = -1L;
-                        for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
-                                Subject customSubject = new Subject(customIdCounter--, customDto.name(),
-                                                (byte) 0);
-                                List<SubjectGroup> customGroups = new ArrayList<>();
-
-                                for (SubjectSelectionRequest.CustomGroupDto groupDto : customDto.groups()) {
-                                        if (groupDto.excluded())
-                                                continue;
-
-                                        List<Schedule> schedules = groupDto.schedules().stream()
-                                                        .map(s -> new Schedule(s.dayOfWeek(), s.startTime(),
-                                                                        s.endTime()))
-                                                        .collect(Collectors.toList());
-
-                                        SubjectGroup customGroup = new SubjectGroup(
-                                                        customIdCounter--, customSubject, groupDto.groupCode(),
-                                                        groupDto.professors() != null ? groupDto.professors()
-                                                                        : "Sin especificar",
-                                                        schedules);
-                                        customGroups.add(customGroup);
-                                }
-
-                                if (customGroups.isEmpty()) {
-                                        return ResponseEntity.ok(ValidationResponseDto.invalid(
-                                                        List.of("La materia personalizada " + customDto.name()
-                                                                        + " no tiene grupos disponibles después de aplicar los filtros")));
-                                }
-
-                                responseGroups.put(customSubject.getId(), customGroups.stream()
-                                                .map(ValidationResponseDto.SubjectGroupDto::fromDomain)
-                                                .collect(Collectors.toList()));
-                        }
-                }
-
-                return ResponseEntity.ok(ValidationResponseDto.valid(responseGroups));
+                Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
+                List<SubjectGroup> customGroups = customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
+                Set<Long> excludedGroupIds = requestMapper.extractExcludedGroupIds(request);
+                SubjectCombinationOutcome outcome = validateWithExclusionsUseCase.validate(subjectIds, customGroups,
+                                excludedGroupIds);
+                return ResponseEntity.ok(responseMapper.toDto(outcome));
         }
-
         /**
-         * Generates all valid schedules for selected subjects and custom subjects.
+         * Generates all valid academic schedules based on the given constraints.
          *
-         * This endpoint:
-         * 1. Validates regular subject IDs against the study plan
-         * 2. Creates temporary Subject/SubjectGroup objects for custom subjects with
-         * multiple groups
-         * 3. Combines both types of subjects for schedule generation
-         * 4. Uses backtracking to find all valid non-conflicting schedules
+         * This endpoint computes all possible combinations of subject groups
+         * that:
+         * - Match the selected subjects
+         * - Respect excluded groups
+         * - Include custom subject groups
+         * - Do not present time conflicts
          *
-         * @param request contains subjectIds and optional customSubjects (with multiple
-         *                groups each)
-         * @return list of valid schedules or validation errors
+         * @param request Incoming request with subjects, exclusions, and custom groups
+         * @return List of valid schedules, each schedule being a list of subject groups
          */
         @PostMapping("/generate-schedules")
-        public ResponseEntity<?> generateSchedules(
-                        @Valid @RequestBody SubjectSelectionRequest request) {
-                Set<Long> subjectIds = request.subjectIds();
-                List<SubjectSelectionRequest.CustomSubjectDto> customSubjects = request.customSubjects();
-                // Step 1: Get excluded group IDs
-                List<Long> excludedGroupIdsList = request.excludedGroupIds();
-                Set<Long> excludedGroupIds = excludedGroupIdsList != null ? new HashSet<>(excludedGroupIdsList)
-                                : Collections.emptySet();
+        public ResponseEntity<?> generateSchedules(@Valid @RequestBody SubjectSelectionRequest request) {
+                Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
+                List<SubjectGroup> customGroups = customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
+                Set<Long> excludedGroupIds = requestMapper.extractExcludedGroupIds(request);
 
-                if ((subjectIds == null || subjectIds.isEmpty()) &&
-                                (customSubjects == null || customSubjects.isEmpty())) {
-                        return ResponseEntity.badRequest()
-                                        .body(ValidationResponseDto.invalid(
-                                                        List.of("Debe seleccionar al menos una materia")));
+                try {
+                        List<List<SubjectGroup>> schedules = generateSchedulesUseCase.generate(subjectIds, customGroups,
+                                        excludedGroupIds);
+                        var response = schedules.stream()
+                                        .map(schedule -> schedule.stream()
+                                                        .map(ValidationResponseDto.SubjectGroupDto::fromDomain)
+                                                        .toList())
+                                        .toList();
+                        return ResponseEntity.ok(response);
+                } catch (IllegalArgumentException e) {
+                        // Reusing ValidationResponseDto for error messaging
+                        return ResponseEntity.ok(ValidationResponseDto.invalid(List.of(e.getMessage().split(", "))));
                 }
-
-                Set<Subject> selectedSubjects = new HashSet<>();
-                if (subjectIds != null && !subjectIds.isEmpty()) {
-                        selectedSubjects = subjectRepository.findByIds(subjectIds);
-
-                        if (selectedSubjects.size() != subjectIds.size()) {
-                                return ResponseEntity.badRequest()
-                                                .body(ValidationResponseDto.invalid(
-                                                                List.of("Una o más IDs son inválidas")));
-                        }
-                }
-
-                if (!selectedSubjects.isEmpty()) {
-                        SubjectSelection selection = new SubjectSelection();
-                        selectedSubjects.forEach(selection::select);
-                        List<String> errors = validationService.validateCombinationWithErrors(selection);
-
-                        if (!errors.isEmpty()) {
-                                return ResponseEntity.ok(ValidationResponseDto.invalid(errors));
-                        }
-                }
-
-                Map<Subject, List<SubjectGroup>> groupsBySubject = new HashMap<>();
-
-                if (!selectedSubjects.isEmpty()) {
-                        List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
-
-                        // Step 2: Filter excluded official groups
-                        if (!excludedGroupIds.isEmpty()) {
-                                allGroups = allGroups.stream()
-                                                .filter(group -> !excludedGroupIds.contains(group.getId()))
-                                                .collect(Collectors.toList());
-                        }
-
-                        groupsBySubject = allGroups.stream()
-                                        .collect(Collectors.groupingBy(SubjectGroup::getSubject));
-
-                        // Step 3: Validate that all selected official subjects have at least one group
-                        for (Subject subject : selectedSubjects) {
-                                if (!groupsBySubject.containsKey(subject) || groupsBySubject.get(subject).isEmpty()) {
-                                        return ResponseEntity.badRequest()
-                                                        .body(ValidationResponseDto.invalid(
-                                                                        List.of("La materia " + subject.getName()
-                                                                                        + " no tiene grupos disponibles después de aplicar los filtros")));
-                                }
-                        }
-                }
-
-                if (customSubjects != null && !customSubjects.isEmpty()) {
-                        long customIdCounter = -1L;
-
-                        for (SubjectSelectionRequest.CustomSubjectDto customDto : customSubjects) {
-                                Subject customSubject = new Subject(
-                                                customIdCounter--,
-                                                customDto.name(),
-                                                (byte) 0);
-
-                                List<SubjectGroup> customGroups = new ArrayList<>();
-
-                                for (SubjectSelectionRequest.CustomGroupDto groupDto : customDto.groups()) {
-                                        // Step 4: Filter excluded custom groups
-                                        if (groupDto.excluded()) {
-                                                continue;
-                                        }
-
-                                        List<Schedule> schedules = groupDto.schedules().stream()
-                                                        .map(s -> new Schedule(
-                                                                        s.dayOfWeek(),
-                                                                        s.startTime(),
-                                                                        s.endTime()))
-                                                        .collect(Collectors.toList());
-                                        SubjectGroup customGroup = new SubjectGroup(
-                                                        customIdCounter--,
-                                                        customSubject,
-                                                        groupDto.groupCode(),
-                                                        groupDto.professors() != null ? groupDto.professors()
-                                                                        : "Sin especificar",
-                                                        schedules);
-
-                                        customGroups.add(customGroup);
-                                }
-
-                                if (customGroups.isEmpty()) {
-                                        return ResponseEntity.badRequest()
-                                                        .body(ValidationResponseDto.invalid(
-                                                                        List.of("La materia personalizada "
-                                                                                        + customDto.name()
-                                                                                        + " no tiene grupos disponibles después de aplicar los filtros")));
-                                }
-
-                                groupsBySubject.put(customSubject, customGroups);
-                        }
-                }
-
-                List<List<SubjectGroup>> schedules = generateScheduleService.generateAllValidSchedules(groupsBySubject);
-
-                var response = schedules.stream()
-                                .map(schedule -> schedule.stream()
-                                                .map(ValidationResponseDto.SubjectGroupDto::fromDomain)
-                                                .toList())
-                                .toList();
-
-                return ResponseEntity.ok(response);
         }
 }
