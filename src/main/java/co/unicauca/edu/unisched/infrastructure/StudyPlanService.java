@@ -42,7 +42,9 @@ public class StudyPlanService implements ISubjectRepository {
      * After building the in-memory graph, it synchronizes the subjects
      * with the database to ensure SubjectGroups can reference them.
      */
+
     @PostConstruct
+
     @Transactional
     public void initializeStudyPlan() {
         // =========================
@@ -60,7 +62,7 @@ public class StudyPlanService implements ISubjectRepository {
         Subject calculo2 = new Subject(8L, "Cálculo II", (byte) 2);
         Subject mecanica = new Subject(9L, "Mecánica", (byte) 2);
         Subject lab_mecanica = new Subject(10L, "Laboratorio Mecánica", (byte) 2);
-        Subject algebra = new Subject(11L, "Álgebra Lineal", (byte) 2);
+        Subject algebra = new Subject(11410L, "Álgebra Lineal", (byte) 2);
         Subject poo = new Subject(12L, "Programación Orientada a Objetos", (byte) 2);
         Subject lab_poo = new Subject(13L, "Laboratorio POO", (byte) 2);
 
@@ -97,7 +99,7 @@ public class StudyPlanService implements ISubjectRepository {
         // =========================
         // S6
         // =========================
-        Subject estadistica = new Subject(33L, "Estadística y Probabilidad", (byte) 6);
+        Subject estadistica = new Subject(10177L, "Estadística y Probabilidad", (byte) 6);
         Subject lenguajes = new Subject(34L, "Estructuras de Lenguajes", (byte) 6);
         Subject lab_lenguajes = new Subject(35L, "Lab. Estructuras de Lenguajes", (byte) 6);
         Subject sw2 = new Subject(36L, "Ingeniería de Software II", (byte) 6);
@@ -108,13 +110,13 @@ public class StudyPlanService implements ISubjectRepository {
         // =========================
         // S7
         // =========================
-        Subject teoria_dinamica = new Subject(40L, "Teoria y Dinámica de Sistemas", (byte) 7);
-        Subject metodologia = new Subject(41L, "Metodología de la Investigación", (byte) 7);
-        Subject ia = new Subject(42L, "Inteligencia Artificial", (byte) 7);
-        Subject distribuidos = new Subject(43L, "Sistemas Distribuidos", (byte) 7);
-        Subject lab_distribuidos = new Subject(44L, "Lab. Sistemas Distribuidos", (byte) 7);
-        Subject sw3 = new Subject(45L, "Ingeniería de Software III", (byte) 7);
-        Subject lab_sw3 = new Subject(46L, "Lab. Ingeniería de Software III", (byte) 7);
+        Subject teoria_dinamica = new Subject(10187L, "Teoria y Dinámica de Sistemas", (byte) 7);
+        Subject metodologia = new Subject(10172L, "Metodología de la Investigación", (byte) 7);
+        Subject ia = new Subject(10186L, "Inteligencia Artificial", (byte) 7);
+        Subject distribuidos = new Subject(10188L, "Sistemas Distribuidos", (byte) 7);
+        Subject lab_distribuidos = new Subject(10189L, "Lab. Sistemas Distribuidos", (byte) 7);
+        Subject sw3 = new Subject(10190L, "Ingeniería de Software III", (byte) 7);
+        Subject lab_sw3 = new Subject(10191L, "Lab. Ingeniería de Software III", (byte) 7);
 
         // =========================
         // S8

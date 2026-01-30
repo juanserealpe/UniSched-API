@@ -21,5 +21,4 @@ public class SubjectsController {
         importSubjectsUseCase.importAndSaveSubjects(file.getInputStream());
         return ResponseEntity.ok().build();
     }
-
 }
