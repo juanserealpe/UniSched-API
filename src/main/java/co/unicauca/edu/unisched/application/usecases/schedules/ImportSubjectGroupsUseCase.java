@@ -50,7 +50,7 @@ public class ImportSubjectGroupsUseCase {
 
     public ImportSubjectGroupsUseCase(
             @Qualifier("apachePoiExcelReaderUseCase") IExcelReaderPort reader,
-            @Qualifier("subjectGroupExcelRowMapper") IExcelRowMapperPort<SubjectGroup> mapper,
+            @Qualifier("rowDataToSubjectGroupMapper")IExcelRowMapperPort<SubjectGroup> mapper,
             ISubjectGroupRepository subjectGroupRepository) {
         this.reader = reader;
         this.mapper = mapper;
