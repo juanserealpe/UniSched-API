@@ -1,7 +1,8 @@
 package co.unicauca.edu.unisched.application.mapper;
 
-import co.unicauca.edu.unisched.domain.model.ExcelRow;
+import co.unicauca.edu.unisched.domain.model.RowData;
 import co.unicauca.edu.unisched.domain.model.Subject;
+import co.unicauca.edu.unisched.mapper.excel.RowDataToSubjectMapper;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,17 +14,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubjectExcelRowMapperTest {
 
-    private SubjectExcelRowMapper mapper;
+    private RowDataToSubjectMapper mapper;
 
     @BeforeEach
     void setUp() {
-        mapper = new SubjectExcelRowMapper();
+        mapper = new RowDataToSubjectMapper();
     }
 
     @Test
     void map_ValidRow_ReturnsSubject() {
         // Arrange
-        ExcelRow row = new ExcelRow();
+        RowData row = new RowData();
         Map<String, String> cells = new HashMap<>();
         cells.put("Id", "123");
         cells.put("Name", "Software Engineering");
@@ -43,7 +44,7 @@ class SubjectExcelRowMapperTest {
     @Test
     void map_MissingId_ThrowsException() {
         // Arrange
-        ExcelRow row = new ExcelRow();
+        RowData row = new RowData();
         Map<String, String> cells = new HashMap<>();
         cells.put("Name", "Software Engineering");
         cells.put("Semester", "5");
@@ -58,7 +59,7 @@ class SubjectExcelRowMapperTest {
     @Test
     void map_InvalidSemester_ThrowsException() {
         // Arrange
-        ExcelRow row = new ExcelRow();
+        RowData row = new RowData();
         Map<String, String> cells = new HashMap<>();
         cells.put("Id", "123");
         cells.put("Name", "Software Engineering"); // Name is valid

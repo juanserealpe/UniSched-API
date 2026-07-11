@@ -59,53 +59,53 @@ public class StudyPlanService implements ISubjectRepository {
         // =========================
         // S2
         // =========================
-        Subject calculo2 = new Subject(8L, "Cálculo II", (byte) 2);
-        Subject mecanica = new Subject(9L, "Mecánica", (byte) 2);
-        Subject lab_mecanica = new Subject(10L, "Laboratorio Mecánica", (byte) 2);
+        Subject calculo2 = new Subject(11466L, "Cálculo II", (byte) 2);
+        Subject mecanica = new Subject(11464L, "Mecánica", (byte) 2);
+        Subject lab_mecanica = new Subject(11473L, "Laboratorio Mecánica", (byte) 2);
         Subject algebra = new Subject(11410L, "Álgebra Lineal", (byte) 2);
-        Subject poo = new Subject(12L, "Programación Orientada a Objetos", (byte) 2);
-        Subject lab_poo = new Subject(13L, "Laboratorio POO", (byte) 2);
+        Subject poo = new Subject(10143L, "Programación Orientada a Objetos", (byte) 2);
+        Subject lab_poo = new Subject(10144L, "Laboratorio POO", (byte) 2);
 
         // =========================
         // S3
         // =========================
-        Subject calculo3 = new Subject(14L, "Cálculo III", (byte) 3);
-        Subject electromagnetismo = new Subject(15L, "Electromagnetismo", (byte) 3);
-        Subject lab_electro = new Subject(16L, "Lab. Electromagnetismo", (byte) 3);
-        Subject ed1 = new Subject(18L, "Estructuras de Datos I", (byte) 3);
-        Subject lab_ed1 = new Subject(19L, "Lab. Estructuras de Datos I", (byte) 3);
+        Subject calculo3 = new Subject(11468L, "Cálculo III", (byte) 3);
+        Subject electromagnetismo = new Subject(11467L, "Electromagnetismo", (byte) 3);
+        Subject lab_electro = new Subject(11474L, "Lab. Electromagnetismo", (byte) 3);
+        Subject ed1 = new Subject(10152L, "Estructuras de Datos I", (byte) 3);
+        Subject lab_ed1 = new Subject(10153L, "Lab. Estructuras de Datos I", (byte) 3);
 
         // =========================
         // S4
         // =========================
-        Subject ecuaciones = new Subject(20L, "Ecuaciones Diferenciales", (byte) 4);
-        Subject vibraciones = new Subject(21L, "Vibraciones y Ondas", (byte) 4);
-        Subject ed2 = new Subject(22L, "Estructuras de Datos II", (byte) 4);
-        Subject lab_ed2 = new Subject(23L, "Lab. Estructuras de Datos II", (byte) 4);
-        Subject bd1 = new Subject(24L, "Bases de Datos I", (byte) 4);
-        Subject lab_bd1 = new Subject(25L, "Lab. Bases de Datos I", (byte) 4);
+        Subject ecuaciones = new Subject(11469L, "Ecuaciones Diferenciales", (byte) 4);
+        Subject vibraciones = new Subject(11470L, "Vibraciones y Ondas", (byte) 4);
+        Subject ed2 = new Subject(10159L, "Estructuras de Datos II", (byte) 4);
+        Subject lab_ed2 = new Subject(10158L, "Lab. Estructuras de Datos II", (byte) 4);
+        Subject bd1 = new Subject(10160L, "Bases de Datos I", (byte) 4);
+        Subject lab_bd1 = new Subject(10161L, "Lab. Bases de Datos I", (byte) 4);
 
         // =========================
         // S5
         // =========================
-        Subject analisis_num = new Subject(26L, "Análisis Numérico", (byte) 5);
-        Subject teoria_comp = new Subject(27L, "Teoría de la Computación", (byte) 5);
-        Subject lab_sw1 = new Subject(28L, "Lab. Ingeniería de Software I", (byte) 5);
-        Subject sw1 = new Subject(29L, "Ingeniería de Software I", (byte) 5);
-        Subject arq_comp = new Subject(30L, "Arquitectura Computacional", (byte) 5);
-        Subject bd2 = new Subject(31L, "Bases de Datos II", (byte) 5);
-        Subject lab_bd2 = new Subject(32L, "Lab. Bases de Datos II", (byte) 5);
+        Subject analisis_num = new Subject(10173L, "Análisis Numérico", (byte) 5);
+        Subject teoria_comp = new Subject(10174L, "Teoría de la Computación", (byte) 5);
+        Subject lab_sw1 = new Subject(10162L, "Lab. Ingeniería de Software I", (byte) 5);
+        Subject sw1 = new Subject(10163L, "Ingeniería de Software I", (byte) 5);
+        Subject arq_comp = new Subject(10171L, "Arquitectura Computacional", (byte) 5);
+        Subject bd2 = new Subject(10175L, "Bases de Datos II", (byte) 5);
+        Subject lab_bd2 = new Subject(10176L, "Lab. Bases de Datos II", (byte) 5);
 
         // =========================
         // S6
         // =========================
         Subject estadistica = new Subject(10177L, "Estadística y Probabilidad", (byte) 6);
-        Subject lenguajes = new Subject(34L, "Estructuras de Lenguajes", (byte) 6);
-        Subject lab_lenguajes = new Subject(35L, "Lab. Estructuras de Lenguajes", (byte) 6);
-        Subject sw2 = new Subject(36L, "Ingeniería de Software II", (byte) 6);
-        Subject lab_sw2 = new Subject(37L, "Lab. Ingeniería de Software II", (byte) 6);
-        Subject so = new Subject(38L, "Sistemas Operativos", (byte) 6);
-        Subject lab_so = new Subject(39L, "Lab. Sistemas Operativos", (byte) 6);
+        Subject lenguajes = new Subject(10179L, "Estructuras de Lenguajes", (byte) 6);
+        Subject lab_lenguajes = new Subject(10180L, "Lab. Estructuras de Lenguajes", (byte) 6);
+        Subject sw2 = new Subject(10181L, "Ingeniería de Software II", (byte) 6);
+        Subject lab_sw2 = new Subject(10182L, "Lab. Ingeniería de Software II", (byte) 6);
+        Subject so = new Subject(10183L, "Sistemas Operativos", (byte) 6);
+        Subject lab_so = new Subject(10184L, "Lab. Sistemas Operativos", (byte) 6);
 
         // =========================
         // S7
@@ -121,10 +121,19 @@ public class StudyPlanService implements ISubjectRepository {
         // =========================
         // S8
         // =========================
-        Subject calidad_de_software = new Subject(47L, "Calidad de Software", (byte) 8);
-        Subject investigacion_de_operacion = new Subject(48L, "Investigación de Operaciones", (byte) 8);
-        Subject proyecto_1 = new Subject(49L, "Proyecto I", (byte) 8);
-        Subject redes = new Subject(50L, "Redes", (byte) 8);
+        Subject calidad_de_software = new Subject(10194L, "Calidad de Software", (byte) 8);
+        Subject investigacion_de_operacion = new Subject(11442L, "Investigación de Operaciones", (byte) 8);
+        Subject proyecto_1 = new Subject(10193L, "Proyecto I", (byte) 8);
+        Subject redes = new Subject(10218L, "Redes", (byte) 8);
+
+        // =========================
+        // S9
+        // =========================
+        Subject gestion_empresarial = new Subject(11448L, "Gestión Empresarial", (byte) 9);
+        Subject fundamentos_economia = new Subject(10197L, "Fundamentos de Economía", (byte) 9);
+        Subject gestion_proyectos_informaticos = new Subject(10195L, "Gestión de Proyectos Informáticos", (byte) 9);
+        Subject proyecto_2 = new Subject(10196L, "Proyecto II", (byte) 9);
+        Subject legislacion_laboral = new Subject(11454L, "Legislación Laboral", (byte) 9);
 
         // =========================
         // PREREQUISITES (GRAPH)
@@ -180,11 +189,18 @@ public class StudyPlanService implements ISubjectRepository {
 
         // S7
         sw3.mandatoryWith(lab_sw3);
+        sw3.unlock(calidad_de_software);
+        sw3.unlock(proyecto_1);
+        sw3.unlock(gestion_proyectos_informaticos);
+
 
         // S8
         sw3.unlock(proyecto_1);
         sw3.unlock(calidad_de_software);
         estadistica.unlock(investigacion_de_operacion);
+
+        // S9
+        proyecto_1.unlock(proyecto_2);
 
         // Add all subjects to in-memory collection
         allSubjects.addAll(Set.of(
@@ -196,7 +212,7 @@ public class StudyPlanService implements ISubjectRepository {
                 estadistica, lenguajes, lab_lenguajes, sw2, lab_sw2, so, lab_so,
                 teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3,
                 calidad_de_software, investigacion_de_operacion,
-                proyecto_1, redes));
+                proyecto_1, redes, gestion_proyectos_informaticos, fundamentos_economia, proyecto_2, legislacion_laboral, gestion_empresarial));
 
         // Synchronize with database
         synchronizeWithDatabase();

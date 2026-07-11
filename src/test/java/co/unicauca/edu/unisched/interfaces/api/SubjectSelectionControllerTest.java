@@ -1,14 +1,16 @@
 package co.unicauca.edu.unisched.interfaces.api;
 
-import co.unicauca.edu.unisched.application.GenerateAcademicSchedulesUseCase;
-import co.unicauca.edu.unisched.application.ValidateSubjectSelectionUseCase;
-import co.unicauca.edu.unisched.application.ValidateWithExclusionsUseCase;
+import co.unicauca.edu.unisched.application.usecases.schedules.GenerateAcademicSchedulesUseCase;
+import co.unicauca.edu.unisched.application.usecases.schedules.ValidateSubjectSelectionUseCase;
+import co.unicauca.edu.unisched.application.usecases.schedules.ValidateWithExclusionsUseCase;
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
-import co.unicauca.edu.unisched.interfaces.api.mapper.CustomSubjectMapper;
-import co.unicauca.edu.unisched.interfaces.api.mapper.SubjectSelectionRequestMapper;
-import co.unicauca.edu.unisched.interfaces.api.mapper.ValidationResponseMapper;
-import co.unicauca.edu.unisched.interfaces.dto.SubjectSelectionRequest;
-import co.unicauca.edu.unisched.interfaces.dto.ValidationResponseDto;
+import co.unicauca.edu.unisched.interfaces.api.dto.SubjectSelectionRequest;
+import co.unicauca.edu.unisched.interfaces.api.dto.ValidationResponseDto;
+import co.unicauca.edu.unisched.interfaces.api.schedules.SubjectSelectionController;
+import co.unicauca.edu.unisched.mapper.api.SubjectRequestToSubjectMapper;
+import co.unicauca.edu.unisched.mapper.api.SubjectSelectionRequestMapper;
+import co.unicauca.edu.unisched.mapper.api.ValidationResultToResponseMapper;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,9 +40,9 @@ public class SubjectSelectionControllerTest {
     @Mock
     private SubjectSelectionRequestMapper requestMapper;
     @Mock
-    private ValidationResponseMapper responseMapper;
+    private ValidationResultToResponseMapper responseMapper;
     @Mock
-    private CustomSubjectMapper customSubjectMapper;
+    private SubjectRequestToSubjectMapper customSubjectMapper;
 
     @InjectMocks
     private SubjectSelectionController controller;
