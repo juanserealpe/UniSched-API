@@ -2,9 +2,10 @@ package co.unicauca.edu.unisched.application.usecases.schedules;
 
 import co.unicauca.edu.unisched.domain.model.RowData;
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.ports.IExcelReaderPort;
-import co.unicauca.edu.unisched.domain.ports.IExcelRowMapperPort;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelReaderPort;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelRowMapperPort;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.io.InputStream;

@@ -3,7 +3,7 @@ package co.unicauca.edu.unisched.mapper.api;
 import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.interfaces.api.dto.SubjectSelectionRequest;
+import co.unicauca.edu.unisched.interfaces.api.dto.schedules.SubjectSelectionRequest;
 
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;

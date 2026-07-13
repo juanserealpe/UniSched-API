@@ -1,4 +1,4 @@
-package co.unicauca.edu.unisched.interfaces.api.dto;
+package co.unicauca.edu.unisched.interfaces.api.dto.schedules;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

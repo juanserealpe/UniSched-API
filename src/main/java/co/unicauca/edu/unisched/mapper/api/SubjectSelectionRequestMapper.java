@@ -2,7 +2,7 @@ package co.unicauca.edu.unisched.mapper.api;
 
 import org.springframework.stereotype.Component;
 
-import co.unicauca.edu.unisched.interfaces.api.dto.SubjectSelectionRequest;
+import co.unicauca.edu.unisched.interfaces.api.dto.schedules.SubjectSelectionRequest;
 
 import java.util.Collections;
 import java.util.HashSet;

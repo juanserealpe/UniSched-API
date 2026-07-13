@@ -1,4 +1,4 @@
-package co.unicauca.edu.unisched.interfaces.api.dto;
+package co.unicauca.edu.unisched.interfaces.api.dto.schedules;
 
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import java.util.List;

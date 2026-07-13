@@ -5,9 +5,10 @@ import co.unicauca.edu.unisched.domain.model.RowData;
 import co.unicauca.edu.unisched.domain.model.Schedule;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.domain.ports.IExcelRowMapperPort;
-import co.unicauca.edu.unisched.domain.ports.IAcademicPeriodRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelRowMapperPort;
+import co.unicauca.edu.unisched.domain.ports.schedules.IAcademicPeriodRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;

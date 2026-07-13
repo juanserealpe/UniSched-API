@@ -2,7 +2,8 @@ package co.unicauca.edu.unisched.application.usecases.schedules;
 
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.domain.ports.IScheduleGenerationService;
+import co.unicauca.edu.unisched.domain.ports.schedules.IScheduleGenerationService;
+
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;

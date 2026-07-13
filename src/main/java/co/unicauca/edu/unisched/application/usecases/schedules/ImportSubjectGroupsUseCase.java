@@ -3,9 +3,9 @@ package co.unicauca.edu.unisched.application.usecases.schedules;
 import co.unicauca.edu.unisched.application.dto.ImportResult;
 import co.unicauca.edu.unisched.domain.model.RowData;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.domain.ports.IExcelReaderPort;
-import co.unicauca.edu.unisched.domain.ports.IExcelRowMapperPort;
-import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelReaderPort;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelRowMapperPort;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.mapper.excel.RowDataToSubjectGroupMapper;
 
 import org.springframework.beans.factory.annotation.Qualifier;

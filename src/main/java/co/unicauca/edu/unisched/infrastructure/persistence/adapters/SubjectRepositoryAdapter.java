@@ -1,12 +1,11 @@
-package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
+package co.unicauca.edu.unisched.infrastructure.persistence.adapters;
 
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -3,7 +3,7 @@ package co.unicauca.edu.unisched.mapper.api;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-import co.unicauca.edu.unisched.interfaces.api.dto.ValidationResponseDto;
+import co.unicauca.edu.unisched.interfaces.api.dto.schedules.ValidationResponseDto;
 
 import org.springframework.stereotype.Component;
 import java.util.HashMap;

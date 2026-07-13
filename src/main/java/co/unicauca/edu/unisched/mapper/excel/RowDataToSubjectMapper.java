@@ -2,7 +2,8 @@ package co.unicauca.edu.unisched.mapper.excel;
 
 import co.unicauca.edu.unisched.domain.model.RowData;
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.ports.IExcelRowMapperPort;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelRowMapperPort;
+
 import org.springframework.stereotype.Component;
 
 /**

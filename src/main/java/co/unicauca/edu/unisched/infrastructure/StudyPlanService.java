@@ -1,7 +1,7 @@
 package co.unicauca.edu.unisched.infrastructure;
 
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import jakarta.annotation.PostConstruct;

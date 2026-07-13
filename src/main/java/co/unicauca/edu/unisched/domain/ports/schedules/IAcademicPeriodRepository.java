@@ -1,4 +1,4 @@
-package co.unicauca.edu.unisched.domain.ports;
+package co.unicauca.edu.unisched.domain.ports.schedules;
 
 import co.unicauca.edu.unisched.domain.model.AcademicPeriod;
 import java.util.List;

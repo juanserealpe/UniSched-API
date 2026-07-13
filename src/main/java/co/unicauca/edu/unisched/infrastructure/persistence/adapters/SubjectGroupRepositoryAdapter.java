@@ -1,7 +1,7 @@
-package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
+package co.unicauca.edu.unisched.infrastructure.persistence.adapters;
 
 import co.unicauca.edu.unisched.domain.model.*;
-import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
 import jakarta.persistence.EntityManager;

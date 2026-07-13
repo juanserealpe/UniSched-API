@@ -1,7 +1,7 @@
-package co.unicauca.edu.unisched.infrastructure.persistence.adapter;
+package co.unicauca.edu.unisched.infrastructure.persistence.adapters;
 
 import co.unicauca.edu.unisched.domain.model.AcademicPeriod;
-import co.unicauca.edu.unisched.domain.ports.IAcademicPeriodRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.IAcademicPeriodRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.AcademicPeriodEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.AcademicPeriodJpaRepository;
 import org.springframework.stereotype.Repository;

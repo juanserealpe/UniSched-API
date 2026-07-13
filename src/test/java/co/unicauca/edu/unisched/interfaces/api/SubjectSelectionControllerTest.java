@@ -4,8 +4,8 @@ import co.unicauca.edu.unisched.application.usecases.schedules.GenerateAcademicS
 import co.unicauca.edu.unisched.application.usecases.schedules.ValidateSubjectSelectionUseCase;
 import co.unicauca.edu.unisched.application.usecases.schedules.ValidateWithExclusionsUseCase;
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
-import co.unicauca.edu.unisched.interfaces.api.dto.SubjectSelectionRequest;
-import co.unicauca.edu.unisched.interfaces.api.dto.ValidationResponseDto;
+import co.unicauca.edu.unisched.interfaces.api.dto.schedules.SubjectSelectionRequest;
+import co.unicauca.edu.unisched.interfaces.api.dto.schedules.ValidationResponseDto;
 import co.unicauca.edu.unisched.interfaces.api.schedules.SubjectSelectionController;
 import co.unicauca.edu.unisched.mapper.api.SubjectRequestToSubjectMapper;
 import co.unicauca.edu.unisched.mapper.api.SubjectSelectionRequestMapper;

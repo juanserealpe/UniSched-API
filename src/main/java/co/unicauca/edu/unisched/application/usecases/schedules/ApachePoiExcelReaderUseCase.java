@@ -1,7 +1,8 @@
 package co.unicauca.edu.unisched.application.usecases.schedules;
 
 import co.unicauca.edu.unisched.domain.model.RowData;
-import co.unicauca.edu.unisched.domain.ports.IExcelReaderPort;
+import co.unicauca.edu.unisched.domain.ports.excel.IExcelReaderPort;
+
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.stereotype.Service;
 import java.io.InputStream;

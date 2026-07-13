@@ -4,9 +4,10 @@ import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
-import co.unicauca.edu.unisched.domain.ports.ISubjectGroupRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectRepository;
-import co.unicauca.edu.unisched.domain.ports.ISubjectValidationService;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
+import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectValidationService;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.*;
