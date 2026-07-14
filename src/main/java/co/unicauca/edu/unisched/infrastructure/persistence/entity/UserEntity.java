@@ -29,6 +29,10 @@ public class UserEntity {
     @Column(name = "role")
     private Set<RolesEnum> roles = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "career_id")
+    private CareerEntity career;
+
     protected UserEntity() {
     }
 
@@ -86,6 +90,7 @@ public class UserEntity {
     this.roles = roles == null
             ? new HashSet<>()
             : new HashSet<>(roles);
-}
+    }
+    
 
 }

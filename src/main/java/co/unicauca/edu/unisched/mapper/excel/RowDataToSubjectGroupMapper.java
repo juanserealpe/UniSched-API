@@ -60,7 +60,7 @@ public class RowDataToSubjectGroupMapper implements IExcelRowMapperPort<SubjectG
     private final IAcademicPeriodRepository academicPeriodRepository;
 
     public RowDataToSubjectGroupMapper(
-            @Qualifier("studyPlanService") ISubjectRepository subjectRepository,
+            @Qualifier("subjectRepositoryAdapter")ISubjectRepository subjectRepository,
             IAcademicPeriodRepository academicPeriodRepository) {
         this.subjectRepository = subjectRepository;
         this.academicPeriodRepository = academicPeriodRepository;

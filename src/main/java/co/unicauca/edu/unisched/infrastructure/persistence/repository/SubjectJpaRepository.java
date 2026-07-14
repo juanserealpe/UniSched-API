@@ -49,5 +49,7 @@ public interface SubjectJpaRepository extends JpaRepository<SubjectEntity, Long>
                 @Param("year") Long year,
                 @Param("semester") byte semester
         );
+
+        List<SubjectEntity> findByCareerId(Long careerId);
 }
 

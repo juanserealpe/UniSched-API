@@ -1,8 +1,6 @@
 package co.unicauca.edu.unisched.domain.ports.schedules;
 
 import co.unicauca.edu.unisched.domain.model.Subject;
-import co.unicauca.edu.unisched.domain.model.SubjectGroup;
-
 import java.util.Optional;
 import java.util.Set;
 

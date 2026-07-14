@@ -4,9 +4,13 @@ import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.ports.schedules.IScheduleGenerationService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Set;
+
 /**
  * Application use case responsible for generating all valid academic schedules.
  *
@@ -19,10 +23,14 @@ import java.util.Set;
 @Service
 public class GenerateAcademicSchedulesUseCase {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(GenerateAcademicSchedulesUseCase.class);
+
     private final ValidateWithExclusionsUseCase validateWithExclusionsUseCase;
     private final IScheduleGenerationService generationService;
 
-    public GenerateAcademicSchedulesUseCase(ValidateWithExclusionsUseCase validateWithExclusionsUseCase,
+    public GenerateAcademicSchedulesUseCase(
+            ValidateWithExclusionsUseCase validateWithExclusionsUseCase,
             IScheduleGenerationService generationService) {
         this.validateWithExclusionsUseCase = validateWithExclusionsUseCase;
         this.generationService = generationService;
@@ -42,13 +50,44 @@ public class GenerateAcademicSchedulesUseCase {
      * @return A list of valid schedules, where each schedule is a list of SubjectGroup
      */
     public List<List<SubjectGroup>> generate(Set<Long> subjectIds,
-            List<SubjectGroup> customGroups,
-            Set<Long> excludedGroupIds) {
-        SubjectCombinationOutcome outcome = validateWithExclusionsUseCase.validate(subjectIds, customGroups,
-                excludedGroupIds);
-        if (!outcome.isValid()) throw new IllegalArgumentException(String.join(", ", outcome.getErrors()));
+                                             List<SubjectGroup> customGroups,
+                                             Set<Long> excludedGroupIds) {
 
+        logger.info(
+                "Starting academic schedule generation. Subjects: {}, Custom groups: {}, Excluded groups: {}.",
+                subjectIds.size(),
+                customGroups.size(),
+                excludedGroupIds.size());
 
-        return generationService.generateAllValidSchedules(outcome.getGroupsBySubject());
+        logger.debug("Validating subject selection before schedule generation.");
+
+        SubjectCombinationOutcome outcome =
+                validateWithExclusionsUseCase.validate(
+                        subjectIds,
+                        customGroups,
+                        excludedGroupIds);
+
+        if (!outcome.isValid()) {
+
+            logger.warn("Schedule generation aborted due to validation errors: {}",
+                    outcome.getErrors());
+
+            throw new IllegalArgumentException(
+                    String.join(", ", outcome.getErrors()));
+        }
+
+        logger.info("Validation completed successfully.");
+
+        logger.debug("Generating all valid academic schedules.");
+
+        List<List<SubjectGroup>> schedules =
+                generationService.generateAllValidSchedules(
+                        outcome.getGroupsBySubject());
+
+        logger.info(
+                "Academic schedule generation completed successfully. Generated {} valid schedule(s).",
+                schedules.size());
+
+        return schedules;
     }
 }

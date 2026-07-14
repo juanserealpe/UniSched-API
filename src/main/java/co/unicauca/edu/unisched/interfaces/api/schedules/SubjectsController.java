@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import co.unicauca.edu.unisched.application.usecases.schedules.ImportSubjectsUseCase;
 
 import java.io.IOException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/subjects")
@@ -23,4 +26,11 @@ public class SubjectsController {
         importSubjectsUseCase.importAndSaveSubjects(file.getInputStream());
         return ResponseEntity.ok().build();
     }
+
+
+    @PostMapping("/create/subject")
+    public String createSubject(@RequestBody String entity) {
+        return entity;
+    }
+    
 }

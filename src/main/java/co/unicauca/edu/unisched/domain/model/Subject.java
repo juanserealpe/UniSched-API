@@ -13,13 +13,18 @@ public class Subject {
     private final Long id;
     private final String name;
     private final byte numSemester;
+    private final Career career;
     private final Set<Subject> unlocks = new HashSet<>();
     private final Set<Subject> mandatoryWith = new HashSet<>();
 
-    public Subject(Long id, String name, byte numSemester) {
+    public Subject(Long id, String name, byte numSemester, Career career) {
         this.id = id;
         this.name = name;
         this.numSemester = numSemester;
+        this.career = career;
+    }
+    public Subject(Long id, String name, byte numSemester) {
+    this(id, name, numSemester, null);
     }
 
     /**
@@ -47,7 +52,8 @@ public class Subject {
     public String getName() {return name;}
     public Long getId() {return id;}
     public byte getNumSemester() {return numSemester;}
-
+    public Career getCareer() {return career;}
+    
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Subject)) return false;

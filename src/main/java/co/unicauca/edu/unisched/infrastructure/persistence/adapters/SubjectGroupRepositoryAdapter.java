@@ -4,6 +4,7 @@ import co.unicauca.edu.unisched.domain.model.*;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.*;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectGroupJpaRepository;
+import co.unicauca.edu.unisched.mapper.subjects.CareerMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Component;
@@ -34,12 +35,14 @@ import java.util.stream.Collectors;
 public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
 
     private final SubjectGroupJpaRepository subjectGroupJpaRepository;
+    private final CareerMapper careerMapper;
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository) {
+    public SubjectGroupRepositoryAdapter(SubjectGroupJpaRepository subjectGroupJpaRepository, CareerMapper careerMapper) {
         this.subjectGroupJpaRepository = subjectGroupJpaRepository;
+        this.careerMapper = careerMapper;
     }
 
     @Override
@@ -118,7 +121,8 @@ public class SubjectGroupRepositoryAdapter implements ISubjectGroupRepository {
         return new Subject(
                 entity.getId(),
                 entity.getName(),
-                entity.getNumSemester());
+                entity.getNumSemester(),
+                careerMapper.toDomain(entity.getCareer()));
     }
 
     /**

@@ -4,6 +4,8 @@ import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
+import co.unicauca.edu.unisched.mapper.subjects.CareerMapper;
+
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
@@ -20,9 +22,11 @@ import java.util.stream.Collectors;
 public class SubjectRepositoryAdapter implements ISubjectRepository {
 
     private final SubjectJpaRepository subjectJpaRepository;
+    private final CareerMapper careerMapper;
 
-    public SubjectRepositoryAdapter(SubjectJpaRepository subjectJpaRepository) {
+    public SubjectRepositoryAdapter(SubjectJpaRepository subjectJpaRepository, CareerMapper careerMapper) {
         this.subjectJpaRepository = subjectJpaRepository;
+        this.careerMapper = careerMapper;
     }
 
     @Override
@@ -60,12 +64,13 @@ public class SubjectRepositoryAdapter implements ISubjectRepository {
      * StudyPlanService.
      */
     private Subject toDomain(SubjectEntity entity) {
-        return new Subject(
-                entity.getId(),
-                entity.getName(),
-                entity.getNumSemester()
-        );
-    }
+    return new Subject(
+            entity.getId(),
+            entity.getName(),
+            entity.getNumSemester(),
+            careerMapper.toDomain(entity.getCareer())
+    );
+}
 
     /**
      * Converts a domain Subject to a JPA entity.

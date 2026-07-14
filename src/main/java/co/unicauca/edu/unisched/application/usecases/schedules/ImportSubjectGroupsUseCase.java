@@ -8,9 +8,12 @@ import co.unicauca.edu.unisched.domain.ports.excel.IExcelRowMapperPort;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.mapper.excel.RowDataToSubjectGroupMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,13 +47,16 @@ import java.util.List;
 @Service
 public class ImportSubjectGroupsUseCase {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(ImportSubjectGroupsUseCase.class);
+
     private final IExcelReaderPort reader;
     private final IExcelRowMapperPort<SubjectGroup> mapper;
     private final ISubjectGroupRepository subjectGroupRepository;
 
     public ImportSubjectGroupsUseCase(
             @Qualifier("apachePoiExcelReaderUseCase") IExcelReaderPort reader,
-            @Qualifier("rowDataToSubjectGroupMapper")IExcelRowMapperPort<SubjectGroup> mapper,
+            @Qualifier("rowDataToSubjectGroupMapper") IExcelRowMapperPort<SubjectGroup> mapper,
             ISubjectGroupRepository subjectGroupRepository) {
         this.reader = reader;
         this.mapper = mapper;
@@ -60,13 +66,6 @@ public class ImportSubjectGroupsUseCase {
     /**
      * Imports subject groups from an Excel file and saves them into the system
      * for a specific academic period.
-     * <p>
-     * The Excel file is read from the provided input stream, transformed into
-     * {@link RowData} objects, mapped to {@link SubjectGroup} entities, and finally
-     * persisted using the subject group repository.
-     * <p>
-     * This method collects errors that occur during the mapping process
-     * and returns a summary of the import operation.
      *
      * @param excelStream      Input stream of the Excel file containing subject group data
      * @param academicYear     Academic year (e.g., 2026)
@@ -78,7 +77,13 @@ public class ImportSubjectGroupsUseCase {
     public ImportResult importAndSaveSubjectGroups(InputStream excelStream,
                                                    Long academicYear,
                                                    byte academicSemester) {
+
+        logger.info("Starting subject group import for academic period {}-{}.",
+                academicYear, academicSemester);
+
         List<RowData> rows = reader.read(excelStream);
+
+        logger.info("Successfully read {} rows from the Excel file.", rows.size());
 
         int successCount = 0;
         int errorCount = 0;
@@ -86,17 +91,37 @@ public class ImportSubjectGroupsUseCase {
 
         for (RowData row : rows) {
             try {
+                logger.debug("Processing row {}.", row.getRowNumber());
+
                 SubjectGroup subjectGroup = ((RowDataToSubjectGroupMapper) mapper)
                         .map(row, academicYear, academicSemester);
+
                 subjectGroupRepository.save(subjectGroup);
+
                 successCount++;
+
+                logger.debug("Row {} imported successfully.", row.getRowNumber());
+
             } catch (Exception e) {
+
                 errorCount++;
+
                 String errorMsg = String.format("Row %d: %s",
                         row.getRowNumber(), e.getMessage());
+
                 errors.add(errorMsg);
+
+                logger.warn("Failed to import row {}. Reason: {}",
+                        row.getRowNumber(), e.getMessage());
             }
         }
+
+        logger.info(
+                "Subject group import completed. Successful imports: {}, Failed imports: {}, Total processed: {}.",
+                successCount,
+                errorCount,
+                rows.size()
+        );
 
         return new ImportResult(successCount, errorCount, errors);
     }

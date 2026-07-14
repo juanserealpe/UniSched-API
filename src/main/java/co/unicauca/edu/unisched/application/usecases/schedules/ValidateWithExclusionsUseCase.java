@@ -28,7 +28,7 @@ public class ValidateWithExclusionsUseCase {
     private final ISubjectValidationService validationService;
     private final ISubjectGroupRepository groupRepository;
 
-    public ValidateWithExclusionsUseCase(@Qualifier("studyPlanService") ISubjectRepository subjectRepository,
+    public ValidateWithExclusionsUseCase(@Qualifier("subjectRepositoryAdapter") ISubjectRepository subjectRepository,
             ISubjectValidationService validationService,
             ISubjectGroupRepository groupRepository) {
         this.subjectRepository = subjectRepository;

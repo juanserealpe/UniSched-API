@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * REST controller responsible for handling subject selection operations.
  *
@@ -39,6 +42,9 @@ public class SubjectSelectionController {
         private final SubjectSelectionRequestMapper requestMapper;
         private final ValidationResultToResponseMapper responseMapper;
         private final SubjectRequestToSubjectMapper customSubjectMapper;
+
+        private static final Logger logger =
+        LoggerFactory.getLogger(SubjectSelectionController.class);
 
         public SubjectSelectionController(ValidateSubjectSelectionUseCase validateUseCase,
                         ValidateWithExclusionsUseCase validateWithExclusionsUseCase,
@@ -67,7 +73,7 @@ public class SubjectSelectionController {
         @PostMapping("/validate")
         public ResponseEntity<ValidationResponseDto> validate(@Valid @RequestBody SubjectSelectionRequest request) {
                 Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
-                SubjectCombinationOutcome outcome = validateUseCase.validate(subjectIds);
+                SubjectCombinationOutcome outcome = validateUseCase.validate(1L, subjectIds);
                 return ResponseEntity.ok(responseMapper.toDto(outcome));
         }
         /**
@@ -85,13 +91,33 @@ public class SubjectSelectionController {
          */
         @PostMapping("/validate-exclusions")
         public ResponseEntity<ValidationResponseDto> validateExclusions(
-                        @Valid @RequestBody SubjectSelectionRequest request) {
-                Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
-                List<SubjectGroup> customGroups = customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
-                Set<Long> excludedGroupIds = requestMapper.extractExcludedGroupIds(request);
-                SubjectCombinationOutcome outcome = validateWithExclusionsUseCase.validate(subjectIds, customGroups,
-                                excludedGroupIds);
-                return ResponseEntity.ok(responseMapper.toDto(outcome));
+                @Valid @RequestBody SubjectSelectionRequest request) {
+
+        logger.info("Received subject selection validation request with exclusions.");
+
+        Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
+        List<SubjectGroup> customGroups =
+                customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
+        Set<Long> excludedGroupIds =
+                requestMapper.extractExcludedGroupIds(request);
+
+        logger.debug(
+                "Selected subjects: {}, Custom groups: {}, Excluded groups: {}.",
+                subjectIds.size(),
+                customGroups.size(),
+                excludedGroupIds.size());
+
+        SubjectCombinationOutcome outcome =
+                validateWithExclusionsUseCase.validate(
+                        subjectIds,
+                        customGroups,
+                        excludedGroupIds);
+
+        logger.info(
+                "Validation with exclusions completed. Result: {}.",
+                outcome.isValid() ? "VALID" : "INVALID");
+
+        return ResponseEntity.ok(responseMapper.toDto(outcome));
         }
         /**
          * Generates all valid academic schedules based on the given constraints.
@@ -107,23 +133,54 @@ public class SubjectSelectionController {
          * @return List of valid schedules, each schedule being a list of subject groups
          */
         @PostMapping("/generate-schedules")
-        public ResponseEntity<?> generateSchedules(@Valid @RequestBody SubjectSelectionRequest request) {
-                Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
-                List<SubjectGroup> customGroups = customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
-                Set<Long> excludedGroupIds = requestMapper.extractExcludedGroupIds(request);
+        public ResponseEntity<?> generateSchedules(
+                @Valid @RequestBody SubjectSelectionRequest request) {
 
-                try {
-                        List<List<SubjectGroup>> schedules = generateSchedulesUseCase.generate(subjectIds, customGroups,
-                                        excludedGroupIds);
-                        var response = schedules.stream()
-                                        .map(schedule -> schedule.stream()
-                                                        .map(ValidationResponseDto.SubjectGroupDto::fromDomain)
-                                                        .toList())
-                                        .toList();
-                        return ResponseEntity.ok(response);
-                } catch (IllegalArgumentException e) {
-                        // Reusing ValidationResponseDto for error messaging
-                        return ResponseEntity.ok(ValidationResponseDto.invalid(List.of(e.getMessage().split(", "))));
-                }
+        logger.info("Received academic schedule generation request.");
+
+        Set<Long> subjectIds = requestMapper.extractSubjectIds(request);
+        List<SubjectGroup> customGroups =
+                customSubjectMapper.mapToDomain(request.customSubjects(), -1L);
+        Set<Long> excludedGroupIds =
+                requestMapper.extractExcludedGroupIds(request);
+
+        logger.debug(
+                "Generating schedules for {} subjects, {} custom groups and {} excluded groups.",
+                subjectIds.size(),
+                customGroups.size(),
+                excludedGroupIds.size());
+
+        try {
+
+                List<List<SubjectGroup>> schedules =
+                        generateSchedulesUseCase.generate(
+                                subjectIds,
+                                customGroups,
+                                excludedGroupIds);
+
+                logger.info(
+                        "Academic schedule generation completed successfully. Generated {} schedule(s).",
+                        schedules.size());
+
+                var response = schedules.stream()
+                        .map(schedule -> schedule.stream()
+                                .map(ValidationResponseDto.SubjectGroupDto::fromDomain)
+                                .toList())
+                        .toList();
+
+                return ResponseEntity.ok(response);
+
+        } catch (IllegalArgumentException e) {
+
+                logger.warn(
+                        "Schedule generation request failed validation. Reason: {}",
+                        e.getMessage());
+
+                return ResponseEntity.ok(
+                        ValidationResponseDto.invalid(
+                                List.of(e.getMessage().split(", "))
+                        )
+                );
+        }
         }
 }

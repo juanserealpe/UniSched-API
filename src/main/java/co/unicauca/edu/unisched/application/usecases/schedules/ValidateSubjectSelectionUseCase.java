@@ -4,16 +4,23 @@ import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.model.SubjectCombinationOutcome;
 import co.unicauca.edu.unisched.domain.model.SubjectGroup;
 import co.unicauca.edu.unisched.domain.model.SubjectSelection;
+import co.unicauca.edu.unisched.domain.ports.schedules.IStudyPlanRepository;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectGroupRepository;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectValidationService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
 /**
  * Application use case responsible for validating an official subject selection.
  *
@@ -26,16 +33,23 @@ import java.util.stream.Collectors;
 @Service
 public class ValidateSubjectSelectionUseCase {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(ValidateSubjectSelectionUseCase.class);
+
     private final ISubjectRepository subjectRepository;
     private final ISubjectValidationService validationService;
     private final ISubjectGroupRepository groupRepository;
+    private final IStudyPlanRepository studyPlanRepository;
 
-    public ValidateSubjectSelectionUseCase(@Qualifier("studyPlanService") ISubjectRepository subjectRepository,
+    public ValidateSubjectSelectionUseCase(
+            @Qualifier("subjectRepositoryAdapter") ISubjectRepository subjectRepository,
             ISubjectValidationService validationService,
-            ISubjectGroupRepository groupRepository) {
+            ISubjectGroupRepository groupRepository,
+            IStudyPlanRepository studyPlanRepository) {
         this.subjectRepository = subjectRepository;
         this.validationService = validationService;
         this.groupRepository = groupRepository;
+        this.studyPlanRepository = studyPlanRepository;
     }
 
     /**
@@ -50,26 +64,91 @@ public class ValidateSubjectSelectionUseCase {
      * @return SubjectCombinationOutcome containing validation errors
      *         or grouped subject groups when valid
      */
-    public SubjectCombinationOutcome validate(Set<Long> subjectIds) {
-        // Step 1: Validate subject IDs
-        Set<Subject> selectedSubjects = subjectRepository.findByIds(subjectIds);
+    public SubjectCombinationOutcome validate(Long careerId,
+                                              Set<Long> subjectIds) {
+
+        logger.info(
+                "Starting subject selection validation for career {} with {} selected subjects.",
+                careerId,
+                subjectIds.size());
+
+        logger.debug("Loading study plan for career {}.", careerId);
+
+        // Step 1: Load the study plan
+        Set<Subject> studyPlan = studyPlanRepository.loadByCareer(careerId);
+
+        logger.debug("Study plan loaded successfully. Total subjects: {}.",
+                studyPlan.size());
+
+        // Step 2: Create index by subject ID
+        Map<Long, Subject> subjectsById = studyPlan.stream()
+                .collect(Collectors.toMap(
+                        Subject::getId,
+                        Function.identity()
+                ));
+
+        logger.debug("Created study plan index.");
+
+        // Step 3: Retrieve selected subjects
+        Set<Subject> selectedSubjects = subjectIds.stream()
+                .map(subjectsById::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        logger.debug("Resolved {} selected subjects from the study plan.",
+                selectedSubjects.size());
+
+        // Step 4: Verify all selected subjects belong to the study plan
         if (selectedSubjects.size() != subjectIds.size()) {
-            return SubjectCombinationOutcome.invalid(List.of("Una o más IDs son inválidas"));
+
+            logger.warn(
+                    "Validation failed. One or more selected subjects do not belong to the study plan for career {}.",
+                    careerId);
+
+            return SubjectCombinationOutcome.invalid(
+                    List.of("Una o más materias no pertenecen al pensum.")
+            );
         }
 
-        // Step 2: Validate combination logic (prerequisites, mandatory pairs)
+        logger.debug("All selected subjects belong to the study plan.");
+
+        // Step 5: Validate academic rules
         SubjectSelection selection = new SubjectSelection();
         selectedSubjects.forEach(selection::select);
-        List<String> errors = validationService.validateCombinationWithErrors(selection);
+
+        logger.debug("Validating academic rules for the selected subjects.");
+
+        List<String> errors =
+                validationService.validateCombinationWithErrors(selection);
 
         if (!errors.isEmpty()) {
+
+            logger.warn(
+                    "Academic validation failed with {} validation error(s).",
+                    errors.size());
+
+            logger.debug("Validation errors: {}", errors);
+
             return SubjectCombinationOutcome.invalid(errors);
         }
 
-        // Step 3: Fetch Groups
-        List<SubjectGroup> allGroups = groupRepository.findBySubjectIds(subjectIds);
-        Map<Subject, List<SubjectGroup>> groupsBySubject = allGroups.stream()
-                .collect(Collectors.groupingBy(SubjectGroup::getSubject));
+        logger.info("Academic validation completed successfully.");
+
+        // Step 6: Retrieve subject groups
+        logger.debug("Loading available subject groups.");
+
+        List<SubjectGroup> allGroups =
+                groupRepository.findBySubjectIds(subjectIds);
+
+        logger.debug("Retrieved {} subject groups.", allGroups.size());
+
+        Map<Subject, List<SubjectGroup>> groupsBySubject =
+                allGroups.stream()
+                        .collect(Collectors.groupingBy(SubjectGroup::getSubject));
+
+        logger.info(
+                "Subject selection validation completed successfully. {} subjects are ready for schedule generation.",
+                groupsBySubject.size());
 
         return SubjectCombinationOutcome.valid(groupsBySubject);
     }
