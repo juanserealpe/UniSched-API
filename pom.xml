@@ -62,14 +62,12 @@
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- Postgres -->
     <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
         <scope>runtime</scope>
     </dependency>
 
-    <!-- Dialecto de Hibernate -->
     <dependency>
         <groupId>org.hibernate.orm</groupId>
         <artifactId>hibernate-community-dialects</artifactId>
