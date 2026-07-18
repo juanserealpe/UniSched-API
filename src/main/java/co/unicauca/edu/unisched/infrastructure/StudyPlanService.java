@@ -258,9 +258,11 @@ public class StudyPlanService implements ISubjectRepository{
     }
 
     /**
+     * 
      * Synchronizes the in-memory subject graph with the database.
      * Only persists basic subject data (id, name, semester).
      * Relationships are maintained in memory only.
+     * 
      */
     private void synchronizeWithDatabase(CareerEntity careerEntity) {
 
