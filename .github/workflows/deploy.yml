@@ -65,8 +65,12 @@ jobs:
             docker rm unisched || true
 
             docker run -d \
-              --name unisched \
-              --restart unless-stopped \
-              --env-file /home/ubuntu/unischedule_project/.env \
-              -p 80:8080 \
-              ghcr.io/juanserealpe/unisched-api:latest
+            --name unisched \
+            --restart unless-stopped \
+            --memory=512m \
+            --memory-swap=512m \
+            --cpus="1.0" \
+            -e JAVA_TOOL_OPTIONS="-Xms128m -Xmx384m" \
+            --env-file /home/ubuntu/unischedule_project/.env \
+            -p 80:8080 \
+            ghcr.io/juanserealpe/unisched-api:latest
