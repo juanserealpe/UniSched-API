@@ -6,6 +6,7 @@ import co.unicauca.edu.unisched.domain.ports.schedules.IScheduleGenerationServic
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -49,6 +50,7 @@ public class GenerateAcademicSchedulesUseCase {
      * @param excludedGroupIds IDs of subject groups to exclude
      * @return A list of valid schedules, where each schedule is a list of SubjectGroup
      */
+    @Cacheable("schedules")
     public List<List<SubjectGroup>> generate(Set<Long> subjectIds,
                                              List<SubjectGroup> customGroups,
                                              Set<Long> excludedGroupIds) {

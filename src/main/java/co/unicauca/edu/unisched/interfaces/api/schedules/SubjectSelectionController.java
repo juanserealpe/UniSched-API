@@ -151,7 +151,7 @@ public class SubjectSelectionController {
                 excludedGroupIds.size());
 
         try {
-
+                
                 List<List<SubjectGroup>> schedules =
                         generateSchedulesUseCase.generate(
                                 subjectIds,

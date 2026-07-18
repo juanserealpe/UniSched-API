@@ -4,12 +4,8 @@ import co.unicauca.edu.unisched.domain.model.Career;
 import co.unicauca.edu.unisched.domain.model.Subject;
 import co.unicauca.edu.unisched.domain.ports.schedules.ISubjectRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.CareerEntity;
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.MandatoryRelationEntity;
-import co.unicauca.edu.unisched.infrastructure.persistence.entity.PrerequisiteEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.entity.SubjectEntity;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.CareerJpaRepository;
-import co.unicauca.edu.unisched.infrastructure.persistence.repository.MandatoryRelationJpaRepository;
-import co.unicauca.edu.unisched.infrastructure.persistence.repository.PrerequisiteJpaRepository;
 import co.unicauca.edu.unisched.infrastructure.persistence.repository.SubjectJpaRepository;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +13,9 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Service that initializes and provides the study plan.
@@ -35,26 +26,28 @@ import org.slf4j.LoggerFactory;
  * It also synchronizes basic subject data with the database.
  */
 @Service
-public class StudyPlanService implements ISubjectRepository{ 
+public class StudyPlanService implements ISubjectRepository{
 
     private final Set<Subject> allSubjects = new HashSet<>();
-    private CareerJpaRepository careerRepository;
+    private CareerJpaRepository careerJpaRepository;
     private SubjectJpaRepository subjectJpaRepository;
-    private PrerequisiteJpaRepository prerequisiteRepository;
-    private MandatoryRelationJpaRepository mandatoryRepository;
-
-    private static final Logger logger =
-            LoggerFactory.getLogger(StudyPlanService.class);
 
     @Autowired
-    public void setSubjectJpaRepository(@Lazy SubjectJpaRepository subjectJpaRepository,
-         CareerJpaRepository careerRepository, @Lazy PrerequisiteJpaRepository prerequisiteRepository,
-         @Lazy MandatoryRelationJpaRepository mandatoryRepository) {
+    public void setSubjectJpaRepository(@Lazy SubjectJpaRepository subjectJpaRepository, CareerJpaRepository careerJpaRepository) {
         this.subjectJpaRepository = subjectJpaRepository;
-        this.careerRepository = careerRepository;
-        this.prerequisiteRepository = prerequisiteRepository;
-        this.mandatoryRepository = mandatoryRepository;
+        this.careerJpaRepository = careerJpaRepository;
     }
+
+    private CareerEntity synchronizeCareer(Career career) {
+
+    return careerJpaRepository.findById(career.getId())
+            .orElseGet(() -> {
+                CareerEntity entity = new CareerEntity();
+                entity.setId(career.getId());
+                entity.setName(career.getName());
+                return careerJpaRepository.save(entity);
+            });
+}
 
     /**
      * Initializes the study plan with all subjects, their relationships,
@@ -69,13 +62,8 @@ public class StudyPlanService implements ISubjectRepository{
 
     @Transactional
     public void initializeStudyPlan() {
-        /*
-        logger.info("Inicializando plan de estudios...");
+        /* 
         Career career = new Career(1L, "Ingeniería de Sistemas");
-        CareerEntity careerEntity = new CareerEntity();
-        careerEntity.setId(career.getId());
-        careerEntity.setName(career.getName());
-        careerRepository.save(careerEntity);
         // =========================
         // S1
         // =========================
@@ -165,13 +153,6 @@ public class StudyPlanService implements ISubjectRepository{
         Subject legislacion_laboral = new Subject(11454L, "Legislación Laboral", (byte) 9, career);
 
         // =========================
-        // S10
-        // =========================
-
-        
-
-
-        // =========================
         // PREREQUISITES (GRAPH)
         // =========================
 
@@ -238,6 +219,20 @@ public class StudyPlanService implements ISubjectRepository{
         // S9
         proyecto_1.unlock(proyecto_2);
 
+
+        //ELECTIVAS
+
+        Subject aprendizajeColaborativoAsistidoPorComputador = new Subject(11452L, "Aprendizaje Colaborativo Asistido Por Computador", (byte) 10, career);
+        Subject arquitecturaDeMicroservicios = new Subject(33207L, "Arquitectura de Microservicios", (byte) 10, career);
+        Subject conceptosAvanzadosDeBaseDeDatosRelacionales = new Subject(11485L, "Conceptos Avanzados de Base de Datos Relacionales", (byte) 10, career);
+        Subject desarrolloDeAplicacionesParaLaWebSemanticaDeLasCosas = new Subject(35062L, "Desarrollo de aplicaciones para la web semántica de las cosas (PIS)", (byte) 10, career);
+        Subject ingenieriaDeProcesosDeSoftware = new Subject(35064L, "Ingeniería de procesos de software", (byte) 10, career);
+        Subject ingenieriaDeRequisitos = new Subject(30347L, "Ingeniería de Requisitos", (byte) 10, career);
+        Subject inteligenciaDeDatos = new Subject(33208L, "Inteligencia de Datos", (byte) 10, career);
+        Subject introduccionALaMineriaDeDatos = new Subject(24698L, "Introducción a la Minería de Datos", (byte) 10, career);
+        Subject sistemasDeRecuperacionDeImagenesBasadaEnContenido = new Subject(34720L, "Sistemas de Recuperación de Imágenes Basada en Contenido SCBIR", (byte) 10, career);
+        Subject tallerDeMetodologiasAgiles = new Subject(30346L, "Taller de Metodologías Ágiles", (byte) 10, career);
+
         // Add all subjects to in-memory collection
         allSubjects.addAll(Set.of(
                 calculo1, lectura, intro_sistemas, intro_info, lab_intro_info,
@@ -248,12 +243,18 @@ public class StudyPlanService implements ISubjectRepository{
                 estadistica, lenguajes, lab_lenguajes, sw2, lab_sw2, so, lab_so,
                 teoria_dinamica, metodologia, ia, distribuidos, lab_distribuidos, sw3, lab_sw3,
                 calidad_de_software, investigacion_de_operacion,
-                proyecto_1, redes, gestion_proyectos_informaticos, fundamentos_economia, proyecto_2, legislacion_laboral, gestion_empresarial));
+                proyecto_1, redes, gestion_proyectos_informaticos, fundamentos_economia, proyecto_2, legislacion_laboral, gestion_empresarial,
+                aprendizajeColaborativoAsistidoPorComputador, arquitecturaDeMicroservicios, conceptosAvanzadosDeBaseDeDatosRelacionales,
+                desarrolloDeAplicacionesParaLaWebSemanticaDeLasCosas, ingenieriaDeProcesosDeSoftware, ingenieriaDeRequisitos, inteligenciaDeDatos,
+                 introduccionALaMineriaDeDatos, sistemasDeRecuperacionDeImagenesBasadaEnContenido, tallerDeMetodologiasAgiles
+            ));
 
         // Synchronize with database
-        synchronizeWithDatabase();
-         */
-        
+
+        CareerEntity careerEntity = synchronizeCareer(career);
+
+        synchronizeWithDatabase(careerEntity);
+        */
     }
 
     /**
@@ -261,79 +262,18 @@ public class StudyPlanService implements ISubjectRepository{
      * Only persists basic subject data (id, name, semester).
      * Relationships are maintained in memory only.
      */
-    private void synchronizeWithDatabase() {
-
-    Map<Long, CareerEntity> careers = new HashMap<>();
-
-    // ---------- Guardar carreras ----------
-    for (Subject subject : allSubjects) {
-
-        Career career = subject.getCareer();
-
-        careers.computeIfAbsent(career.getId(), id -> {
-
-            CareerEntity entity = new CareerEntity();
-            entity.setId(career.getId());
-            entity.setName(career.getName());
-
-            return careerRepository.save(entity);
-        });
-    }
-
-    // ---------- Guardar materias ----------
-    Map<Long, SubjectEntity> subjectEntities = new HashMap<>();
+    private void synchronizeWithDatabase(CareerEntity careerEntity) {
 
     for (Subject subject : allSubjects) {
 
-        SubjectEntity entity = new SubjectEntity();
+        if (!subjectJpaRepository.existsById(subject.getId())) {
 
-        entity.setId(subject.getId());
-        entity.setName(subject.getName());
-        entity.setNumSemester(subject.getNumSemester());
-        entity.setCareer(careers.get(subject.getCareer().getId()));
-
-        subjectEntities.put(subject.getId(), entity);
-    }
-
-    subjectJpaRepository.saveAll(subjectEntities.values());
-
-    // ---------- Guardar prerrequisitos ----------
-    for (Subject prerequisite : allSubjects) {
-
-        for (Subject unlocked : prerequisite.getUnlocks()) {
-
-            PrerequisiteEntity relation = new PrerequisiteEntity();
-
-            relation.setSubject(subjectEntities.get(unlocked.getId()));
-            relation.setPrerequisite(subjectEntities.get(prerequisite.getId()));
-
-            prerequisiteRepository.save(relation);
-        }
-    }
-
-    // ---------- Guardar obligatorias ----------
-    Set<String> inserted = new HashSet<>();
-
-    for (Subject subject : allSubjects) {
-
-        for (Subject mandatory : subject.getMandatoryWith()) {
-
-            String key = Math.min(subject.getId(), mandatory.getId()) + "-"
-                    + Math.max(subject.getId(), mandatory.getId());
-
-            if (!inserted.add(key))
-                continue;
-
-            MandatoryRelationEntity r1 = new MandatoryRelationEntity();
-            r1.setSubject(subjectEntities.get(subject.getId()));
-            r1.setMandatorySubject(subjectEntities.get(mandatory.getId()));
-
-            MandatoryRelationEntity r2 = new MandatoryRelationEntity();
-            r2.setSubject(subjectEntities.get(mandatory.getId()));
-            r2.setMandatorySubject(subjectEntities.get(subject.getId()));
-
-            mandatoryRepository.save(r1);
-            mandatoryRepository.save(r2);
+            SubjectEntity entity = new SubjectEntity();
+            entity.setId(subject.getId());
+            entity.setName(subject.getName());
+            entity.setNumSemester(subject.getNumSemester());
+            entity.setCareer(careerEntity);
+            subjectJpaRepository.save(entity);
         }
     }
 }
