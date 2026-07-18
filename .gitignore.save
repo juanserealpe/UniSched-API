@@ -1,0 +1,1588 @@
+# ===# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.imlmumu
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml=====================
+# IntelliJ IDEA
+# ========================
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# ========================
+# Build / Compilación
+# ========================
+out/
+target/
+build/
+
+# ========================
+# Variables de entorno
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# Sistema Operativo
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# Docker
+# ========================
+docker-data/
+*.pid
+
+# =========================
+# Java / Maven
+# =========================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+!.mvn/wrapper/maven-wrapper.jar
+
+# =========================
+# Spring Boot
+# =========================
+logs/
+*.log
+
+# =========================
+# IDEs
+# =========================
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# VS Code
+.vscode/
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Test & build outputs
+# =========================
+build.log
+build_test_log.txt
+build_validation_log.txt
+test_output.txt
+
+# =========================
+# Environment / secrets
+# =========================
+.env
+application-*.yml
+application-*.properties
+
+# Allow base config
+!application.yml
+!application.properties
+# Maven
+target/
+*.log
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+
+
+
+
+
+
+
+
