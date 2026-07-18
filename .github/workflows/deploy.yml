@@ -72,5 +72,5 @@ jobs:
             --cpus="1.0" \
             -e JAVA_TOOL_OPTIONS="-Xms128m -Xmx384m" \
             --env-file /home/ubuntu/unischedule_project/.env \
-            -p 80:8080 \
+            -p 8080:8080 \
             ghcr.io/juanserealpe/unisched-api:latest
